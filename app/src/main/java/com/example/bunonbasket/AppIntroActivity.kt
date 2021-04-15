@@ -62,7 +62,6 @@ class AppIntroActivity : AppIntro() {
 
     override fun onSkipPressed(currentFragment: Fragment?) {
         super.onSkipPressed(currentFragment)
-        // Decide what to do when the user clicks on "Skip"
         val intent = Intent(this,ActivityHome::class.java)
         startActivity(intent)
         finish()
@@ -70,7 +69,6 @@ class AppIntroActivity : AppIntro() {
 
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
-        // Decide what to do when the user clicks on "Done"
         val intent = Intent(this,ActivityHome::class.java)
         startActivity(intent)
         finish()
