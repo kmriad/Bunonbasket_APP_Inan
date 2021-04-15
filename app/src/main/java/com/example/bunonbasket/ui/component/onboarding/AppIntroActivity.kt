@@ -4,14 +4,24 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.bunonbasket.R
+import com.example.bunonbasket.ui.component.onboarding.AppIntroStateEvent
+import com.example.bunonbasket.ui.component.onboarding.AppIntroViewModel
+import com.example.bunonbasket.utils.Resource
 import com.github.appintro.AppIntro
 import com.github.appintro.AppIntroFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class AppIntroActivity : AppIntro() {
+
+    private val viewModel: AppIntroViewModel by viewModels()
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,21 +65,38 @@ class AppIntroActivity : AppIntro() {
         setColorSkipButton(R.color.black)
         showSeparator(false)
         getDrawable(R.drawable.ic_next)?.let { setImageNextButton(it) }
+
+
+        subscribeObservers()
+
+    }
+
+    private fun subscribeObservers() {
+        viewModel.dataState.observe(this, Observer { dataState ->
+            when (dataState) {
+                is Resource.Success<Boolean> -> {
+                    val intent = Intent(this, ActivityHome::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                is Resource.DataError -> {
+
+                }
+                is Resource.Loading -> {
+                }
+            }
+        })
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {
         super.onSkipPressed(currentFragment)
-        // Decide what to do when the user clicks on "Skip"
-        val intent = Intent(this, ActivityHome::class.java)
-        startActivity(intent)
-        finish()
+        viewModel.setStateEvent(AppIntroStateEvent.SaveIntro)
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
         // Decide what to do when the user clicks on "Done"
-        val intent = Intent(this, ActivityHome::class.java)
-        startActivity(intent)
-        finish()
+        viewModel.setStateEvent(AppIntroStateEvent.SaveIntro)
+
     }
 }
