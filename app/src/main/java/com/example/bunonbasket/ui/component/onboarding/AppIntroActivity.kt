@@ -1,15 +1,12 @@
-package com.example.bunonbasket
+package com.example.bunonbasket.ui.component
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.example.bunonbasket.R
 import com.github.appintro.AppIntro
 import com.github.appintro.AppIntroFragment
 
@@ -62,14 +59,16 @@ class AppIntroActivity : AppIntro() {
 
     override fun onSkipPressed(currentFragment: Fragment?) {
         super.onSkipPressed(currentFragment)
-        val intent = Intent(this,ActivityHome::class.java)
+        // Decide what to do when the user clicks on "Skip"
+        val intent = Intent(this, ActivityHome::class.java)
         startActivity(intent)
         finish()
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
-        val intent = Intent(this,ActivityHome::class.java)
+        // Decide what to do when the user clicks on "Done"
+        val intent = Intent(this, ActivityHome::class.java)
         startActivity(intent)
         finish()
     }
