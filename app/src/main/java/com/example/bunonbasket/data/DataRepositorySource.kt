@@ -9,4 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface DataRepositorySource {
     suspend fun  saveAppIntro():Flow<Resource<Boolean>>
     suspend fun  loadAppIntro():Flow<Resource<Boolean>>
+    suspend fun  saveShowCase():Flow<Resource<Boolean>>
+    suspend fun  loadShowCase():Flow<Resource<Boolean>>
 }

@@ -1,4 +1,4 @@
-package com.example.bunonbasket.ui.component.splash
+package com.example.bunonbasket.ui.component.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,29 +13,39 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Created by inan on 15/4/21
+ * Created by inan on 20/4/21
  */
-
 @HiltViewModel
-class SplashViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val dataRepository: DataRepository
 ) : ViewModel() {
 
     private val _dataState: MutableLiveData<Resource<Boolean>> = MutableLiveData()
+    private val _loadDataState: MutableLiveData<Resource<Boolean>> = MutableLiveData()
 
     val dataState: LiveData<Resource<Boolean>>
         get() = _dataState
 
-    fun setStateEvent(mainStateEvent: SplashStateEvent) {
+    val loadDataState: LiveData<Resource<Boolean>>
+        get() = _loadDataState
+
+    fun setStateEvent(mainStateEvent: HomeStateEvent) {
         viewModelScope.launch {
             when (mainStateEvent) {
-                is SplashStateEvent.LoadAppIntro -> {
-                    dataRepository.loadAppIntro()
+                is HomeStateEvent.SaveShowCase -> {
+                    dataRepository.saveShowCase()
                         .onEach { dataState ->
                             _dataState.value = dataState
                         }.launchIn(viewModelScope)
                 }
-                is SplashStateEvent.None -> {
+
+                is HomeStateEvent.LoadShowCase -> {
+                    dataRepository.loadShowCase()
+                        .onEach { loadDataState ->
+                            _loadDataState.value = loadDataState
+                        }.launchIn(viewModelScope)
+                }
+                is HomeStateEvent.None -> {
 
                 }
             }
@@ -43,8 +53,10 @@ class SplashViewModel @Inject constructor(
     }
 }
 
-sealed class SplashStateEvent {
-    object LoadAppIntro : SplashStateEvent()
+sealed class HomeStateEvent {
+    object SaveShowCase : HomeStateEvent()
 
-    object None : SplashStateEvent()
+    object LoadShowCase : HomeStateEvent()
+
+    object None : HomeStateEvent()
 }

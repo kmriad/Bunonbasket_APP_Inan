@@ -24,4 +24,16 @@ class DataRepository @Inject constructor(
             emit(localRepository.isAppIntro())
         }
     }
+
+    override suspend fun saveShowCase(): Flow<Resource<Boolean>> {
+        return flow {
+            emit(localRepository.saveShowCase(true))
+        }
+    }
+
+    override suspend fun loadShowCase(): Flow<Resource<Boolean>> {
+        return flow {
+            emit(localRepository.isShowCased())
+        }
+    }
 }

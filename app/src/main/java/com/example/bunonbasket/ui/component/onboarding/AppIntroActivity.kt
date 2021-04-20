@@ -83,6 +83,7 @@ class AppIntroActivity : AppIntro() {
 
                 }
                 is Resource.Loading -> {
+
                 }
             }
         })
