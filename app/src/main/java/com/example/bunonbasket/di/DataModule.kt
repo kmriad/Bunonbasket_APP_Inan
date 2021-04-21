@@ -1,7 +1,7 @@
 package com.example.bunonbasket.di
 
-import com.example.bunonbasket.data.DataRepository
-import com.example.bunonbasket.data.DataRepositorySource
+import com.example.bunonbasket.data.repository.cache.CacheRepository
+import com.example.bunonbasket.data.repository.cache.CacheRepositorySource
 import com.example.bunonbasket.data.local.cache.LocalData
 import dagger.Module
 import dagger.Provides
@@ -20,7 +20,7 @@ object DataModule {
     @Singleton
     fun provideDataRepository(
         localData: LocalData,
-    ): DataRepositorySource {
-        return DataRepository(localData)
+    ): CacheRepositorySource {
+        return CacheRepository(localData)
     }
 }

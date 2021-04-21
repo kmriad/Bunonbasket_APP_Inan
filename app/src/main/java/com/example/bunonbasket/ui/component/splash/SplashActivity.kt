@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.bunonbasket.R
-import com.example.bunonbasket.ui.component.ActivityHome
+import com.example.bunonbasket.ui.component.HomeActivity
 import com.example.bunonbasket.ui.component.AppIntroActivity
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
                 is Resource.Success<Boolean> -> {
                     Log.d("AppDebug", dataState.data.toString());
                     if (dataState.data == true) {
-                        val intent = Intent(this, ActivityHome::class.java)
+                        val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {

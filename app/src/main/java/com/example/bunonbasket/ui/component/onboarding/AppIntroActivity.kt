@@ -75,7 +75,7 @@ class AppIntroActivity : AppIntro() {
         viewModel.dataState.observe(this, Observer { dataState ->
             when (dataState) {
                 is Resource.Success<Boolean> -> {
-                    val intent = Intent(this, ActivityHome::class.java)
+                    val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
                 }

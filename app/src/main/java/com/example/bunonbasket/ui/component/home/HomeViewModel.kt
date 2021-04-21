@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bunonbasket.data.DataRepository
+import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -17,7 +17,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val dataRepository: DataRepository
+    private val dataRepository: CacheRepository
 ) : ViewModel() {
 
     private val _dataState: MutableLiveData<Resource<Boolean>> = MutableLiveData()

@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.activity_home.*
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
 
 @AndroidEntryPoint
-class ActivityHome : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
-    private val viewModel: HomeViewModel by viewModels()
+     private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
