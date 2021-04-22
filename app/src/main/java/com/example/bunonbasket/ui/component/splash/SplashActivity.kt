@@ -9,9 +9,9 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.example.bunonbasket.R
-import com.example.bunonbasket.ui.component.HomeActivity
+import com.example.bunonbasket.databinding.ActivitySplashBinding
 import com.example.bunonbasket.ui.component.AppIntroActivity
+import com.example.bunonbasket.ui.component.HomeActivity
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +23,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private val viewModel: SplashViewModel by viewModels()
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,9 @@ class SplashActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
         supportActionBar?.hide();
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         viewModel.setStateEvent(SplashStateEvent.LoadAppIntro)
         subscribeObservers()
@@ -60,7 +63,7 @@ class SplashActivity : AppCompatActivity() {
                         goToBoardingScreen()
                     }
                 }
-                is Resource.DataError -> {
+                is Resource.Error -> {
 
                 }
                 is Resource.Loading -> {

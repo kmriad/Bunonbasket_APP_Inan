@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.bunonbasket.R
+import com.example.bunonbasket.databinding.ActivityAppIntroBinding
+import com.example.bunonbasket.databinding.ActivityHomeBinding
 import com.example.bunonbasket.ui.component.onboarding.AppIntroStateEvent
 import com.example.bunonbasket.ui.component.onboarding.AppIntroViewModel
 import com.example.bunonbasket.utils.Resource
@@ -79,7 +81,7 @@ class AppIntroActivity : AppIntro() {
                     startActivity(intent)
                     finish()
                 }
-                is Resource.DataError -> {
+                is Resource.Error -> {
 
                 }
                 is Resource.Loading -> {

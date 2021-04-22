@@ -1,8 +1,11 @@
 package com.example.bunonbasket.di
 
+import com.example.bunonbasket.data.local.cache.LocalData
+import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.cache.CacheRepositorySource
-import com.example.bunonbasket.data.local.cache.LocalData
+import com.example.bunonbasket.data.repository.remote.RemoteRepository
+import com.example.bunonbasket.data.repository.remote.RemoteRepositorySource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +25,13 @@ object DataModule {
         localData: LocalData,
     ): CacheRepositorySource {
         return CacheRepository(localData)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteDataRepository(
+        bunonRetrofit: BunonRetrofit,
+    ): RemoteRepositorySource {
+        return RemoteRepository(bunonRetrofit)
     }
 }

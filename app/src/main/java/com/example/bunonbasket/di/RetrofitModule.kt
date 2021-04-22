@@ -14,32 +14,31 @@ import javax.inject.Singleton
 /**
  * Created by inan on 21/4/21
  */
+
+@Module
+@InstallIn(SingletonComponent::class)
 object RetrofitModule {
-    @Module
-    @InstallIn(SingletonComponent::class)
-    object RetrofitModule {
 
-        @Singleton
-        @Provides
-        fun provideGsonBuilder(): Gson {
-            return GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-                .create()
-        }
+    @Provides
+    @Singleton
+    fun provideGsonBuilder(): Gson {
+        return GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+            .create()
+    }
 
-        @Singleton
-        @Provides
-        fun provideRetrofit(gson: Gson): Retrofit.Builder {
-            return Retrofit.Builder()
-                .baseUrl("https://bunonbasket.com/api/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-        }
+    @Provides
+    @Singleton
+    fun provideRetrofit(gson: Gson): Retrofit.Builder {
+        return Retrofit.Builder()
+            .baseUrl("https://bunonbasket.com/api/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+    }
 
-        @Singleton
-        @Provides
-        fun provideBlogService(retrofit: Retrofit.Builder): BunonRetrofit {
-            return retrofit
-                .build()
-                .create(BunonRetrofit::class.java)
-        }
+    @Provides
+    @Singleton
+    fun provideAPIService(retrofit: Retrofit.Builder): BunonRetrofit {
+        return retrofit
+            .build()
+            .create(BunonRetrofit::class.java)
     }
 }

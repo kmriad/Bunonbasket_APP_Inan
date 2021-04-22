@@ -22,4 +22,6 @@ object AppModule {
     fun provideLocalRepository(@ApplicationContext context: Context): LocalData {
         return LocalData(context)
     }
+
+
 }
