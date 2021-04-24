@@ -9,7 +9,7 @@ import com.example.bunonbasket.R
 /**
  * Created by inan on 22/4/21
  */
-@BindingAdapter("android:patchImageFullUrl")
+@BindingAdapter("app:patchImageFullUrl")
 fun setPatchImageFromUrl(imageView: ImageView, url: String?) {
 
     if (!url.isNullOrEmpty()) {

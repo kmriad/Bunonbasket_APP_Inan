@@ -1,5 +1,6 @@
 package com.example.bunonbasket.data.models.banner
 
+import com.example.bunonbasket.utils.Constants.BASE_URL
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -27,4 +28,11 @@ data class Banner(
     @SerializedName("updated_at")
     @Expose
     val updated_at: String
-)
+
+) {
+    var fullImageUrl: String? = ""
+        get() = "$BASE_URL/$photo"
+        set(value) {
+            field = value
+        }
+}

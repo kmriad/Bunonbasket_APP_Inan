@@ -11,7 +11,7 @@ import com.example.bunonbasket.R
 import com.example.bunonbasket.databinding.ActivityHomeBinding
 import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.ui.component.home.HomeViewModel
-import com.example.bunonbasket.utils.Constants.Companion.SHOWCASE_ID
+import com.example.bunonbasket.utils.Constants.SHOWCASE_ID
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi

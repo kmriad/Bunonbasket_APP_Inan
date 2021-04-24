@@ -5,9 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.banner.Banner
 import com.example.bunonbasket.databinding.BannerItemLayoutBinding
 
@@ -20,14 +17,7 @@ class BannerAdapter : RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
     inner class BannerViewHolder(private val binding: BannerItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(banner: Banner?) {
-            binding.root.apply {
-                Glide.with(this)
-                    .load("https://bunonbasket.com/${banner?.photo}")
-                    .centerInside()
-                    .placeholder(R.drawable.bb_logo)
-                    .diskCacheStrategy(DiskCacheStrategy.DATA)
-                    .into(binding.bannerImage)
-            }
+            binding.data = banner
         }
     }
 

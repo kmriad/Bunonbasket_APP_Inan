@@ -2,9 +2,9 @@ package com.example.bunonbasket.data.local.cache
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.bunonbasket.utils.Constants.Companion.APP_INTRO
-import com.example.bunonbasket.utils.Constants.Companion.SHARED_PREF
-import com.example.bunonbasket.utils.Constants.Companion.SHOWCASE_ID
+import com.example.bunonbasket.utils.Constants.APP_INTRO
+import com.example.bunonbasket.utils.Constants.SHARED_PREF
+import com.example.bunonbasket.utils.Constants.SHOWCASE_ID
 import com.example.bunonbasket.utils.Resource
 import javax.inject.Inject
 
