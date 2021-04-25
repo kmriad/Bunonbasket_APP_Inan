@@ -15,8 +15,10 @@ fun setPatchImageFromUrl(imageView: ImageView, url: String?) {
     if (!url.isNullOrEmpty()) {
         Glide.with((imageView.context.applicationContext))
             .load(url)
-            .error(R.drawable.bb_logo)
-            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_placeholder)
+            .fitCenter()
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(imageView)
     }
 }

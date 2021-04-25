@@ -71,7 +71,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             "An error occured: ${message.message}",
                             Toast.LENGTH_LONG
                         ).show()
-
                     }
                 }
                 is Resource.Loading -> {
