@@ -32,6 +32,7 @@ class BannerAdapter : RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
 
     }
     val differ = AsyncListDiffer(this, differCallback)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
         val binding =
             BannerItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
