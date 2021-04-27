@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bunonbasket.data.models.banner.BannerModel
+import com.example.bunonbasket.data.models.brands.BrandModel
+import com.example.bunonbasket.data.models.category.CategoryModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
@@ -31,12 +33,19 @@ class HomeViewModel @Inject constructor(
 
 
     private val _bannerState: MutableLiveData<Resource<BannerModel>> = MutableLiveData()
+    private val _categoryState: MutableLiveData<Resource<CategoryModel>> = MutableLiveData()
+    private val _brandState: MutableLiveData<Resource<BrandModel>> = MutableLiveData()
+
+
+
+    val categoryState: LiveData<Resource<CategoryModel>>
+        get() = _categoryState
 
     val bannerState: LiveData<Resource<BannerModel>>
         get() = _bannerState
 
-    val dataState: LiveData<Resource<Boolean>>
-        get() = _dataState
+    val brandState: LiveData<Resource<BrandModel>>
+        get() = _brandState
 
     val loadDataState: LiveData<Resource<Boolean>>
         get() = _loadDataState
@@ -58,6 +67,7 @@ class HomeViewModel @Inject constructor(
                             _loadDataState.value = loadDataState
                         }.launchIn(viewModelScope)
                 }
+
                 is HomeStateEvent.None -> {
 
                 }
@@ -74,6 +84,20 @@ class HomeViewModel @Inject constructor(
                             _bannerState.value = dataState
                         }.launchIn(viewModelScope)
                 }
+
+                is HomeStateEvent.FetchCategories -> {
+                    remoteRepository.fetchCategories()
+                        .onEach { dataState ->
+                            _categoryState.value = dataState
+                        }.launchIn(viewModelScope)
+                }
+
+                is HomeStateEvent.FetchBrands -> {
+                    remoteRepository.fetchBrands()
+                        .onEach { dataState ->
+                            _brandState.value = dataState
+                        }.launchIn(viewModelScope)
+                }
             }
         }
     }
@@ -85,6 +109,10 @@ sealed class HomeStateEvent {
     object LoadShowCase : HomeStateEvent()
 
     object FetchBanners : HomeStateEvent()
+
+    object FetchCategories : HomeStateEvent()
+
+    object FetchBrands : HomeStateEvent()
 
     object None : HomeStateEvent()
 }
