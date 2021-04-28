@@ -10,15 +10,15 @@
 
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="4dp"
+            android:layout_width="@dimen/category_size"
+            android:layout_height="@dimen/category_size"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small"
+            android:paddingStart="@dimen/standard_margin"
+            android:paddingEnd="@dimen/margin_ex_small"
             app:patchImageFullUrl="@{data.fullImageUrl}"
-            android:paddingLeft="16dp"
-            android:paddingRight="4dp" />
+            android:paddingLeft="@dimen/standard_margin"
+            android:paddingRight="@dimen/margin_ex_small" />
 
 
 </layout>

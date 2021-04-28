@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
+import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.CategoryModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,6 +39,8 @@ class HomeViewModel @Inject constructor(
     private val _categoryState: MutableLiveData<Resource<CategoryModel>> = MutableLiveData()
     private val _brandState: MutableLiveData<Resource<BrandModel>> = MutableLiveData()
 
+    private val taskEventChannel = Channel<HomeStateEvent>()
+    val homeEvent = taskEventChannel.receiveAsFlow()
 
 
     val categoryState: LiveData<Resource<CategoryModel>>
@@ -101,6 +106,10 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun onCategoryClicked(category: Category) = viewModelScope.launch {
+        taskEventChannel.send(HomeStateEvent.NavigateToCategory(category))
+    }
 }
 
 sealed class HomeStateEvent {
@@ -113,6 +122,8 @@ sealed class HomeStateEvent {
     object FetchCategories : HomeStateEvent()
 
     object FetchBrands : HomeStateEvent()
+
+    data class NavigateToCategory(val category: Category) : HomeStateEvent()
 
     object None : HomeStateEvent()
 }

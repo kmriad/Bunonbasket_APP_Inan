@@ -10,9 +10,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="4dp"
+        android:layout_width="@dimen/category_size"
+        android:layout_height="@dimen/category_size"
+        android:layout_margin="@dimen/margin_ex_small"
         android:background="@drawable/box">
 
         <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="@dimen/standard_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +28,8 @@
 
             <ImageView
                 android:id="@+id/categoryIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/size_24"
+                android:layout_height="@dimen/size_24"
                 android:src="@drawable/ic_camera"
                 app:patchImageFullUrl="@{data.fullImageUrl}" />
 
