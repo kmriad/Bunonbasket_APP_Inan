@@ -11,4 +11,5 @@
     <string name="action_search">Search</string>
     <string name="action_notifications">Notifications</string>
     <string name="brands">Brands</string>
+    <string name="all_categories">All Categories</string>
 </resources>

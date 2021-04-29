@@ -1,9 +1,6 @@
 package com.example.bunonbasket.ui.component.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
 import com.example.bunonbasket.data.models.category.Category
@@ -29,7 +26,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val dataRepository: CacheRepository,
     private val remoteRepository: RemoteRepository,
-) : ViewModel() {
+    private val state: SavedStateHandle
+) : ViewModel(), LifecycleObserver {
 
     private val _dataState: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     private val _loadDataState: MutableLiveData<Resource<Boolean>> = MutableLiveData()
