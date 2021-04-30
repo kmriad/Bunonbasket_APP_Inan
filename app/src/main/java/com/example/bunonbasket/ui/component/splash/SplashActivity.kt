@@ -55,7 +55,7 @@ class SplashActivity : AppCompatActivity() {
             when (dataState) {
                 is Resource.Success<Boolean> -> {
                     Log.d("AppDebug", dataState.data.toString());
-                    if (dataState.data == true) {
+                    if (dataState.data) {
                         val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
                         finish()

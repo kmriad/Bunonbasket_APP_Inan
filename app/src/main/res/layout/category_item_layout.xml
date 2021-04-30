@@ -5,6 +5,10 @@
     <data>
 
         <variable
+            name="clickListener"
+            type="com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter.OnItemClickListener" />
+
+        <variable
             name="data"
             type="com.example.bunonbasket.data.models.category.Category" />
     </data>
@@ -13,7 +17,7 @@
         android:layout_width="@dimen/category_size"
         android:layout_height="@dimen/category_size"
         android:layout_margin="@dimen/margin_ex_small"
-        android:background="@drawable/box">
+        android:background="@{data.selected? @drawable/green_box : @drawable/box}">
 
         <LinearLayout
             android:layout_width="match_parent"

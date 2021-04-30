@@ -3,6 +3,7 @@ package com.example.bunonbasket.data.repository.remote
 import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
 import com.example.bunonbasket.data.models.category.CategoryModel
+import com.example.bunonbasket.data.models.home.HomeModel
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.delay
@@ -43,6 +44,26 @@ class RemoteRepository @Inject constructor(
         try {
             val brands = bunonRetrofit.fetchBrands()
             emit(Resource.Success(brands))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun fetchFeaturedProducts(): Flow<Resource<HomeModel>> = flow {
+        emit(Resource.Loading)
+        try {
+            val products = bunonRetrofit.fetchFeaturedProducts()
+            emit(Resource.Success(products))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun fetchBestSellingProducts(): Flow<Resource<HomeModel>> = flow {
+        emit(Resource.Loading)
+        try {
+            val products = bunonRetrofit.fetchBestSellingProducts()
+            emit(Resource.Success(products))
         } catch (e: Exception) {
             emit(Resource.Error(e))
         }

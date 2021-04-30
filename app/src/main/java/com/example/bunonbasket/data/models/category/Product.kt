@@ -1,5 +1,6 @@
 package com.example.bunonbasket.data.models.category
 
+import com.example.bunonbasket.utils.Constants
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -167,4 +168,11 @@ data class Product(
     @SerializedName("video_provider")
     @Expose
     val video_provider: String
-)
+
+) {
+    var fullImageUrl: String? = ""
+        get() = "${Constants.BASE_URL}/$thumbnail_img"
+        set(value) {
+            field = value
+        }
+}

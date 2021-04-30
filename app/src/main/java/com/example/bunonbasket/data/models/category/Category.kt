@@ -64,7 +64,9 @@ data class Category(
 
     @SerializedName("updated_at")
     @Expose
-    val updated_at: String
+    val updated_at: String,
+
+    var isSelected: Boolean = false,
 ) : Serializable {
     var fullImageUrl: String? = ""
         get() = "${Constants.BASE_URL}/$icon"

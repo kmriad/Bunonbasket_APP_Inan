@@ -25,6 +25,8 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_marginTop="60dp"
+            android:paddingStart="@dimen/standard_margin"
+            android:paddingLeft="@dimen/standard_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/subCategoryListView"
             app:layout_constraintHorizontal_bias="0.0"

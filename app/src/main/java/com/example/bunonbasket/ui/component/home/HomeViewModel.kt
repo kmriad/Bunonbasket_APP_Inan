@@ -5,6 +5,7 @@ import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.CategoryModel
+import com.example.bunonbasket.data.models.home.HomeModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
@@ -36,6 +37,8 @@ class HomeViewModel @Inject constructor(
     private val _bannerState: MutableLiveData<Resource<BannerModel>> = MutableLiveData()
     private val _categoryState: MutableLiveData<Resource<CategoryModel>> = MutableLiveData()
     private val _brandState: MutableLiveData<Resource<BrandModel>> = MutableLiveData()
+    private val _bestSellingProductsState: MutableLiveData<Resource<HomeModel>> = MutableLiveData()
+    private val _featuredProductsState: MutableLiveData<Resource<HomeModel>> = MutableLiveData()
 
     private val taskEventChannel = Channel<HomeStateEvent>()
     val homeEvent = taskEventChannel.receiveAsFlow()
@@ -52,6 +55,12 @@ class HomeViewModel @Inject constructor(
 
     val loadDataState: LiveData<Resource<Boolean>>
         get() = _loadDataState
+
+    val featuredProductState: LiveData<Resource<HomeModel>>
+        get() = _featuredProductsState
+
+    val bestSellingProductState: LiveData<Resource<HomeModel>>
+        get() = _bestSellingProductsState
 
 
     fun setStateEvent(mainStateEvent: HomeStateEvent) {
@@ -101,6 +110,20 @@ class HomeViewModel @Inject constructor(
                             _brandState.value = dataState
                         }.launchIn(viewModelScope)
                 }
+
+                is HomeStateEvent.FetchBestSellingProducts -> {
+                    remoteRepository.fetchBestSellingProducts()
+                        .onEach { dataState ->
+                            _bestSellingProductsState.value = dataState
+                        }.launchIn(viewModelScope)
+                }
+
+                is HomeStateEvent.FetchFeaturedProducts -> {
+                    remoteRepository.fetchFeaturedProducts()
+                        .onEach { dataState ->
+                            _featuredProductsState.value = dataState
+                        }.launchIn(viewModelScope)
+                }
             }
         }
     }
@@ -120,6 +143,10 @@ sealed class HomeStateEvent {
     object FetchCategories : HomeStateEvent()
 
     object FetchBrands : HomeStateEvent()
+
+    object FetchBestSellingProducts : HomeStateEvent()
+
+    object FetchFeaturedProducts : HomeStateEvent()
 
     data class NavigateToCategory(val category: Category) : HomeStateEvent()
 

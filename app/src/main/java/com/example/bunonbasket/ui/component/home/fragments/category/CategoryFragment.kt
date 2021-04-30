@@ -1,12 +1,14 @@
 package com.example.bunonbasket.ui.component.home.fragments.category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.category.Category
@@ -23,6 +25,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
     private val categoryViewModel: CategoryViewModel by viewModels()
     lateinit var binding: FragmentCategoryBinding
     lateinit var categoryAdapter: CategoryAdapter
+    private val args:CategoryFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +56,10 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
             when (dataState) {
                 is Resource.Success<CategoryModel> -> {
                     dataState.data.let { categoryModel ->
+                        val category = args.category
+                        Log.d("CategoryFragment",category.slug)
                         categoryAdapter.submitList(categoryModel.categories)
+
                     }
                 }
             }
@@ -61,7 +67,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
     }
 
     override fun onItemClick(category: Category) {
-        TODO("Not yet implemented")
+        categoryViewModel.onCategoryClicked(category)
     }
 
 }

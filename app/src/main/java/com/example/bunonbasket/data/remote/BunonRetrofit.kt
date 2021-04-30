@@ -3,6 +3,7 @@ package com.example.bunonbasket.data.remote
 import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
 import com.example.bunonbasket.data.models.category.CategoryModel
+import com.example.bunonbasket.data.models.home.HomeModel
 import retrofit2.http.GET
 
 /**
@@ -18,4 +19,10 @@ interface BunonRetrofit {
 
     @GET("brands")
     suspend fun fetchBrands(): BrandModel
+
+    @GET("feature_products")
+    suspend fun fetchFeaturedProducts(): HomeModel
+
+    @GET("best_selling_products")
+    suspend fun fetchBestSellingProducts(): HomeModel
 }

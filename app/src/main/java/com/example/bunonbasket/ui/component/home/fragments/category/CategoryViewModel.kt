@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.CategoryModel
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
+import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -26,9 +27,9 @@ class CategoryViewModel @Inject constructor(
     val categoryState: LiveData<Resource<CategoryModel>>
         get() = _categoryState
 
-    fun fetchRemoteEvents(categoryStateEvent: CategoryStateEvent){
+    fun fetchRemoteEvents(categoryStateEvent: CategoryStateEvent) {
         viewModelScope.launch {
-            when(categoryStateEvent){
+            when (categoryStateEvent) {
                 is CategoryStateEvent.FetchCategories -> {
                     remoteRepository.fetchCategories()
                         .onEach { dataState ->
@@ -38,12 +39,17 @@ class CategoryViewModel @Inject constructor(
             }
         }
     }
+
+    fun onCategoryClicked(category: Category) {
+    }
 }
 
 sealed class CategoryStateEvent {
 
 
     object FetchCategories : CategoryStateEvent()
+
+    data class FetchSubCategories(val id: Int) : CategoryStateEvent()
 
     object None : CategoryStateEvent()
 }

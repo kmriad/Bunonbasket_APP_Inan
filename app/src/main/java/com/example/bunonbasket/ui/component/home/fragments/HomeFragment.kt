@@ -20,12 +20,14 @@ import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.CategoryModel
+import com.example.bunonbasket.data.models.home.HomeModel
 import com.example.bunonbasket.databinding.FragmentHomeBinding
 import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.ui.component.home.HomeViewModel
 import com.example.bunonbasket.ui.component.home.adapters.BannerAdapter
 import com.example.bunonbasket.ui.component.home.adapters.BrandAdapter
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
+import com.example.bunonbasket.ui.component.home.adapters.ProductAdapter
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -40,6 +42,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
     private val homeViewModel: HomeViewModel by viewModels()
     lateinit var bannerAdapter: BannerAdapter
     lateinit var categoryAdapter: CategoryAdapter
+    lateinit var bestSellingProductAdapter: ProductAdapter
+    lateinit var featuredProductAdapter: ProductAdapter
     lateinit var brandAdapter: BrandAdapter
     lateinit var binding: FragmentHomeBinding
 
@@ -80,6 +84,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                 adapter = brandAdapter
                 layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
             }
+
+            featuredProductAdapter = ProductAdapter()
+            binding.featuredRecyclerView.apply {
+                adapter = featuredProductAdapter
+                layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
+            }
+            bestSellingProductAdapter = ProductAdapter()
+            binding.bestSellingRecyclerView.apply {
+                adapter = bestSellingProductAdapter
+                layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
+            }
         }
 
 
@@ -104,6 +119,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
         homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchBanners)
         homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchCategories)
         homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchBrands)
+        homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchFeaturedProducts)
+        homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchBestSellingProducts)
     }
 
     private fun subscribeObservers() {
@@ -154,6 +171,53 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                 is Resource.Success<BrandModel> -> {
                     dataState.data.let { brandModel ->
                         brandAdapter.submitList(brandModel.brands)
+                    }
+                }
+                is Resource.Error -> {
+                    dataState.exception.let { message ->
+                        Toast.makeText(
+                            activity,
+                            "An error occured: ${message.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        })
+        homeViewModel.featuredProductState.observe(viewLifecycleOwner, Observer { dataState ->
+            when (dataState) {
+                is Resource.Success<HomeModel> -> {
+                    dataState.data.let { productModel ->
+                        if (productModel.results.isNotEmpty()) binding.featuredProductsTitle.visibility =
+                            View.VISIBLE
+                        featuredProductAdapter.submitList(productModel.results)
+                    }
+                }
+                is Resource.Error -> {
+                    dataState.exception.let { message ->
+                        Toast.makeText(
+                            activity,
+                            "An error occured: ${message.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        })
+
+        homeViewModel.bestSellingProductState.observe(viewLifecycleOwner, Observer { dataState ->
+            when (dataState) {
+                is Resource.Success<HomeModel> -> {
+                    dataState.data.let { productModel ->
+                        if (productModel.results.isNotEmpty()) binding.bestSellingProductsTitle.visibility =
+                            View.VISIBLE
+                        bestSellingProductAdapter.submitList(productModel.results)
                     }
                 }
                 is Resource.Error -> {

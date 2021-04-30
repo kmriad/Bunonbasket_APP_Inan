@@ -12,4 +12,8 @@
     <string name="action_notifications">Notifications</string>
     <string name="brands">Brands</string>
     <string name="all_categories">All Categories</string>
+    <string name="quantity">Qty: </string>
+    <string name="price">"\u09F3"</string>
+    <string name="featured_products">Featured Products</string>
+    <string name="best_selling">Best Selling</string>
 </resources>
