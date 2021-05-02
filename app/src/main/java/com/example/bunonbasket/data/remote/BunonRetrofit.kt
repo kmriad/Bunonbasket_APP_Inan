@@ -3,8 +3,10 @@ package com.example.bunonbasket.data.remote
 import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
 import com.example.bunonbasket.data.models.category.CategoryModel
+import com.example.bunonbasket.data.models.category.SubCategoryModel
 import com.example.bunonbasket.data.models.home.HomeModel
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /**
  * Created by inan on 21/4/21
@@ -25,4 +27,8 @@ interface BunonRetrofit {
 
     @GET("best_selling_products")
     suspend fun fetchBestSellingProducts(): HomeModel
+
+    @GET("sub_categories/{category_id}")
+    suspend fun fetchSubCategories(@Path(value = "category_id") categoryId: String): SubCategoryModel
+
 }

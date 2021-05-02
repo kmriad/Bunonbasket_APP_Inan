@@ -22,7 +22,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryListView"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:layout_marginTop="60dp"
             android:paddingStart="@dimen/standard_margin"

@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.CategoryModel
+import com.example.bunonbasket.data.models.category.SubCategoryModel
 import com.example.bunonbasket.databinding.FragmentCategoryBinding
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
+import com.example.bunonbasket.ui.component.home.adapters.SubCategoryAdapter
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +27,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
     private val categoryViewModel: CategoryViewModel by viewModels()
     lateinit var binding: FragmentCategoryBinding
     lateinit var categoryAdapter: CategoryAdapter
-    private val args:CategoryFragmentArgs by navArgs()
+    lateinit var subCategoryAdapter: SubCategoryAdapter
+    private val args: CategoryFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,11 +42,18 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val myLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.apply {
             categoryAdapter = CategoryAdapter(this@CategoryFragment)
             binding.categoryListView.apply {
                 adapter = categoryAdapter
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            }
+
+            subCategoryAdapter = SubCategoryAdapter()
+            binding.subCategoryListView.apply {
+                adapter = subCategoryAdapter
+                layoutManager = myLayoutManager
             }
 
             categoryViewModel.fetchRemoteEvents(CategoryStateEvent.FetchCategories)
@@ -57,9 +67,19 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 is Resource.Success<CategoryModel> -> {
                     dataState.data.let { categoryModel ->
                         val category = args.category
-                        Log.d("CategoryFragment",category.slug)
+                        Log.d("CategoryFragment", category.slug)
                         categoryAdapter.submitList(categoryModel.categories)
 
+                    }
+                }
+            }
+        })
+
+        categoryViewModel.subCategoryState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<SubCategoryModel> -> {
+                    dataState.data.let { subCategoryModel ->
+                        subCategoryAdapter.submitList(subCategoryModel.categories)
                     }
                 }
             }

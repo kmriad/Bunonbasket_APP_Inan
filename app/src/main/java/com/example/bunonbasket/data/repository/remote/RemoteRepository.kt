@@ -3,6 +3,7 @@ package com.example.bunonbasket.data.repository.remote
 import com.example.bunonbasket.data.models.banner.BannerModel
 import com.example.bunonbasket.data.models.brands.BrandModel
 import com.example.bunonbasket.data.models.category.CategoryModel
+import com.example.bunonbasket.data.models.category.SubCategoryModel
 import com.example.bunonbasket.data.models.home.HomeModel
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.utils.Resource
@@ -64,6 +65,16 @@ class RemoteRepository @Inject constructor(
         try {
             val products = bunonRetrofit.fetchBestSellingProducts()
             emit(Resource.Success(products))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun fetchSubCategories(id: String): Flow<Resource<SubCategoryModel>> = flow {
+        emit(Resource.Loading)
+        try {
+            val subCategories = bunonRetrofit.fetchSubCategories(categoryId = id)
+            emit(Resource.Success(subCategories))
         } catch (e: Exception) {
             emit(Resource.Error(e))
         }
