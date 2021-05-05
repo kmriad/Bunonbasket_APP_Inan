@@ -1,6 +1,6 @@
 package com.example.bunonbasket.ui.component.home.fragments
 
-import PageIndicator
+import com.example.bunonbasket.utils.widgets.PageIndicator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +29,7 @@ import com.example.bunonbasket.ui.component.home.adapters.BrandAdapter
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
 import com.example.bunonbasket.ui.component.home.adapters.ProductAdapter
 import com.example.bunonbasket.utils.Resource
+import com.example.bunonbasket.utils.widgets.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -46,6 +47,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
     lateinit var featuredProductAdapter: ProductAdapter
     lateinit var brandAdapter: BrandAdapter
     lateinit var binding: FragmentHomeBinding
+    lateinit var dialog: LoadingDialog
 
     val TAG = "HomeFragment"
 
@@ -61,7 +63,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.apply {
             bannerAdapter = BannerAdapter()
             brandAdapter = BrandAdapter()
@@ -95,6 +96,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                 adapter = bestSellingProductAdapter
                 layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
             }
+            dialog = activity?.let { LoadingDialog(it) }!!
+            dialog.showLoadingDialog()
         }
 
 
@@ -149,6 +152,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
             when (dataState) {
                 is Resource.Success<CategoryModel> -> {
                     dataState.data.let { categoryModel ->
+                        dialog.closeLoadingDialog()
                         categoryAdapter.submitList(categoryModel.categories)
                     }
                 }

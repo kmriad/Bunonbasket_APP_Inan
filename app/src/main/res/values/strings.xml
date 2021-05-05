@@ -16,4 +16,5 @@
     <string name="price">"\u09F3"</string>
     <string name="featured_products">Featured Products</string>
     <string name="best_selling">Best Selling</string>
+    <string name="loading">Loading...</string>
 </resources>

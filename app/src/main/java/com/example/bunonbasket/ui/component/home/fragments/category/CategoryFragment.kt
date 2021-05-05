@@ -1,7 +1,6 @@
 package com.example.bunonbasket.ui.component.home.fragments.category
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ import com.example.bunonbasket.databinding.FragmentCategoryBinding
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryAdapter
 import com.example.bunonbasket.utils.Resource
+import com.example.bunonbasket.utils.widgets.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,6 +28,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
     lateinit var binding: FragmentCategoryBinding
     lateinit var categoryAdapter: CategoryAdapter
     lateinit var subCategoryAdapter: SubCategoryAdapter
+    lateinit var dialog:LoadingDialog
     private val args: CategoryFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -56,6 +57,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 layoutManager = myLayoutManager
             }
 
+            dialog = activity?.let { LoadingDialog(it) }!!
+            dialog.showLoadingDialog()
             categoryViewModel.fetchRemoteEvents(CategoryStateEvent.FetchCategories)
             subscribeObservers()
         }
@@ -67,9 +70,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 is Resource.Success<CategoryModel> -> {
                     dataState.data.let { categoryModel ->
                         val category = args.category
-                        Log.d("CategoryFragment", category.slug)
+                        for (i in categoryModel.categories) {
+                            if (i.id == category.id) {
+                                i.isSelected = true
+                            }
+                        }
                         categoryAdapter.submitList(categoryModel.categories)
-
+                        categoryViewModel.onCategoryClicked(category)
                     }
                 }
             }
@@ -79,6 +86,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
             when (dataState) {
                 is Resource.Success<SubCategoryModel> -> {
                     dataState.data.let { subCategoryModel ->
+                        dialog.closeLoadingDialog()
                         subCategoryAdapter.submitList(subCategoryModel.categories)
                     }
                 }

@@ -42,7 +42,7 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
     }
 
     interface OnItemClickListener {
-        fun onItemClick(category: Category)
+        fun onItemClick(index: Category)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Category>() {

@@ -43,6 +43,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@{data.name}"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textAlignment="center" />
         </LinearLayout>
 
