@@ -1,18 +1,20 @@
 package com.example.bunonbasket.ui.component.home.fragments.category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
-import com.example.bunonbasket.data.models.category.Category
-import com.example.bunonbasket.data.models.category.CategoryModel
-import com.example.bunonbasket.data.models.category.SubCategoryModel
+import com.example.bunonbasket.data.models.base.BaseModel
+import com.example.bunonbasket.data.models.base.BasePaginatedModel
+import com.example.bunonbasket.data.models.category.*
 import com.example.bunonbasket.databinding.FragmentCategoryBinding
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryAdapter
@@ -22,13 +24,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.OnItemClickListener {
+class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.OnItemClickListener,
+    SubCategoryAdapter.OnItemClickListener {
 
     private val categoryViewModel: CategoryViewModel by viewModels()
     lateinit var binding: FragmentCategoryBinding
     lateinit var categoryAdapter: CategoryAdapter
     lateinit var subCategoryAdapter: SubCategoryAdapter
-    lateinit var dialog:LoadingDialog
+    lateinit var dialog: LoadingDialog
     private val args: CategoryFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -51,7 +54,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             }
 
-            subCategoryAdapter = SubCategoryAdapter()
+            subCategoryAdapter = SubCategoryAdapter(this@CategoryFragment)
             binding.subCategoryListView.apply {
                 adapter = subCategoryAdapter
                 layoutManager = myLayoutManager
@@ -67,15 +70,15 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
     private fun subscribeObservers() {
         categoryViewModel.categoryState.observe(viewLifecycleOwner, { dataState ->
             when (dataState) {
-                is Resource.Success<CategoryModel> -> {
+                is Resource.Success<BaseModel<Category>> -> {
                     dataState.data.let { categoryModel ->
                         val category = args.category
-                        for (i in categoryModel.categories) {
+                        for (i in categoryModel.results) {
                             if (i.id == category.id) {
                                 i.isSelected = true
                             }
                         }
-                        categoryAdapter.submitList(categoryModel.categories)
+                        categoryAdapter.submitList(categoryModel.results)
                         categoryViewModel.onCategoryClicked(category)
                     }
                 }
@@ -84,10 +87,24 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
 
         categoryViewModel.subCategoryState.observe(viewLifecycleOwner, { dataState ->
             when (dataState) {
-                is Resource.Success<SubCategoryModel> -> {
+                is Resource.Success<BaseModel<SubCategory>> -> {
                     dataState.data.let { subCategoryModel ->
                         dialog.closeLoadingDialog()
-                        subCategoryAdapter.submitList(subCategoryModel.categories)
+                        subCategoryAdapter.submitList(subCategoryModel.results)
+                    }
+                }
+            }
+        })
+
+        categoryViewModel.baseState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<BasePaginatedModel<PaginatedModel>> -> {
+                    dataState.data.let { productModel ->
+                        if (productModel.success) {
+                            Log.d("CategoryFragment",productModel.message)
+                        } else {
+                            Toast.makeText(context, productModel.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
@@ -96,6 +113,10 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
 
     override fun onItemClick(category: Category) {
         categoryViewModel.onCategoryClicked(category)
+    }
+
+    override fun onItemClick(subCategory: SubCategory?) {
+        categoryViewModel.onSubCategoryClicked(subCategory, 1, 5)
     }
 
 }

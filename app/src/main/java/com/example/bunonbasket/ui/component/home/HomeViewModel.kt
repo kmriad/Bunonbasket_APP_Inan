@@ -1,11 +1,11 @@
 package com.example.bunonbasket.ui.component.home
 
 import androidx.lifecycle.*
-import com.example.bunonbasket.data.models.banner.BannerModel
-import com.example.bunonbasket.data.models.brands.BrandModel
+import com.example.bunonbasket.data.models.banner.Banner
+import com.example.bunonbasket.data.models.brands.Brand
+import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.category.Category
-import com.example.bunonbasket.data.models.category.CategoryModel
-import com.example.bunonbasket.data.models.home.HomeModel
+import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
@@ -34,32 +34,32 @@ class HomeViewModel @Inject constructor(
     private val _loadDataState: MutableLiveData<Resource<Boolean>> = MutableLiveData()
 
 
-    private val _bannerState: MutableLiveData<Resource<BannerModel>> = MutableLiveData()
-    private val _categoryState: MutableLiveData<Resource<CategoryModel>> = MutableLiveData()
-    private val _brandState: MutableLiveData<Resource<BrandModel>> = MutableLiveData()
-    private val _bestSellingProductsState: MutableLiveData<Resource<HomeModel>> = MutableLiveData()
-    private val _featuredProductsState: MutableLiveData<Resource<HomeModel>> = MutableLiveData()
+    private val _bannerState: MutableLiveData<Resource<BaseModel<Banner>>> = MutableLiveData()
+    private val _categoryState: MutableLiveData<Resource<BaseModel<Category>>> = MutableLiveData()
+    private val _brandState: MutableLiveData<Resource<BaseModel<Brand>>> = MutableLiveData()
+    private val _bestSellingProductsState: MutableLiveData<Resource<BaseModel<Product>>> = MutableLiveData()
+    private val _featuredProductsState: MutableLiveData<Resource<BaseModel<Product>>> = MutableLiveData()
 
     private val taskEventChannel = Channel<HomeStateEvent>()
     val homeEvent = taskEventChannel.receiveAsFlow()
 
 
-    val categoryState: LiveData<Resource<CategoryModel>>
+    val categoryState: LiveData<Resource<BaseModel<Category>>>
         get() = _categoryState
 
-    val bannerState: LiveData<Resource<BannerModel>>
+    val bannerState: LiveData<Resource<BaseModel<Banner>>>
         get() = _bannerState
 
-    val brandState: LiveData<Resource<BrandModel>>
+    val brandState: LiveData<Resource<BaseModel<Brand>>>
         get() = _brandState
 
     val loadDataState: LiveData<Resource<Boolean>>
         get() = _loadDataState
 
-    val featuredProductState: LiveData<Resource<HomeModel>>
+    val featuredProductState: LiveData<Resource<BaseModel<Product>>>
         get() = _featuredProductsState
 
-    val bestSellingProductState: LiveData<Resource<HomeModel>>
+    val bestSellingProductState: LiveData<Resource<BaseModel<Product>>>
         get() = _bestSellingProductsState
 
 

@@ -11,16 +11,38 @@ import com.example.bunonbasket.databinding.SubcategoryItemLayoutBinding
 /**
  * Created by inan on 3/5/21
  */
-class SubCategoryAdapter :
+class SubCategoryAdapter(private val listener: OnItemClickListener) :
     ListAdapter<SubCategory, SubCategoryAdapter.SubCategoryViewHolder>(DiffCallback()) {
 
     inner class SubCategoryViewHolder(private val binding: SubcategoryItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val subCategory = getItem(position)
+                        currentList.forEach { category ->
+                            subCategory.isSelected = false;
+                        }
+                        subCategory.isSelected = !subCategory.isSelected
+                        notifyDataSetChanged()
+                        listener.onItemClick(subCategory)
+                    }
+                }
+
+            }
+        }
+
         fun bind(subCategory: SubCategory?) {
             binding.data = subCategory
         }
 
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(subCategory: SubCategory?)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<SubCategory>() {

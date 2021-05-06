@@ -1,6 +1,5 @@
 package com.example.bunonbasket.ui.component.home.fragments
 
-import com.example.bunonbasket.utils.widgets.PageIndicator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +15,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.bunonbasket.R
-import com.example.bunonbasket.data.models.banner.BannerModel
-import com.example.bunonbasket.data.models.brands.BrandModel
+import com.example.bunonbasket.data.models.base.BaseModel
+import com.example.bunonbasket.data.models.banner.Banner
+import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.category.Category
-import com.example.bunonbasket.data.models.category.CategoryModel
-import com.example.bunonbasket.data.models.home.HomeModel
+import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.databinding.FragmentHomeBinding
 import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.ui.component.home.HomeViewModel
@@ -30,6 +29,7 @@ import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
 import com.example.bunonbasket.ui.component.home.adapters.ProductAdapter
 import com.example.bunonbasket.utils.Resource
 import com.example.bunonbasket.utils.widgets.LoadingDialog
+import com.example.bunonbasket.utils.widgets.PageIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -129,9 +129,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
     private fun subscribeObservers() {
         homeViewModel.bannerState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
-                is Resource.Success<BannerModel> -> {
+                is Resource.Success<BaseModel<Banner>> -> {
                     dataState.data.let { bannerModel ->
-                        bannerAdapter.differ.submitList(bannerModel.banners.toList())
+                        bannerAdapter.differ.submitList(bannerModel.results)
                     }
                 }
                 is Resource.Error -> {
@@ -150,10 +150,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
         })
         homeViewModel.categoryState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
-                is Resource.Success<CategoryModel> -> {
+                is Resource.Success<BaseModel<Category>> -> {
                     dataState.data.let { categoryModel ->
                         dialog.closeLoadingDialog()
-                        categoryAdapter.submitList(categoryModel.categories)
+                        categoryAdapter.submitList(categoryModel.results)
                     }
                 }
                 is Resource.Error -> {
@@ -172,9 +172,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
         })
         homeViewModel.brandState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
-                is Resource.Success<BrandModel> -> {
+                is Resource.Success<BaseModel<Brand>> -> {
                     dataState.data.let { brandModel ->
-                        brandAdapter.submitList(brandModel.brands)
+                        brandAdapter.submitList(brandModel.results)
                     }
                 }
                 is Resource.Error -> {
@@ -193,7 +193,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
         })
         homeViewModel.featuredProductState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
-                is Resource.Success<HomeModel> -> {
+                is Resource.Success<BaseModel<Product>> -> {
                     dataState.data.let { productModel ->
                         if (productModel.results.isNotEmpty()) binding.featuredProductsTitle.visibility =
                             View.VISIBLE
@@ -217,7 +217,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
 
         homeViewModel.bestSellingProductState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
-                is Resource.Success<HomeModel> -> {
+                is Resource.Success<BaseModel<Product>> -> {
                     dataState.data.let { productModel ->
                         if (productModel.results.isNotEmpty()) binding.bestSellingProductsTitle.visibility =
                             View.VISIBLE
