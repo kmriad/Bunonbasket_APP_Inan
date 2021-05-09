@@ -26,7 +26,7 @@ class CategoryViewModel @Inject constructor(
 
     private val _categoryState: MutableLiveData<Resource<BaseModel<Category>>> = MutableLiveData()
     private val _subCategoryState: MutableLiveData<Resource<BaseModel<SubCategory>>> = MutableLiveData()
-    private val _baseState: MutableLiveData<Resource<BasePaginatedModel<PaginatedModel>>> = MutableLiveData()
+    private val _productState: MutableLiveData<Resource<BasePaginatedModel<PaginatedModel>>> = MutableLiveData()
 
     val categoryState: LiveData<Resource<BaseModel<Category>>>
         get() = _categoryState
@@ -34,8 +34,8 @@ class CategoryViewModel @Inject constructor(
     val subCategoryState: LiveData<Resource<BaseModel<SubCategory>>>
         get() = _subCategoryState
 
-    val baseState: LiveData<Resource<BasePaginatedModel<PaginatedModel>>>
-        get() = _baseState
+    val productState: LiveData<Resource<BasePaginatedModel<PaginatedModel>>>
+        get() = _productState
 
     fun fetchRemoteEvents(categoryStateEvent: CategoryStateEvent) {
         viewModelScope.launch {
@@ -60,7 +60,7 @@ class CategoryViewModel @Inject constructor(
                         categoryStateEvent.page,
                         categoryStateEvent.perPage
                     ).onEach { dataState ->
-                        _baseState.value = dataState
+                        _productState.value = dataState
                     }.launchIn(viewModelScope)
                 }
 

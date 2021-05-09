@@ -96,7 +96,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
             }
         })
 
-        categoryViewModel.baseState.observe(viewLifecycleOwner, { dataState ->
+        categoryViewModel.productState.observe(viewLifecycleOwner, { dataState ->
             when (dataState) {
                 is Resource.Success<BasePaginatedModel<PaginatedModel>> -> {
                     dataState.data.let { productModel ->
