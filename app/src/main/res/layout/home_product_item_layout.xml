@@ -11,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/product_height"
         android:layout_margin="@dimen/margin_small"
         android:layout_marginBottom="@dimen/margin_12"
         android:background="@drawable/white_background">
@@ -33,28 +33,33 @@
             android:layout_height="96dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.466"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.266"
+            app:layout_constraintVertical_bias="0.153"
             app:patchImageFullUrl="@{data.fullImageUrl}" />
 
         <TextView
             android:id="@+id/productName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_12"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_ex_small"
             android:gravity="start"
             android:text="@{data.name}"
-            android:layout_marginStart="@dimen/standard_margin"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/productImage"
-            android:layout_marginLeft="@dimen/standard_margin" />
+            app:layout_constraintVertical_bias="0.183" />
 
         <TextView
             android:id="@+id/productQuantity"
@@ -68,8 +73,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/productName" />
+            app:layout_constraintTop_toBottomOf="@id/productName"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/productPrice"
@@ -79,7 +86,7 @@
             android:layout_marginTop="@dimen/margin_ex_small"
             android:text="@{String.valueOf(data.unit_price).concat(@string/price)}"
             android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

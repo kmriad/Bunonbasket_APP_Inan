@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +17,7 @@ import com.example.bunonbasket.data.models.category.*
 import com.example.bunonbasket.databinding.FragmentCategoryBinding
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryAdapter
+import com.example.bunonbasket.ui.component.home.adapters.SubCategoryProductAdapter
 import com.example.bunonbasket.utils.Resource
 import com.example.bunonbasket.utils.widgets.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +54,11 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             }
 
-            subCategoryAdapter = SubCategoryAdapter(this@CategoryFragment)
+            subCategoryAdapter =
+                SubCategoryAdapter(
+                    this@CategoryFragment,
+                )
+
             binding.subCategoryListView.apply {
                 adapter = subCategoryAdapter
                 layoutManager = myLayoutManager
@@ -101,9 +105,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 is Resource.Success<BasePaginatedModel<PaginatedModel>> -> {
                     dataState.data.let { productModel ->
                         if (productModel.success) {
-                            Log.d("CategoryFragment",productModel.message)
-                        } else {
-                            Toast.makeText(context, productModel.message, Toast.LENGTH_SHORT).show()
+                            Log.d("CategoryFragment", productModel.message)
+
                         }
                     }
                 }
@@ -111,12 +114,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
         })
     }
 
+
     override fun onItemClick(category: Category) {
         categoryViewModel.onCategoryClicked(category)
     }
 
     override fun onItemClick(subCategory: SubCategory?) {
-        categoryViewModel.onSubCategoryClicked(subCategory, 1, 5)
+       categoryViewModel.onSubCategoryClicked(subCategory, 1, 5)
     }
 
 }
