@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bunonbasket.R
@@ -23,21 +26,26 @@ class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
-       // setSupportActionBar(binding.toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        var childFragment = supportFragmentManager.findFragmentByTag("fragment_sheet_home")
+        var childFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)
+        val navHostController =
+            childFragment as NavHostFragment
+        navController = navHostController.findNavController()
+        // setupActionBarWithNavController(navController)
+
 
         if (childFragment != null) {
-            binding.bottomNavigationView.setupWithNavController(childFragment.findNavController())
+            binding.bottomNavigationView.setupWithNavController(navController)
+
         }
         subscribeObservers()
 
@@ -48,6 +56,10 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.home_app_bar, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     private fun subscribeObservers() {

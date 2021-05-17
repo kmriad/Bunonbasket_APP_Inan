@@ -28,11 +28,7 @@ fun setPatchImageFromUrl(imageView: ImageView, url: String?) {
 
 @BindingAdapter("app:setProducts")
 fun RecyclerView.setProducts(products: List<Product>) {
-    var fProducts = products
     val subCategoryProductAdapter = SubCategoryProductAdapter()
-    if (fProducts.size > 5) {
-        fProducts = products.subList(0, 5)
-    }
-    subCategoryProductAdapter.submitList(fProducts)
+    subCategoryProductAdapter.submitList(products)
     adapter = subCategoryProductAdapter
 }

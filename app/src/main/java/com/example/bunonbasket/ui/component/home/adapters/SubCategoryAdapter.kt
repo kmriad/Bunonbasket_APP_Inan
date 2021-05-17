@@ -25,8 +25,8 @@ class SubCategoryAdapter(
 
         init {
             binding.apply {
-                root.setOnClickListener {
-                    val position = adapterPosition
+              /*  root.setOnClickListener {
+                    val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val subCategory = getItem(position)
                         currentList.forEach { category ->
@@ -40,31 +40,34 @@ class SubCategoryAdapter(
                         notifyDataSetChanged()
                         listener.onItemClick(subCategory)
                     }
-                }
+                }*/
             }
         }
 
         fun bind(subCategory: SubCategory?) {
             binding.data = subCategory
-
+            if (subCategory!!.products.isNotEmpty()) {
+                binding.viewAllButton.visibility = View.VISIBLE
+            }
             binding.productGridView.apply {
-                if (subCategory != null) {
-                    layoutManager = if (subCategory.products.size > 3) {
-                        GridLayoutManager(
-                            binding.root.context,
-                            spanCount,
-                            GridLayoutManager.HORIZONTAL,
-                            false
-                        )
-                    } else {
-                        GridLayoutManager(
-                            binding.root.context,
-                            1,
-                            GridLayoutManager.HORIZONTAL,
-                            false
-                        )
-                    }
+                layoutManager = if (subCategory.products.size > 3) {
+                    GridLayoutManager(
+                        binding.root.context,
+                        spanCount,
+                        GridLayoutManager.HORIZONTAL,
+                        false
+                    )
+                } else {
+                    GridLayoutManager(
+                        binding.root.context,
+                        1,
+                        GridLayoutManager.HORIZONTAL,
+                        false
+                    )
                 }
+            }
+            binding.viewAllButton.setOnClickListener {
+                listener.onViewAllClicked(subCategory)
             }
             binding.productGridView.setRecycledViewPool(viewPool)
             binding.executePendingBindings()
@@ -74,6 +77,7 @@ class SubCategoryAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(subCategory: SubCategory?)
+        fun onViewAllClicked(subCategory: SubCategory?)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<SubCategory>() {

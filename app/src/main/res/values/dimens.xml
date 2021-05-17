@@ -5,10 +5,12 @@
     <dimen name="margin_large">32dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="button_size">56dp</dimen>
+    <dimen name="size_60">60dp</dimen>
     <dimen name="margin_ex_small">4dp</dimen>
     <dimen name="margin_2">2dp</dimen>
     <dimen name="small_text_size">10sp</dimen>
     <dimen name="size_24">24dp</dimen>
     <dimen name="category_size">100dp</dimen>
     <dimen name="product_height">200dp</dimen>
+    <dimen name="category_list_width">130dp</dimen>
 </resources>

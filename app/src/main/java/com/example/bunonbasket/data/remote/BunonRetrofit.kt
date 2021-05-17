@@ -38,4 +38,12 @@ interface BunonRetrofit {
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
     ): BasePaginatedModel<PaginatedModel>
+
+    @GET("sub_category/products/{sub_category_id}")
+     fun fetchAllProducts(
+        @Path(value = "sub_category_id") subCategoryId: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
+    ): PaginatedModel
+
 }

@@ -9,18 +9,20 @@
             type="com.example.bunonbasket.data.models.category.Product" />
     </data>
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/margin_ex_small">
+        android:layout_marginStart="@dimen/margin_ex_small"
+        android:layout_marginLeft="@dimen/margin_ex_small"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/productCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardElevation="@dimen/margin_2"
-            android:id="@+id/productCard"
             app:cardCornerRadius="@dimen/margin_small"
+            app:cardElevation="@dimen/margin_2"
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true">
 
@@ -50,15 +52,15 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center_horizontal"
-            android:maxLines="1"
             android:maxEms="4"
+            android:maxLines="1"
             android:scrollHorizontally="true"
             android:text="@{data.name}"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
+
     </LinearLayout>
 
 </layout>

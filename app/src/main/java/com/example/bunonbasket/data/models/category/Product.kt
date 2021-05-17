@@ -3,6 +3,7 @@ package com.example.bunonbasket.data.models.category
 import com.example.bunonbasket.utils.Constants
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Product(
     @SerializedName("added_by")
@@ -169,7 +170,7 @@ data class Product(
     @Expose
     val video_provider: String
 
-) {
+) : Serializable {
     var fullImageUrl: String? = ""
         get() = "${Constants.BASE_URL}/$thumbnail_img"
         set(value) {

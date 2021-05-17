@@ -6,9 +6,11 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 /**
@@ -41,4 +43,5 @@ object RetrofitModule {
             .build()
             .create(BunonRetrofit::class.java)
     }
+
 }

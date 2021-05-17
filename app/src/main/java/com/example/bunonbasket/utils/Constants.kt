@@ -12,4 +12,7 @@ object Constants {
 
     const val BASE_URL = "https://bunonbasket.com/"
 
+    const val TYPE_ITEM: Int = 0
+    const val TYPE_FOOTER: Int = 1
+
 }

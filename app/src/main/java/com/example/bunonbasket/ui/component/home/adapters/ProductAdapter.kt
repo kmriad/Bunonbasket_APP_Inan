@@ -1,6 +1,7 @@
 package com.example.bunonbasket.ui.component.home.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,8 +16,14 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(Di
 
     inner class ProductViewHolder(private val binding: HomeProductItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(product: Product?) {
             binding.data = product
+            if (product!!.discount > 0) {
+                binding.discountText.visibility = View.VISIBLE
+            } else {
+                binding.discountText.visibility = View.INVISIBLE
+            }
         }
 
     }

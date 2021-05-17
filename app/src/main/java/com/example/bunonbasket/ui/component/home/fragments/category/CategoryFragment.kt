@@ -5,9 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
@@ -17,10 +20,10 @@ import com.example.bunonbasket.data.models.category.*
 import com.example.bunonbasket.databinding.FragmentCategoryBinding
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryAdapter
-import com.example.bunonbasket.ui.component.home.adapters.SubCategoryProductAdapter
 import com.example.bunonbasket.utils.Resource
 import com.example.bunonbasket.utils.widgets.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
@@ -39,7 +42,6 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false)
-
         return binding.root
     }
 
@@ -53,6 +55,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 adapter = categoryAdapter
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             }
+
+
 
             subCategoryAdapter =
                 SubCategoryAdapter(
@@ -68,6 +72,20 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
             dialog.showLoadingDialog()
             categoryViewModel.fetchRemoteEvents(CategoryStateEvent.FetchCategories)
             subscribeObservers()
+
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                categoryViewModel.subCategoryEvent.collect { event ->
+                    when (event) {
+                        is CategoryStateEvent.NavigateToProductList -> {
+                            val action =
+                                CategoryFragmentDirections.actionCategoryFragmentToProductListActivity(
+                                    event.subCategory!!
+                                )
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -106,12 +124,12 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                     dataState.data.let { productModel ->
                         if (productModel.success) {
                             Log.d("CategoryFragment", productModel.message)
-
                         }
                     }
                 }
             }
         })
+
     }
 
 
@@ -120,7 +138,11 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
     }
 
     override fun onItemClick(subCategory: SubCategory?) {
-       categoryViewModel.onSubCategoryClicked(subCategory, 1, 5)
+        categoryViewModel.onSubCategoryClicked(subCategory, 1, 5)
+    }
+
+    override fun onViewAllClicked(subCategory: SubCategory?) {
+        categoryViewModel.onViewAllClicked(subCategory)
     }
 
 }

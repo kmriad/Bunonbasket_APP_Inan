@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_12"
         app:cardBackgroundColor="@color/white"
         app:cardUseCompatPadding="true">
 
@@ -40,21 +41,28 @@
                     android:paddingLeft="@dimen/standard_margin"
                     android:scrollHorizontally="true"
                     android:text="@{data.name}"
+                    android:maxEms="4"
+                    android:layout_marginRight="@dimen/margin_12"
+                    android:layout_marginEnd="@dimen/margin_12"
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/arrowForward"
+                    app:layout_constraintEnd_toStartOf="@id/viewAllButton"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/arrowForward"
+                <Button
+                    android:id="@+id/viewAllButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/margin_12"
-                    android:paddingRight="@dimen/margin_12"
-                    android:src="@drawable/ic_arrow_forward"
+                    android:layout_marginEnd="@dimen/margin_12"
+                    android:layout_marginRight="@dimen/margin_12"
+                    android:backgroundTint="@color/orange_light"
+                    android:text="@string/view_all"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/orange"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -63,13 +71,21 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/productGridView"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:setProducts="@{data.products}"
-                tools:listitem="@layout/sub_category_product_item_layout" />
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/productGridView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:setProducts="@{data.products}"
+                    tools:listitem="@layout/sub_category_product_item_layout" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 

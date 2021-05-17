@@ -22,9 +22,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryListView"
-            android:layout_width="140dp"
+            android:layout_width="@dimen/category_list_width"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="@dimen/size_60"
             android:paddingStart="@dimen/standard_margin"
             android:paddingLeft="@dimen/standard_margin"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,7 @@
             android:id="@+id/subCategoryListView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="@dimen/size_60"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/categoryListView"

@@ -12,7 +12,13 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:popUpTo="@id/categoryFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/wishListFragment"
@@ -37,5 +43,21 @@
         <argument
             android:name="category"
             app:argType="com.example.bunonbasket.data.models.category.Category" />
+        <action
+            android:id="@+id/action_categoryFragment_to_productListActivity"
+            app:destination="@id/productListActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+    <activity
+        android:id="@+id/productListActivity"
+        android:name="com.example.bunonbasket.ui.component.home.products.ProductListActivity"
+        android:label="activity_product_list"
+        tools:layout="@layout/activity_product_list" >
+        <argument
+            android:name="subCategory"
+            app:argType="com.example.bunonbasket.data.models.category.SubCategory" />
+    </activity>
 </navigation>

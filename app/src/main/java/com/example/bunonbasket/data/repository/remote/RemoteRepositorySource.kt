@@ -1,10 +1,15 @@
 package com.example.bunonbasket.data.repository.remote
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.example.bunonbasket.data.models.banner.Banner
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
-import com.example.bunonbasket.data.models.category.*
+import com.example.bunonbasket.data.models.category.Category
+import com.example.bunonbasket.data.models.category.PaginatedModel
+import com.example.bunonbasket.data.models.category.Product
+import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -23,4 +28,8 @@ interface RemoteRepositorySource {
         page: Int,
         perPage: Int
     ): Flow<Resource<BasePaginatedModel<PaginatedModel>>>
+
+     fun fetchAllProducts(
+        query:String
+    ): LiveData<PagingData<Product>>
 }

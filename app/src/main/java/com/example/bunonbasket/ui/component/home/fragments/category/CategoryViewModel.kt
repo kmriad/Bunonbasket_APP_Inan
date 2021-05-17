@@ -3,13 +3,17 @@ package com.example.bunonbasket.ui.component.home.fragments.category
 import androidx.lifecycle.*
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
-import com.example.bunonbasket.data.models.category.*
+import com.example.bunonbasket.data.models.category.Category
+import com.example.bunonbasket.data.models.category.PaginatedModel
+import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,8 +29,13 @@ class CategoryViewModel @Inject constructor(
 ) : ViewModel(), LifecycleObserver {
 
     private val _categoryState: MutableLiveData<Resource<BaseModel<Category>>> = MutableLiveData()
-    private val _subCategoryState: MutableLiveData<Resource<BaseModel<SubCategory>>> = MutableLiveData()
-    private val _productState: MutableLiveData<Resource<BasePaginatedModel<PaginatedModel>>> = MutableLiveData()
+    private val _subCategoryState: MutableLiveData<Resource<BaseModel<SubCategory>>> =
+        MutableLiveData()
+    private val _productState: MutableLiveData<Resource<BasePaginatedModel<PaginatedModel>>> =
+        MutableLiveData()
+
+    private val taskEventChannel = Channel<CategoryStateEvent>()
+    val subCategoryEvent = taskEventChannel.receiveAsFlow()
 
     val categoryState: LiveData<Resource<BaseModel<Category>>>
         get() = _categoryState
@@ -36,6 +45,7 @@ class CategoryViewModel @Inject constructor(
 
     val productState: LiveData<Resource<BasePaginatedModel<PaginatedModel>>>
         get() = _productState
+
 
     fun fetchRemoteEvents(categoryStateEvent: CategoryStateEvent) {
         viewModelScope.launch {
@@ -84,6 +94,10 @@ class CategoryViewModel @Inject constructor(
             )
         )
     }
+
+    fun onViewAllClicked(subCategory: SubCategory?) = viewModelScope.launch {
+        taskEventChannel.send(CategoryStateEvent.NavigateToProductList(subCategory))
+    }
 }
 
 sealed class CategoryStateEvent {
@@ -91,6 +105,8 @@ sealed class CategoryStateEvent {
     object FetchCategories : CategoryStateEvent()
 
     data class FetchSubCategories(val id: String) : CategoryStateEvent()
+
+    data class NavigateToProductList(val subCategory: SubCategory?) : CategoryStateEvent()
 
     data class FetchProductBySubCategories(val id: String, val page: Int, val perPage: Int) :
         CategoryStateEvent()
