@@ -9,6 +9,7 @@
     <dimen name="margin_ex_small">4dp</dimen>
     <dimen name="margin_2">2dp</dimen>
     <dimen name="small_text_size">10sp</dimen>
+    <dimen name="standard_text_size">16sp</dimen>
     <dimen name="size_24">24dp</dimen>
     <dimen name="category_size">100dp</dimen>
     <dimen name="product_height">200dp</dimen>

@@ -1,14 +1,20 @@
 package com.example.bunonbasket.ui.component.home.products
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.map
 import com.example.bunonbasket.data.models.category.Product
+import com.example.bunonbasket.data.repository.remote.PaginatedDataSource
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -21,51 +27,29 @@ class ProductsViewModel @Inject constructor(
     private val state: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
 
-
-    private val _productLiveData: MutableLiveData<PagingData<Product>> = MutableLiveData()
-
-    val productLiveData: LiveData<PagingData<Product>>
-        get() = _productLiveData
-
-//    val photos = currentQuery.switchMap { queryString ->
-//        remoteRepository.fetchAllProducts(queryString).cachedIn(viewModelScope)
-//    }
-
-    fun fetchProducts(productStateEvent: ProductStateEvent) {
-        viewModelScope.launch {
-            when (productStateEvent) {
-                is ProductStateEvent.FetchProducts -> {
-//                    currentQuery.switchMap { queryString ->
-//                        remoteRepository.fetchAllProducts(queryString).cachedIn(viewModelScope)
-//                    }
-
-                    Log.d("ProductListActivity",productStateEvent.id)
-                    try{
-                        remoteRepository.fetchAllProducts(productStateEvent.id).cachedIn(viewModelScope).
-//                        _productLiveData.switchMap {
-//                            remoteRepository.fetchAllProducts(productStateEvent.id)
-//                                .cachedIn(viewModelScope)
-//                        }
-                    }catch (e:Exception){
-                       Log.d("ProductListActivity",e.toString())
-                    }
+    lateinit var products: Flow<PagingData<Product>>
 
 
+    fun fetchEvent(query: String) {
+        Log.d("ProductListActivity", query)
+        try {
+            products = fetchAllProducts(query)
+                .map { pagingData ->
+                    Log.d("ProductListActivity",pagingData.toString())
+                    pagingData.map {
+                        Log.d("ProductListActivity",it.name)
+                        it }
                 }
-            }
+        } catch (e: Exception) {
+            Log.d("ProductListActivity", e.toString())
         }
     }
 
-    fun fetchEvent(query: String) {
-        Log.d("ProductListActivity",query)
-        fetchProducts(ProductStateEvent.FetchProducts(query))
-    }
-
-    companion object {
-        private const val DEFAULT_QUERY = ""
-    }
-}
-
-sealed class ProductStateEvent {
-    data class FetchProducts(val id: String) : ProductStateEvent()
+    private fun fetchAllProducts(query: String) =
+        Pager(
+            config = PagingConfig(
+                5
+            ),
+            pagingSourceFactory = { PaginatedDataSource(remoteRepository, query) }
+        ).flow
 }

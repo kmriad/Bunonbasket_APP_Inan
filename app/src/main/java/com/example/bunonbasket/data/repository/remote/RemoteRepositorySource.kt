@@ -29,7 +29,9 @@ interface RemoteRepositorySource {
         perPage: Int
     ): Flow<Resource<BasePaginatedModel<PaginatedModel>>>
 
-     fun fetchAllProducts(
-        query:String
-    ): LiveData<PagingData<Product>>
+   suspend  fun fetchAllProducts(
+        query:String,
+        page: Int,
+        perPage: Int
+    ): BasePaginatedModel<PaginatedModel>
 }

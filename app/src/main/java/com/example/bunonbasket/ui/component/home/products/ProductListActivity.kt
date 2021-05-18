@@ -2,19 +2,22 @@ package com.example.bunonbasket.ui.component.home.products
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.databinding.ActivityProductListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
@@ -42,15 +45,47 @@ class ProductListActivity : AppCompatActivity() {
                     GridLayoutManager.VERTICAL,
                     false
                 )
+                adapter = productAdapter.withLoadStateFooter(
+                    footer = ProductLoadStateAdapter({ productAdapter.retry() })
+                )
             }
 
+            binding.btnRetry.setOnClickListener {
+                productAdapter.retry()
+            }
             viewModel.fetchEvent(args.subCategory.id.toString())
-            viewModel.productLiveData.observe(this@ProductListActivity, { dataState ->
-                lifecycleScope.launch {
-                    Log.d("ProductListActivity",dataState.toString())
-                    productAdapter.submitData(dataState)
+            lifecycleScope.launch {
+                viewModel.products.collectLatest {
+                    productAdapter.submitData(it)
                 }
-            })
+            }
+            productAdapter.addLoadStateListener { loadState ->
+
+                if (loadState.refresh is LoadState.Loading) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnRetry.visibility = View.GONE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+
+                    // getting the error
+                    val errorState = when {
+                        loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                        loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                        loadState.refresh is LoadState.Error -> {
+                            binding.btnRetry.visibility = View.VISIBLE
+                            loadState.refresh as LoadState.Error
+                        }
+                        else -> null
+                    }
+                    errorState?.let {
+                        Toast.makeText(
+                            this@ProductListActivity,
+                            it.error.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
     }
 

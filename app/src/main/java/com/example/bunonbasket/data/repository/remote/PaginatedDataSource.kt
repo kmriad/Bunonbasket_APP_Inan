@@ -10,29 +10,25 @@ import com.example.bunonbasket.data.remote.BunonRetrofit
  * Created by inan on 11/5/21
  */
 class PaginatedDataSource(
-    private val bunonRetrofit: BunonRetrofit,
+    private val remoteRepository: RemoteRepository,
     private val subcategoryId: String
 ) :
     PagingSource<Int, Product>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
-        try {
-            val currentLoadingPageKey = params.key ?: 1
-            val response = bunonRetrofit.fetchAllProducts(subcategoryId, currentLoadingPageKey, 10)
-            Log.d("ProductListActivity",response.data.toString())
-            val responseData = mutableListOf<Product>()
-            val data = response.data
-            responseData.addAll(data)
 
-            val prevKey = if (currentLoadingPageKey == 1) null else currentLoadingPageKey - 1
+        return try {
+            val nextPage = params.key ?: 1
+            val response = remoteRepository.fetchAllProducts(subcategoryId, nextPage, 10)
 
-            return LoadResult.Page(
-                data = responseData,
-                prevKey = prevKey,
-                nextKey = currentLoadingPageKey.plus(1)
+            LoadResult.Page(
+                data = response.results.data,
+                prevKey = if (nextPage == 1) null else nextPage - 1,
+                nextKey = if (nextPage < response.results.total)
+                    nextPage.plus(1) else null
             )
         } catch (e: Exception) {
-            Log.d("ProductListActivity",e.toString());
-            return LoadResult.Error(e)
+            Log.d("ProductListActivity",e.toString())
+            LoadResult.Error(e)
         }
     }
 

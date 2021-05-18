@@ -1,9 +1,6 @@
 package com.example.bunonbasket.data.repository.remote
 
 import android.util.Log
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.liveData
 import com.example.bunonbasket.data.models.banner.Banner
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
@@ -106,23 +103,18 @@ class RemoteRepository @Inject constructor(
             }
         }
 
-
-    /*override suspend fun fetchAllProducts(
-        id: String,
+    override suspend fun fetchAllProducts(
+        query: String,
         page: Int,
         perPage: Int
-    ): Flow<PagingData<Product>> =
-        Pager(PagingConfig(pageSize = 10)) {
-            PaginatedDataSource(bunonRetrofit, id)
-        }.flow*/
+    ): BasePaginatedModel<PaginatedModel> {
+        try {
+            val products = bunonRetrofit.fetchAllProducts(query, page, perPage)
+            return products
+        } catch (e: Exception) {
+            throw e
+        }
+    }
 
-    override  fun fetchAllProducts(query: String) =
-        Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                maxSize = 100,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { PaginatedDataSource(bunonRetrofit, query) }
-        ).liveData
+
 }
