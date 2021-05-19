@@ -1,5 +1,6 @@
 package com.example.bunonbasket.ui.component
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
@@ -9,11 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bunonbasket.R
 import com.example.bunonbasket.databinding.ActivityHomeBinding
+import com.example.bunonbasket.ui.component.bazar.UploadBazarActivity
 import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.ui.component.home.HomeViewModel
+import com.example.bunonbasket.ui.component.home.products.ProductListActivity
 import com.example.bunonbasket.utils.Constants.SHOWCASE_ID
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,14 +45,16 @@ class HomeActivity : AppCompatActivity() {
         val navHostController =
             childFragment as NavHostFragment
         navController = navHostController.findNavController()
-        // setupActionBarWithNavController(navController)
+        setupActionBarWithNavController(navController)
 
 
-        if (childFragment != null) {
-            binding.bottomNavigationView.setupWithNavController(navController)
-
-        }
+        binding.bottomNavigationView.setupWithNavController(navController)
         subscribeObservers()
+
+        binding.btnCamera.setOnClickListener {
+            val intent = Intent(this, UploadBazarActivity::class.java)
+            startActivity(intent)
+        }
 
         viewModel.setStateEvent(HomeStateEvent.LoadShowCase)
 
@@ -69,8 +76,8 @@ class HomeActivity : AppCompatActivity() {
                     if (dataState.data == false) {
                         MaterialShowcaseView.Builder(this)
                             .setTarget(binding.btnCamera)
-                            .setDismissText("Okay, Got It")
-                            .setContentText("Upload your shopping list through camera using this button")
+                            .setDismissText(getString(R.string.got_it))
+                            .setContentText(getString(R.string.upload_image_using_button))
                             .singleUse(SHOWCASE_ID)
                             .setDelay(500)
                             .show()

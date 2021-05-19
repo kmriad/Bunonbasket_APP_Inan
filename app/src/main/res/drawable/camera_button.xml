@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid android:color="@color/green" />
+            <corners android:radius="8dp" />
+            <padding
+                android:bottom="20dp"
+                android:left="20dp"
+                android:right="20dp"
+                android:top="20dp" />
+        </shape>
+
+    </item>
+
+    <item android:drawable="@drawable/camera"
+        android:height="@dimen/size_24"
+        android:width="@dimen/size_24"/>
+
+</layer-list>

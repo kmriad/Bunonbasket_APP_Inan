@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
@@ -15,6 +14,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.databinding.ActivityProductListBinding
+import com.example.bunonbasket.ui.component.home.products.adapters.PaginatedProductListAdapter
+import com.example.bunonbasket.ui.component.home.products.adapters.ProductLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProductListActivity : AppCompatActivity() {
     lateinit var binding: ActivityProductListBinding
-    lateinit var productAdapter: PaginatedProductListAdapter
+    private lateinit var productAdapter: PaginatedProductListAdapter
     private val viewModel: ProductsViewModel by viewModels()
     private val args: ProductListActivityArgs by navArgs()
 
@@ -53,7 +54,9 @@ class ProductListActivity : AppCompatActivity() {
             binding.btnRetry.setOnClickListener {
                 productAdapter.retry()
             }
+
             viewModel.fetchEvent(args.subCategory.id.toString())
+
             lifecycleScope.launch {
                 viewModel.products.collectLatest {
                     productAdapter.submitData(it)
@@ -66,24 +69,22 @@ class ProductListActivity : AppCompatActivity() {
                     binding.btnRetry.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
-
-                    // getting the error
-                    val errorState = when {
-                        loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-                        loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-                        loadState.refresh is LoadState.Error -> {
-                            binding.btnRetry.visibility = View.VISIBLE
-                            loadState.refresh as LoadState.Error
-                        }
-                        else -> null
-                    }
-                    errorState?.let {
-                        Toast.makeText(
-                            this@ProductListActivity,
-                            it.error.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+//                    val errorState = when {
+//                        loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+//                        loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+//                        loadState.refresh is LoadState.Error -> {
+//                            binding.btnRetry.visibility = View.VISIBLE
+//                            loadState.refresh as LoadState.Error
+//                        }
+//                        else -> null
+//                    }
+//                    errorState?.let {
+//                        Toast.makeText(
+//                            this@ProductListActivity,
+//                            it.error.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
                 }
             }
         }
@@ -94,7 +95,9 @@ class ProductListActivity : AppCompatActivity() {
             android.R.id.home -> {
                 val parentIntent = NavUtils.getParentActivityIntent(this)
                 parentIntent!!.flags =
-                    Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                    Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT or
+                            Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                            Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                 startActivity(parentIntent)
                 finish()
                 return true

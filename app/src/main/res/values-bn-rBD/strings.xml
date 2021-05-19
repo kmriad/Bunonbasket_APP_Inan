@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BunonBasket</string>
+    <string name="click_bajar_pic">বাজার সামগ্রী তালিকার ছবি তুলুন</string>
+    <string name="confirm_order">অর্ডার কনফার্ম করুন</string>
+    <string name="upload_bazar_message">আপনি বাজার তালিকাটি কনফার্ম করার পর একজন বুনন বাস্কেট প্রতিনিধি অর্ডারটি নিশ্চিত করবেন</string>
+    <string name="number_one">১</string>
+    <string name="number_two">২</string>
+    <string name="upload_image_using_button">এই বাটনের সাহায্যে আপনার বাজার তালিকার ছবি তুলুন</string>
+    <string name="got_it">ঠিক আছে</string>
+</resources>
