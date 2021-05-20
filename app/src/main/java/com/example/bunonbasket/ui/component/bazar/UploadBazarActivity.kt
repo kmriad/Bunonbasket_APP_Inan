@@ -18,7 +18,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 
 class UploadBazarActivity : AppCompatActivity() {
 
-    lateinit var binding:ActivityUploadBazarBinding
+    lateinit var binding: ActivityUploadBazarBinding
     private val camera: CameraManager? = null
 
     val rxPermissions = RxPermissions(this)
@@ -44,9 +44,31 @@ class UploadBazarActivity : AppCompatActivity() {
 
                 }
         }
+
+        binding.btnGallery.setOnClickListener {
+            Observable.just(
+                checkIsGranted(Manifest.permission.READ_EXTERNAL_STORAGE) && checkIsGranted(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            )
+                .flatMap { granted ->
+                    if (granted)
+                        Observable.just(true)
+                    else rxPermissions.request(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                }
+                .subscribe {
+
+                }
+        }
     }
 
     fun checkIsGranted(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED;
     }
 }
