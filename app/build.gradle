@@ -98,4 +98,10 @@ dependencies {
     def paging_version = "3.0.0"
     implementation "androidx.paging:paging-runtime:$paging_version"
 
+    //permission library
+    implementation 'com.github.tbruyelle:rxpermissions:0.12'
+
+    //rxbinding
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+
 }

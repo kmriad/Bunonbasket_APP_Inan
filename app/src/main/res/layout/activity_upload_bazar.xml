@@ -179,6 +179,7 @@
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="@dimen/button_width"
                         android:layout_height="@dimen/button_size"
+                        android:id="@+id/btnGallery"
                         android:backgroundTint="@color/green_opacity"
                         android:insetLeft="0dp"
                         android:insetTop="0dp"
@@ -211,6 +212,7 @@
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="@dimen/button_width"
                         android:layout_height="@dimen/button_size"
+                        android:id="@+id/btnCamera"
                         android:backgroundTint="@color/green"
                         android:insetLeft="0dp"
                         android:insetTop="0dp"
