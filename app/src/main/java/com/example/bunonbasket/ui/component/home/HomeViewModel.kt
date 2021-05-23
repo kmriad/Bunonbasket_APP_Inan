@@ -131,6 +131,10 @@ class HomeViewModel @Inject constructor(
     fun onCategoryClicked(category: Category) = viewModelScope.launch {
         taskEventChannel.send(HomeStateEvent.NavigateToCategory(category))
     }
+
+    fun onProductClicked(product: Product) = viewModelScope.launch {
+        taskEventChannel.send(HomeStateEvent.NavigateToProductDetails(product))
+    }
 }
 
 sealed class HomeStateEvent {
@@ -149,6 +153,8 @@ sealed class HomeStateEvent {
     object FetchFeaturedProducts : HomeStateEvent()
 
     data class NavigateToCategory(val category: Category) : HomeStateEvent()
+
+    data class NavigateToProductDetails(val product: Product) : HomeStateEvent()
 
     object None : HomeStateEvent()
 }

@@ -10,6 +10,7 @@ import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
+import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bunonbasket.R
@@ -33,7 +34,7 @@ class ProductListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_list)
-        setSupportActionBar(binding.myToolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.apply {

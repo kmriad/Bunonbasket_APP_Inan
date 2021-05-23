@@ -45,7 +45,7 @@
                     android:layout_marginRight="@dimen/margin_12"
                     android:layout_marginEnd="@dimen/margin_12"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/viewAllButton"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -81,6 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:paddingBottom="@dimen/margin_12"
                     app:setProducts="@{data.products}"
                     tools:listitem="@layout/sub_category_product_item_layout" />
 

@@ -38,15 +38,14 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        setSupportActionBar(binding.toolbar)
+       //setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         var childFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)
         val navHostController =
             childFragment as NavHostFragment
         navController = navHostController.findNavController()
-        setupActionBarWithNavController(navController)
-
+        binding.toolbar.setupWithNavController(navController)
 
         binding.bottomNavigationView.setupWithNavController(navController)
         subscribeObservers()

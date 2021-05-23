@@ -13,6 +13,12 @@
             android:background="@color/background_white"
             tools:context=".ui.component.bazar.UploadBazarActivity">
 
+            <SurfaceView
+                android:id="@+id/surfaceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -83,7 +89,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:orientation="horizontal">
 
                     <TextView
@@ -111,7 +116,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:orientation="horizontal">
 
                     <TextView
@@ -138,13 +142,14 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/representative_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/standard_margin"
-                android:background="@drawable/light_grey_box"
                 android:padding="@dimen/standard_margin"
+                app:strokeWidth=".5dp"
+                app:strokeColor="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -155,9 +160,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/standard_margin"
                     android:text="@string/upload_bazar_message" />
 
-            </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,9 +183,9 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGallery"
                         android:layout_width="@dimen/button_width"
                         android:layout_height="@dimen/button_size"
-                        android:id="@+id/btnGallery"
                         android:backgroundTint="@color/green_opacity"
                         android:insetLeft="0dp"
                         android:insetTop="0dp"
@@ -193,9 +199,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center_horizontal"
                         android:text="@string/open_gallery"
-                        android:layout_marginTop="@dimen/margin_small"
                         android:textAlignment="center" />
 
                 </LinearLayout>
@@ -210,9 +216,9 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCamera"
                         android:layout_width="@dimen/button_width"
                         android:layout_height="@dimen/button_size"
-                        android:id="@+id/btnCamera"
                         android:backgroundTint="@color/green"
                         android:insetLeft="0dp"
                         android:insetTop="0dp"
@@ -226,9 +232,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center_horizontal"
                         android:text="@string/open_camera"
-                        android:layout_marginTop="@dimen/margin_small"
                         android:textAlignment="center" />
                 </LinearLayout>
 

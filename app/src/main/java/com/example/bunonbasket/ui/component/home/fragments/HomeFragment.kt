@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.bunonbasket.R
-import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.banner.Banner
+import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.Product
@@ -37,7 +37,8 @@ import kotlinx.coroutines.flow.collect
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemClickListener,
+    ProductAdapter.OnItemClickListener {
 
 
     private val homeViewModel: HomeViewModel by viewModels()
@@ -86,12 +87,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                 layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
             }
 
-            featuredProductAdapter = ProductAdapter()
+            featuredProductAdapter = ProductAdapter(this@HomeFragment)
             binding.featuredRecyclerView.apply {
                 adapter = featuredProductAdapter
                 layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
             }
-            bestSellingProductAdapter = ProductAdapter()
+            bestSellingProductAdapter = ProductAdapter(this@HomeFragment)
             binding.bestSellingRecyclerView.apply {
                 adapter = bestSellingProductAdapter
                 layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
@@ -108,6 +109,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                         val action = HomeFragmentDirections.actionHomeFragmentToCategoryFragment(
                             event.category
                         )
+                        findNavController().navigate(action)
+                    }
+
+                    is HomeStateEvent.NavigateToProductDetails -> {
+                        val action =
+                            HomeFragmentDirections.actionHomeFragmentToProductDetailsActivity2(
+                                event.product
+                            )
                         findNavController().navigate(action)
                     }
                 }
@@ -242,6 +251,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
 
     override fun onItemClick(category: Category) {
         homeViewModel.onCategoryClicked(category)
+    }
+
+    override fun onItemClick(product: Product?) {
+        homeViewModel.onProductClicked(product!!)
     }
 
 }

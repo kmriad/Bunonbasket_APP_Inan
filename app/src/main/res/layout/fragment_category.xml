@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/standard_margin"
             android:text="@string/all_categories"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -12,11 +12,25 @@ import com.example.bunonbasket.databinding.HomeProductItemLayoutBinding
 /**
  * Created by inan on 1/5/21
  */
-class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback()) {
+class ProductAdapter(
+    private val listener: OnItemClickListener,
+) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback()) {
 
     inner class ProductViewHolder(private val binding: HomeProductItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if(position!=RecyclerView.NO_POSITION){
+                        val product = getItem(position)
+                        listener.onItemClick(product = product)
+                    }
+
+                }
+            }
+        }
         fun bind(product: Product?) {
             binding.data = product
             if (product!!.discount > 0) {
@@ -26,6 +40,10 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(Di
             }
         }
 
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(product: Product?)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Product>() {

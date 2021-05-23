@@ -4,8 +4,11 @@ package com.example.bunonbasket.ui.component.bazar
 import android.Manifest
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
+import android.os.Build
 import android.os.Bundle
 import android.view.SurfaceView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -25,6 +28,7 @@ class UploadBazarActivity : AppCompatActivity() {
     private val surfaceView: SurfaceView? = null
     private val disposable: Disposable? = null
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
@@ -40,8 +44,15 @@ class UploadBazarActivity : AppCompatActivity() {
                         Observable.just(true)
                     else rxPermissions.request(Manifest.permission.CAMERA)
                 }
-                .subscribe {
-
+                .subscribe { permission ->
+                    when {
+                        true -> {
+                            Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show()
+                        }
+                        false -> {
+                            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)
+                        }
+                    }
                 }
         }
 
@@ -71,4 +82,5 @@ class UploadBazarActivity : AppCompatActivity() {
             permission
         ) == PackageManager.PERMISSION_GRANTED;
     }
+
 }

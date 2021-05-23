@@ -79,6 +79,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="productDetailsActivity">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="624" />
+                            <option name="y" value="512" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="productListActivity">
                     <value>
                       <LayoutPositions>

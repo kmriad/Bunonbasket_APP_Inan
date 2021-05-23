@@ -12,22 +12,40 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_height="?attr/actionBarSize"
             android:elevation="@dimen/margin_small"
-            android:theme="@style/ToolbarTheme"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
+            android:background="@color/white"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/margin_large"
-                android:layout_gravity="center"
-                android:src="@drawable/bb_logo" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingEnd="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin"
+                    android:src="@drawable/ic_bell" />
+
+                <ImageView
+                    android:id="@+id/toolbarTitle"
+                    android:layout_width="@dimen/category_list_width"
+                    android:layout_height="@dimen/margin_large"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/bb_logo"
+                   />
+
+            </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
