@@ -55,9 +55,6 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                 adapter = categoryAdapter
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             }
-
-
-
             subCategoryAdapter =
                 SubCategoryAdapter(
                     this@CategoryFragment,

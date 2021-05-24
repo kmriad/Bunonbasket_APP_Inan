@@ -2,6 +2,7 @@ package com.example.bunonbasket.data.repository.remote
 
 import android.util.Log
 import com.example.bunonbasket.data.models.banner.Banner
+import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
@@ -9,6 +10,7 @@ import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
+import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.delay
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class RemoteRepository @Inject constructor(
     private val bunonRetrofit: BunonRetrofit,
 ) : RemoteRepositorySource {
+
     override suspend fun fetchBanners(): Flow<Resource<BaseModel<Banner>>> = flow {
         emit(Resource.Loading)
         try {
@@ -86,6 +89,17 @@ class RemoteRepository @Inject constructor(
             }
         }
 
+    override suspend fun fetchProductDetails(id: String): Flow<Resource<BaseDetailsModel<ProductDetails>>> =
+        flow {
+            emit(Resource.Loading)
+            try {
+                val productDetails = bunonRetrofit.fetchProductDetails(productId = id)
+                emit(Resource.Success(productDetails))
+            } catch (e: Exception) {
+                emit(Resource.Error(e))
+            }
+        }
+
     override suspend fun fetchProductBySubCategories(
         id: String,
         page: Int,
@@ -115,6 +129,4 @@ class RemoteRepository @Inject constructor(
             throw e
         }
     }
-
-
 }

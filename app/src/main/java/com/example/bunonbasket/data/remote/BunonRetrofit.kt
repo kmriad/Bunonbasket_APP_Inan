@@ -1,10 +1,15 @@
 package com.example.bunonbasket.data.remote
 
 import com.example.bunonbasket.data.models.banner.Banner
+import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
-import com.example.bunonbasket.data.models.category.*
+import com.example.bunonbasket.data.models.category.Category
+import com.example.bunonbasket.data.models.category.PaginatedModel
+import com.example.bunonbasket.data.models.category.Product
+import com.example.bunonbasket.data.models.category.SubCategory
+import com.example.bunonbasket.data.models.product.ProductDetails
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -46,4 +51,8 @@ interface BunonRetrofit {
         @Query("per_page") perPage: Int
     ): BasePaginatedModel<PaginatedModel>
 
+    @GET("product/{product_id}")
+    suspend fun fetchProductDetails(
+        @Path(value = "product_id") productId: String,
+    ): BaseDetailsModel<ProductDetails>
 }

@@ -12,8 +12,11 @@
     <dimen name="standard_text_size">16sp</dimen>
     <dimen name="size_24">24dp</dimen>
     <dimen name="category_size">100dp</dimen>
+    <dimen name="section_height">93dp</dimen>
     <dimen name="product_height">200dp</dimen>
     <dimen name="bajar_list_height">270dp</dimen>
     <dimen name="category_list_width">130dp</dimen>
     <dimen name="button_width">142dp</dimen>
+    <dimen name="pager_height">220dp</dimen>
+    <dimen name="size_width">80dp</dimen>
 </resources>
