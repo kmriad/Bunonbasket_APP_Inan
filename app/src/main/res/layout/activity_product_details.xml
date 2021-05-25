@@ -8,6 +8,7 @@
         <variable
             name="data"
             type="com.example.bunonbasket.data.models.product.ProductDetails" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,8 +49,8 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bottomSection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -59,179 +60,168 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/imagePager"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/imagePagerSection"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pager_height"
+                    android:background="@color/light_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/imagePager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/indicatorTab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:padding="@dimen/margin_small"
+                        android:translationY="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1"
+                        app:tabBackground="@drawable/indicator_selector"
+                        app:tabGravity="center"
+                        app:tabIndicatorHeight="0dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:id="@+id/headerSection"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_size"
+                    android:layout_height="@dimen/size_64"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingStart="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingEnd="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imagePager"
+                    app:layout_constraintTop_toBottomOf="@id/imagePagerSection"
                     app:layout_constraintVertical_bias="0.0">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_12"
-                        android:layout_marginLeft="@dimen/margin_12"
                         android:layout_weight="1"
                         android:ellipsize="end"
-                        android:gravity="center_horizontal"
                         android:maxLines="1"
                         android:scrollHorizontally="true"
                         android:text="@{data.name}"
-                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black45" />
+                        android:textColor="@color/black45"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_12"
-                        android:layout_marginRight="@dimen/margin_12"
                         android:layout_weight="1"
-                        android:gravity="center_horizontal"
+                        android:gravity="end"
                         android:text="@{data.current_stock>0?@string/in_stock : @string/out_of_stock}"
-                        android:textAlignment="center"
+                        android:textAlignment="viewEnd"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/green" />
 
                 </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/unitSection"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/choiceOptions"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_60"
-                    app:cardCornerRadius="0dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/headerSection"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:strokeColor="@color/light_gray"
-                    app:strokeWidth="0.5dp">
+                    app:layout_constraintVertical_bias="0.0" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="@dimen/size_width"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/grey_box">
-
-                            <TextView
-                                android:id="@+id/sizeText"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="@string/size"
-                                android:textAlignment="center"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                        </RelativeLayout>
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/unitListView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/priceSection"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/section_height"
-                    app:cardCornerRadius="0dp"
                     android:background="@drawable/light_grey_box"
                     android:orientation="horizontal"
+                    android:paddingStart="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingEnd="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin"
+                    app:cardCornerRadius="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/unitSection"
+                    app:layout_constraintTop_toBottomOf="@id/choiceOptions"
                     app:layout_constraintVertical_bias="0.0">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"
                         android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/size_60"
-                        android:layout_marginLeft="@dimen/size_60"
+                        android:layout_weight="1"
                         android:text="@string/price_title"
-                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black45" />
+                        android:textColor="@color/black45"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/size_60"
-                        android:layout_marginRight="@dimen/size_60"
+                        android:layout_weight="1"
+                        android:gravity="end"
                         android:text="@{String.valueOf(data.unit_price).concat(@string/price)}"
-                        android:textAlignment="center"
+                        android:textAlignment="viewEnd"
                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         android:textColor="@color/orange" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/quantitySection"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/section_height"
                     android:background="@drawable/light_grey_box"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingEnd="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/priceSection">
+                    app:layout_constraintTop_toBottomOf="@id/priceSection"
+                    app:layout_constraintVertical_bias="0.0">
 
                     <TextView
                         android:id="@+id/quantityTitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/size_60"
-                        android:layout_marginLeft="@dimen/size_60"
+                        android:layout_weight="1"
                         android:text="@string/quantity_title"
-                        android:textAlignment="center"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black45" />
+                        android:textColor="@color/black45"
+                        android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_marginStart="@dimen/button_size"
-                        android:layout_marginLeft="@dimen/button_size"
-                        android:layout_toEndOf="@id/quantityTitle"
-                        android:layout_toRightOf="@id/quantityTitle"
+                        android:layout_weight="1"
+                        android:gravity="end"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -258,6 +248,66 @@
 
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/descriptionSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/quantitySection"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <RelativeLayout
+                        android:id="@+id/descriptionHeaderSection"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_64"
+                        android:layout_marginStart="@dimen/standard_margin"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:layout_marginEnd="@dimen/standard_margin"
+                        android:layout_marginRight="@dimen/standard_margin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/description"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/openDescriptionBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_bottom" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/descriptionBody"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_marginStart="@dimen/standard_margin"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:layout_marginEnd="@dimen/standard_margin"
+                        android:layout_marginRight="@dimen/standard_margin"
+                        android:layout_below="@id/descriptionHeaderSection"
+                        android:layout_height="@dimen/category_size">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            android:scrollHorizontally="true"
+                            android:text="@{data.description}" />
+                    </RelativeLayout>
+
                 </RelativeLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -265,8 +315,10 @@
         </androidx.core.widget.NestedScrollView>
 
         <RelativeLayout
+            android:id="@+id/bottomSection"
             android:layout_width="match_parent"
             android:layout_height="@dimen/category_size"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -2,17 +2,26 @@ package com.example.bunonbasket.ui.component.details
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.databinding.ActivityProductDetailsBinding
+import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsAdapter
+import com.example.bunonbasket.ui.component.details.adapters.ProductImageViewPagerAdapter
 import com.example.bunonbasket.utils.Resource
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -22,16 +31,37 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var binding: ActivityProductDetailsBinding
     private val args: ProductDetailsActivityArgs by navArgs()
     private val viewModel: ProductDetailsViewModel by viewModels()
+    lateinit var viewPagerAdapter: ProductImageViewPagerAdapter
+    lateinit var choiceOptionsAdapter: ChoiceOptionsAdapter
+    private var isSidePanelShown: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_BunonBasket)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_details)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.apply {
-            viewModel.fetchProductDetails(ProductDetailsEvent.FetchProductDetails(args.product.id.toString()))
-            subscribeObservers()
+            viewPagerAdapter = ProductImageViewPagerAdapter()
+            choiceOptionsAdapter = ChoiceOptionsAdapter()
+            binding.imagePager.apply {
+                adapter = viewPagerAdapter
+            }
+            TabLayoutMediator(binding.indicatorTab, binding.imagePager) { tab, position ->
+            }.attach()
+
+            binding.choiceOptions.apply {
+                adapter = choiceOptionsAdapter
+                layoutManager = LinearLayoutManager(
+                    this@ProductDetailsActivity,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+            }
+            binding.openDescriptionBtn.setOnClickListener {
+                toggle(isSidePanelShown)
+            }
         }
     }
 
@@ -41,6 +71,8 @@ class ProductDetailsActivity : AppCompatActivity() {
                 is Resource.Success<BaseDetailsModel<ProductDetails>> -> {
                     dataState.data.let { productModel ->
                         binding.data = productModel.results
+                        viewPagerAdapter.submitList(productModel.results.photos)
+                        choiceOptionsAdapter.submitList(productModel.results.choice_options)
                     }
                 }
             }
@@ -63,4 +95,13 @@ class ProductDetailsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun toggle(show: Boolean) {
+        val transition: Transition = Slide(Gravity.BOTTOM)
+        transition.duration = 600
+        transition.addTarget(binding.descriptionBody)
+        TransitionManager.beginDelayedTransition(binding.descriptionBody, transition)
+        binding.descriptionBody.visibility = if (!show) View.VISIBLE else View.GONE
+        binding.descriptionBody.bringToFront()
+        isSidePanelShown = !isSidePanelShown
+    }
 }

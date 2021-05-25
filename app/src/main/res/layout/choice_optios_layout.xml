@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.example.bunonbasket.data.models.product.ChoiceOption" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_64"
+        android:background="@drawable/light_grey_box">
+
+        <RelativeLayout
+            android:id="@+id/choiceTitle"
+            android:layout_width="@dimen/category_size"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:text="@{data.title}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/optionItemRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/size_64"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/choiceTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setOptions="@{data.options}"
+            tools:listitem="@layout/choice_option_item_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

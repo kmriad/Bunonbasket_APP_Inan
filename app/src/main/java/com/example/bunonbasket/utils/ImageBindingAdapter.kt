@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.category.Product
+import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsItemAdapter
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryProductAdapter
 
 /**
@@ -31,4 +32,26 @@ fun RecyclerView.setProducts(products: List<Product>) {
     val subCategoryProductAdapter = SubCategoryProductAdapter()
     subCategoryProductAdapter.submitList(products)
     adapter = subCategoryProductAdapter
+}
+
+@BindingAdapter("app:setOptions")
+fun RecyclerView.setOptions(options: List<String>) {
+    val optionsItemAdapter = ChoiceOptionsItemAdapter()
+    optionsItemAdapter.submitList(options)
+    adapter = optionsItemAdapter
+}
+
+
+@BindingAdapter("app:setProductImageUrl")
+fun setProductImageUrl(imageView: ImageView, url: String?) {
+    if (!url.isNullOrEmpty()) {
+        val fullUrl = "${Constants.BASE_URL}$url"
+        Glide.with((imageView.context.applicationContext))
+            .load(fullUrl)
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_placeholder)
+            .fitCenter()
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .into(imageView)
+    }
 }

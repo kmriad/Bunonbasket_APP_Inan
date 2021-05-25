@@ -37,4 +37,5 @@
     <string name="price_title" translatable="false">Price</string>
     <string name="quantity_title">Quantity:</string>
     <string name="_1">1</string>
+    <string name="description">Description</string>
 </resources>

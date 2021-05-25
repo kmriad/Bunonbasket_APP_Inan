@@ -11,6 +11,7 @@
     <dimen name="small_text_size">10sp</dimen>
     <dimen name="standard_text_size">16sp</dimen>
     <dimen name="size_24">24dp</dimen>
+    <dimen name="size_64">64dp</dimen>
     <dimen name="category_size">100dp</dimen>
     <dimen name="section_height">93dp</dimen>
     <dimen name="product_height">200dp</dimen>
