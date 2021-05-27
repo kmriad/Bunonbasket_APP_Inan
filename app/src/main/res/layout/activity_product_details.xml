@@ -299,11 +299,12 @@
                         android:layout_below="@id/descriptionHeaderSection"
                         android:layout_height="@dimen/category_size">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="3"
+                            android:id="@+id/descriptionText"
                             android:scrollHorizontally="true"
                             android:text="@{data.description}" />
                     </RelativeLayout>

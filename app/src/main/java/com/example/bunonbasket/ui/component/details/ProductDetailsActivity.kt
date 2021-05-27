@@ -43,6 +43,8 @@ class ProductDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.apply {
+
+            viewModel.fetchProductDetails(ProductDetailsEvent.FetchProductDetails(args.product.id.toString()))
             viewPagerAdapter = ProductImageViewPagerAdapter()
             choiceOptionsAdapter = ChoiceOptionsAdapter()
             binding.imagePager.apply {
@@ -62,6 +64,8 @@ class ProductDetailsActivity : AppCompatActivity() {
             binding.openDescriptionBtn.setOnClickListener {
                 toggle(isSidePanelShown)
             }
+
+            subscribeObservers()
         }
     }
 
@@ -101,6 +105,13 @@ class ProductDetailsActivity : AppCompatActivity() {
         transition.addTarget(binding.descriptionBody)
         TransitionManager.beginDelayedTransition(binding.descriptionBody, transition)
         binding.descriptionBody.visibility = if (!show) View.VISIBLE else View.GONE
+        if (!isSidePanelShown) {
+            binding.priceSection.visibility = View.GONE
+            binding.quantitySection.visibility = View.GONE
+        } else {
+            binding.priceSection.visibility = View.VISIBLE
+            binding.quantitySection.visibility = View.VISIBLE
+        }
         binding.descriptionBody.bringToFront()
         isSidePanelShown = !isSidePanelShown
     }

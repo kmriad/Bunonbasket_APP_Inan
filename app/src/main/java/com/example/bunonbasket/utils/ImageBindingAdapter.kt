@@ -48,8 +48,8 @@ fun setProductImageUrl(imageView: ImageView, url: String?) {
         val fullUrl = "${Constants.BASE_URL}$url"
         Glide.with((imageView.context.applicationContext))
             .load(fullUrl)
-            .placeholder(R.drawable.ic_placeholder)
-            .error(R.drawable.ic_placeholder)
+            .placeholder(R.drawable.placeholder2)
+            .error(R.drawable.placeholder2)
             .fitCenter()
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(imageView)

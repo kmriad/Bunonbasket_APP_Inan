@@ -35,7 +35,8 @@
     <string name="out_of_stock" translatable="false">Out of Stock</string>
     <string name="size" translatable="false">Size</string>
     <string name="price_title" translatable="false">Price</string>
-    <string name="quantity_title">Quantity:</string>
-    <string name="_1">1</string>
-    <string name="description">Description</string>
+    <string name="quantity_title" translatable="false">Quantity:</string>
+    <string name="_1" translatable="false">1</string>
+    <string name="description" translatable="false">Description</string>
+    <string name="description_body" translatable="false">Description not available</string>
 </resources>
