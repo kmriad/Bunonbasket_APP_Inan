@@ -1,5 +1,6 @@
 package com.example.bunonbasket.data.repository.remote
 
+import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.banner.Banner
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
@@ -35,4 +36,9 @@ interface RemoteRepositorySource {
         page: Int,
         perPage: Int
     ): BasePaginatedModel<PaginatedModel>
+
+    suspend fun loginUser(
+        email: String,
+        password: String
+    ): BaseDetailsModel<LoginModel>
 }

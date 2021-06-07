@@ -3,6 +3,7 @@ package com.example.bunonbasket.ui.component
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,15 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bunonbasket.R
 import com.example.bunonbasket.databinding.ActivityHomeBinding
 import com.example.bunonbasket.ui.component.bazar.UploadBazarActivity
 import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.ui.component.home.HomeViewModel
-import com.example.bunonbasket.ui.component.home.products.ProductListActivity
 import com.example.bunonbasket.utils.Constants.SHOWCASE_ID
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-       //setSupportActionBar(binding.toolbar)
+        //setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         var childFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)
@@ -46,6 +44,19 @@ class HomeActivity : AppCompatActivity() {
             childFragment as NavHostFragment
         navController = navHostController.findNavController()
         binding.toolbar.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.accountFragment -> {
+                    supportActionBar?.hide()
+                    binding.toolbar.visibility = View.GONE
+                }
+                else -> {
+                    supportActionBar?.show()
+                    binding.toolbar.visibility = View.VISIBLE
+                }
+            }
+        }
 
         binding.bottomNavigationView.setupWithNavController(navController)
         subscribeObservers()

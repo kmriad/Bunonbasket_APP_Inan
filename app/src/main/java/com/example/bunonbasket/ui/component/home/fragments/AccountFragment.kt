@@ -1,10 +1,10 @@
 package com.example.bunonbasket.ui.component.home.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.bunonbasket.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +28,7 @@ class AccountFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
@@ -57,4 +58,5 @@ class AccountFragment : Fragment() {
                 }
             }
     }
+
 }

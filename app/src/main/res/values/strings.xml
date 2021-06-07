@@ -39,4 +39,5 @@
     <string name="_1" translatable="false">1</string>
     <string name="description" translatable="false">Description</string>
     <string name="description_body" translatable="false">Description not available</string>
+    <string name="log_in">Log In</string>
 </resources>

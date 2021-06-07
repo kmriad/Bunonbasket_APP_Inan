@@ -1,6 +1,7 @@
 package com.example.bunonbasket.data.repository.remote
 
 import android.util.Log
+import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.banner.Banner
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
@@ -16,6 +17,9 @@ import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -38,7 +42,6 @@ class RemoteRepository @Inject constructor(
 
     override suspend fun fetchCategories(): Flow<Resource<BaseModel<Category>>> = flow {
         emit(Resource.Loading)
-        delay(1000)
         try {
             val categories = bunonRetrofit.fetchCategories()
             emit(Resource.Success(categories))
@@ -125,6 +128,20 @@ class RemoteRepository @Inject constructor(
         try {
             val products = bunonRetrofit.fetchAllProducts(query, page, perPage)
             return products
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    override suspend fun loginUser(email: String, password: String): BaseDetailsModel<LoginModel> {
+        try {
+            val jsonObject = JSONObject()
+            jsonObject.put("email", email)
+            jsonObject.put("password", password)
+            val jsonObjectString = jsonObject.toString()
+            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+            val loginModel = bunonRetrofit.loginUser(requestBody)
+            return loginModel
         } catch (e: Exception) {
             throw e
         }

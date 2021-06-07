@@ -1,5 +1,6 @@
 package com.example.bunonbasket.data.remote
 
+import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.banner.Banner
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
@@ -10,9 +11,8 @@ import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.product.ProductDetails
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 /**
  * Created by inan on 21/4/21
@@ -55,4 +55,8 @@ interface BunonRetrofit {
     suspend fun fetchProductDetails(
         @Path(value = "product_id") productId: String,
     ): BaseDetailsModel<ProductDetails>
+
+    @POST("api/login")
+    @FormUrlEncoded
+    suspend fun loginUser(@Body body: RequestBody): BaseDetailsModel<LoginModel>
 }
