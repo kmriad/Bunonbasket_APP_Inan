@@ -48,6 +48,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_categoryFragment_to_productDetailsActivity">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_categoryFragment_to_productListActivity">
                               <value>
                                 <LayoutPositions />
@@ -74,7 +79,24 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_homeFragment_to_productDetailsActivity2">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="loginActivity">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="442" />
+                            <option name="y" value="788" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

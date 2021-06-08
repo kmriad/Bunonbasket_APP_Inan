@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
+        <activity android:name=".ui.component.login.LoginActivity"></activity>
         <activity
             android:name=".ui.component.details.ProductDetailsActivity"
             android:launchMode="singleTop"
@@ -22,7 +23,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.component.HomeActivity" />
-
         </activity>
         <activity
             android:name=".ui.component.bazar.UploadBazarActivity"

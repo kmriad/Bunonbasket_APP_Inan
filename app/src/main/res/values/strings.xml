@@ -40,4 +40,9 @@
     <string name="description" translatable="false">Description</string>
     <string name="description_body" translatable="false">Description not available</string>
     <string name="log_in">Log In</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="rating">Rate Our App</string>
+    <string name="login">Login</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
 </resources>
