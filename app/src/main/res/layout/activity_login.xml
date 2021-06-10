@@ -4,117 +4,225 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="data"
+            type="com.example.bunonbasket.ui.component.login.LoginViewModel" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        tools:context=".ui.component.login.LoginActivity">
+        android:isScrollContainer="true">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@color/white"
-            android:elevation="0dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            tools:context=".ui.component.login.LoginActivity">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                android:elevation="0dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <ImageView
+                android:id="@+id/bunonLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:src="@drawable/bb_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintVertical_bias="0.03" />
+
+            <TextView
+                android:id="@+id/loginText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_back" />
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/login"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/black181"
+                app:layout_constraintBottom_toTopOf="@+id/phoneNumberText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bunonLogo"
+                app:layout_constraintVertical_bias="0.1"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-        </androidx.appcompat.widget.Toolbar>
+            <TextView
+                android:id="@+id/phoneNumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/margin_large"
+                android:fontFamily="@font/poppins"
+                android:text="@string/phone_number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black181"
+                app:layout_constraintBottom_toTopOf="@+id/phoneNumberInputField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginText"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-        <ImageView
-            android:id="@+id/bunonLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bb_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintVertical_bias="0.1" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneNumberInputField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/size_24"
+                android:layout_marginRight="@dimen/size_24"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/black181"
+                app:errorEnabled="true"
+                app:layout_constraintBottom_toTopOf="@id/passwordText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phoneNumberText"
+                app:layout_constraintVertical_chainStyle="packed">
 
-        <TextView
-            android:id="@+id/loginText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:text="@string/login"
-            android:textColor="@color/black181"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            app:layout_constraintBottom_toTopOf="@+id/phoneNumberText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.2"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bunonLogo" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_white"
+                    android:backgroundTint="@color/background_white"
+                    android:fontFamily="@font/poppins"
+                    android:hint="@string/_018xxxxxxxx"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:text="@{data.phoneNumber}"
+                    android:onTextChanged="@{(text, start, before, count) -> data.onPhoneNumberChanged(text)}"
+                    android:textColor="@color/black181" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/phoneNumberText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:text="@string/phone_number"
-            app:layout_constraintBottom_toTopOf="@+id/passwordText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginText" />
+            <TextView
+                android:id="@+id/passwordText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:fontFamily="@font/poppins"
+                android:text="@string/password"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black181"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phoneNumberInputField"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-        <TextView
-            android:id="@+id/passwordText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:text="@string/password"
-            app:layout_constraintBottom_toTopOf="@id/passwordText2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordInputField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/size_24"
+                android:layout_marginRight="@dimen/size_24"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                app:errorEnabled="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordText"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:passwordToggleEnabled="true">
 
-        <TextView
-            android:id="@+id/passwordText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:text="@string/password"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_white"
+                    android:backgroundTint="@color/background_white"
+                    android:fontFamily="@font/poppins"
+                    android:hint="@string/password"
+                    android:maxLines="1"
+                    android:text="@{data.password}"
+                    android:onTextChanged="@{(text, start, before, count) -> data.onPasswordChanged(text)}"
+                    android:textColor="@color/black181" />
 
-        <TextView
-            android:id="@+id/passwordText3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginLeft="@dimen/standard_margin"
-            android:text="@string/password"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toBottomOf="@+id/passwordText2" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/forgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size_24"
+                android:layout_marginRight="@dimen/size_24"
+                android:fontFamily="@font/poppins"
+                android:text="@string/forget_password"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black181"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passwordInputField"
+                app:layout_constraintVertical_bias="0.1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_72"
+                android:layout_marginStart="@dimen/size_24"
+                android:layout_marginEnd="@dimen/size_24"
+                android:fontFamily="@font/poppins"
+                android:onClick="@{(v) -> data.loginButtonClicked()}"
+                android:text="@string/log_in"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/green"
+                app:cornerRadius="@dimen/margin_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/forgetPassword"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginBottom="@dimen/size_24"
+                android:fontFamily="@font/poppins"
+                android:text="@string/don_t_have_an_account_please_sign_up"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black181"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

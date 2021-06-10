@@ -1,5 +1,6 @@
 package com.example.bunonbasket.data.repository.cache
 
+import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -9,10 +10,13 @@ import kotlinx.coroutines.flow.Flow
 interface CacheRepositorySource {
 
     //app intro and showcaseview
-    suspend fun  saveAppIntro():Flow<Resource<Boolean>>
-    suspend fun  loadAppIntro():Flow<Resource<Boolean>>
-    suspend fun  saveShowCase():Flow<Resource<Boolean>>
-    suspend fun  loadShowCase():Flow<Resource<Boolean>>
+    suspend fun saveAppIntro(): Flow<Resource<Boolean>>
+    suspend fun loadAppIntro(): Flow<Resource<Boolean>>
+    suspend fun saveShowCase(): Flow<Resource<Boolean>>
+    suspend fun loadShowCase(): Flow<Resource<Boolean>>
 
-
+    //user
+    suspend fun createUser(loginModel: LoginModel): Flow<Resource<Long>>
+    suspend fun getUserDetails(): Flow<Resource<List<LoginModel>>>
+    suspend fun deleteUser(loginModel: LoginModel)
 }

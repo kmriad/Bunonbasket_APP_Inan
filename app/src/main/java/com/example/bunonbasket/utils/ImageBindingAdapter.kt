@@ -1,5 +1,6 @@
 package com.example.bunonbasket.utils
 
+import android.text.TextWatcher
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsItemAdapter
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryProductAdapter
+import com.google.android.material.textfield.TextInputEditText
 
 /**
  * Created by inan on 22/4/21
@@ -54,4 +56,9 @@ fun setProductImageUrl(imageView: ImageView, url: String?) {
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(imageView)
     }
+}
+
+@BindingAdapter("textChangedListener")
+fun bindTextWatcher(editText: TextInputEditText, textWatcher: TextWatcher) {
+    editText.addTextChangedListener(textWatcher)
 }

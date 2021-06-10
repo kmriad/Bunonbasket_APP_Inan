@@ -39,10 +39,13 @@
     <string name="_1" translatable="false">1</string>
     <string name="description" translatable="false">Description</string>
     <string name="description_body" translatable="false">Description not available</string>
-    <string name="log_in">Log In</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="rating">Rate Our App</string>
-    <string name="login">Login</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="password">Password</string>
+    <string name="log_in" translatable="false">Log In</string>
+    <string name="privacy_policy" translatable="false">Privacy Policy</string>
+    <string name="rating" translatable="false">Rate Our App</string>
+    <string name="login" translatable="false">Login</string>
+    <string name="phone_number" translatable="false">Phone Number</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="_018xxxxxxxx" translatable="false">018xxxxxxxx</string>
+    <string name="forget_password" translatable="false">Forget Password?</string>
+    <string name="don_t_have_an_account_please_sign_up" translatable="false">Don\'t have an account? Please Sign up</string>
 </resources>

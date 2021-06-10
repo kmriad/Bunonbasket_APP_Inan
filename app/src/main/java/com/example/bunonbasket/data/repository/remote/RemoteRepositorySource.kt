@@ -38,7 +38,7 @@ interface RemoteRepositorySource {
     ): BasePaginatedModel<PaginatedModel>
 
     suspend fun loginUser(
-        email: String,
-        password: String
-    ): BaseDetailsModel<LoginModel>
+        phone: String?,
+        password: String?
+    ): Flow<Resource<BaseDetailsModel<LoginModel>>>
 }

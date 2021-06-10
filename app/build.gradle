@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id "com.google.protobuf" version "0.8.16"
 }
 
 apply plugin: 'kotlin-kapt'
@@ -104,4 +105,15 @@ dependencies {
     //rxbinding
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
 
+    //dataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0-beta01")
+    implementation("androidx.datastore:datastore:1.0.0-beta01")
+
+    //room
+    def room_version = "2.3.0"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation("androidx.room:room-ktx:$room_version")
 }
+

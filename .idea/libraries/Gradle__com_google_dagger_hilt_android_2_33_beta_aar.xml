@@ -3,8 +3,9 @@
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5df450ba5d170bfbe4e58f45e3686a6d/jetified-hilt-android-2.33-beta/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/db4d8155cca6e961379275a020814731/jetified-hilt-android-2.33-beta/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/342fa162e8736f14765662345d17dae2/jetified-hilt-android-2.33-beta/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/342fa162e8736f14765662345d17dae2/jetified-hilt-android-2.33-beta/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5e51cb3b3ba3f3ed43fe7aa9ece4409a/jetified-hilt-android-2.33-beta/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/342fa162e8736f14765662345d17dae2/jetified-hilt-android-2.33-beta/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/342fa162e8736f14765662345d17dae2/jetified-hilt-android-2.33-beta/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>

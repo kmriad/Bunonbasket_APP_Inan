@@ -14,5 +14,6 @@ object Constants {
 
     const val TYPE_ITEM: Int = 0
     const val TYPE_FOOTER: Int = 1
+    const val KEY_AUTH = "key_auth"
 
 }

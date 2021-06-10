@@ -1,10 +1,10 @@
 package com.example.bunonbasket.ui.component.home.fragments.account
 
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.bunonbasket.data.models.LoginModel
+import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
+import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -20,12 +20,17 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val remoteRepository: RemoteRepository,
+    private val cacheRepository: CacheRepository,
     private val state: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
 
     private val taskEventChannel = Channel<AccountStateEvent>()
     val accountStateEvent = taskEventChannel.receiveAsFlow()
 
+    private val _dataState: MutableLiveData<Resource<List<LoginModel>>> = MutableLiveData()
+
+    val dataState: LiveData<Resource<List<LoginModel>>>
+        get() = _dataState
 
     fun onLoginButtonClicked() = viewModelScope.launch {
         taskEventChannel.send(AccountStateEvent.NavigateToLoginActivity)
@@ -33,6 +38,7 @@ class AccountViewModel @Inject constructor(
 }
 
 sealed class AccountStateEvent {
+
 
     object NavigateToLoginActivity : AccountStateEvent()
 }

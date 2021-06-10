@@ -11,7 +11,6 @@ import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.product.ProductDetails
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -56,7 +55,10 @@ interface BunonRetrofit {
         @Path(value = "product_id") productId: String,
     ): BaseDetailsModel<ProductDetails>
 
-    @POST("api/login")
+    @POST("login")
     @FormUrlEncoded
-    suspend fun loginUser(@Body body: RequestBody): BaseDetailsModel<LoginModel>
+    suspend fun loginUser(
+        @Field("phone") phone: String,
+        @Field("password") password: String
+    ): BaseDetailsModel<LoginModel>
 }
