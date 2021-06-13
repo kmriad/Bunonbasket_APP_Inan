@@ -9,8 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.local.cache.DataStoreManager
 import com.example.bunonbasket.data.models.LoginModel
@@ -19,7 +17,6 @@ import com.example.bunonbasket.databinding.ActivityLoginBinding
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -49,33 +46,43 @@ class LoginActivity : AppCompatActivity() {
 
         binding.apply {
             binding.data = viewModel
-            viewModel.loginState.observe(this@LoginActivity, { dataState ->
-                when (dataState) {
-                    is Resource.Success<BaseDetailsModel<LoginModel>> -> {
-                        dataState.data.let { loginModel ->
-                            if (loginModel.results.token.isNotEmpty()) {
-                                lifecycleScope.launch {
-                                    dataStore.saveAuthToken(loginModel.results.token)
-                                }
-                            }
-                            val parentIntent = NavUtils.getParentActivityIntent(this@LoginActivity)
-                            parentIntent!!.flags =
-                                Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT or
-                                        Intent.FLAG_ACTIVITY_SINGLE_TOP or
-                                        Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-                            startActivity(parentIntent)
-                            finish()
-                        }
-                    }
-                    is Resource.Error -> {
-                        dataState.exception.let { e ->
-                            Log.d("LoginActivity", e.message.toString())
-                        }
+            subscribeObservers()
+        }
+    }
+
+    private fun subscribeObservers() {
+        viewModel.loginState.observe(this@LoginActivity, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseDetailsModel<LoginModel>> -> {
+                    dataState.data.let { loginModel ->
+                        viewModel.setStateEvent(
+                            LoginStateEvent.SaveUserProfile(
+                                loginModel = loginModel.results
+                            )
+                        )
                     }
                 }
-            })
+                is Resource.Error -> {
+                    dataState.exception.let { e ->
+                        Log.d("LoginActivity", e.message.toString())
+                    }
+                }
+            }
+        })
 
-        }
+        viewModel.saveUserState.observe(this, { dataState ->
+            when (dataState) {
+                is Resource.Success<Long> -> {
+                    val parentIntent = NavUtils.getParentActivityIntent(this)
+                    parentIntent!!.flags =
+                        Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT or
+                                Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                    startActivity(parentIntent)
+                    finish()
+                }
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

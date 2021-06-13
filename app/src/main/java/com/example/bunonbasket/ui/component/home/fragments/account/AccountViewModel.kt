@@ -8,6 +8,8 @@ import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,16 +31,17 @@ class AccountViewModel @Inject constructor(
 
     private val _dataState: MutableLiveData<Resource<List<LoginModel>>> = MutableLiveData()
 
+
     val dataState: LiveData<Resource<List<LoginModel>>>
         get() = _dataState
 
     fun onLoginButtonClicked() = viewModelScope.launch {
         taskEventChannel.send(AccountStateEvent.NavigateToLoginActivity)
     }
+
+
 }
 
 sealed class AccountStateEvent {
-
-
     object NavigateToLoginActivity : AccountStateEvent()
 }

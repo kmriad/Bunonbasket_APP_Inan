@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.bunonbasket.data.local.cache.DataStoreManager
 import com.example.bunonbasket.data.local.cache.LocalData
-import com.example.bunonbasket.data.local.db.BunonBasketDao
-import com.example.bunonbasket.data.local.db.BunonBasketDatabase
+import com.example.bunonbasket.data.local.db.UserDao
+import com.example.bunonbasket.data.local.db.UserDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,18 +35,18 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideBlogDb(@ApplicationContext context: Context): BunonBasketDatabase {
+    fun provideBlogDb(@ApplicationContext context: Context): UserDatabase {
         return Room.databaseBuilder(
             context,
-            BunonBasketDatabase::class.java,
-            BunonBasketDatabase.DATABASE_NAME,
+            UserDatabase::class.java,
+            UserDatabase.DATABASE_NAME,
         ).fallbackToDestructiveMigration()
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideBlogDao(blogDatabase: BunonBasketDatabase): BunonBasketDao {
-        return blogDatabase.bunonBasketDao()
+    fun provideBlogDao(userDatabase: UserDatabase): UserDao {
+        return userDatabase.userDao()
     }
 }

@@ -1,16 +1,16 @@
 package com.example.bunonbasket.di
 
 import com.example.bunonbasket.data.local.cache.LocalData
+import com.example.bunonbasket.data.local.db.CacheMapper
+import com.example.bunonbasket.data.local.db.UserDao
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.cache.CacheRepositorySource
-import com.example.bunonbasket.data.repository.remote.PaginatedDataSource
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepositorySource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -25,8 +25,10 @@ object DataModule {
     @Singleton
     fun provideDataRepository(
         localData: LocalData,
+        userDao: UserDao,
+        cacheMapper: CacheMapper
     ): CacheRepositorySource {
-        return CacheRepository(localData)
+        return CacheRepository(localData = localData, userDao = userDao, cacheMapper = cacheMapper)
     }
 
     @Provides
