@@ -48,4 +48,9 @@
     <string name="_018xxxxxxxx" translatable="false">018xxxxxxxx</string>
     <string name="forget_password" translatable="false">Forget Password?</string>
     <string name="don_t_have_an_account_please_sign_up" translatable="false">Don\'t have an account? Please Sign up</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="order_history">Order History</string>
+    <string name="delivery_status">Delivery Status</string>
+    <string name="language_address">Language</string>
 </resources>

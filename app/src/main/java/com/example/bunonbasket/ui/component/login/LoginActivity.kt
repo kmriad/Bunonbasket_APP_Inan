@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.local.cache.DataStoreManager
 import com.example.bunonbasket.data.models.LoginModel
@@ -17,6 +18,7 @@ import com.example.bunonbasket.databinding.ActivityLoginBinding
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -55,11 +57,10 @@ class LoginActivity : AppCompatActivity() {
             when (dataState) {
                 is Resource.Success<BaseDetailsModel<LoginModel>> -> {
                     dataState.data.let { loginModel ->
-                        viewModel.setStateEvent(
-                            LoginStateEvent.SaveUserProfile(
-                                loginModel = loginModel.results
-                            )
-                        )
+                        viewModel.saveUserProfile(loginModel.results)
+                        lifecycleScope.launch {
+                            dataStore.saveAuthToken(loginModel.results.token)
+                        }
                     }
                 }
                 is Resource.Error -> {

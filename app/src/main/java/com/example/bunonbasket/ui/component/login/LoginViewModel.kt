@@ -95,6 +95,10 @@ class LoginViewModel @Inject constructor(
     fun loginButtonClicked() {
         setStateEvent(LoginStateEvent.LoginUser(PhoneNumber.value, Password.value))
     }
+
+    fun saveUserProfile(loginModel: LoginModel) {
+        setStateEvent(LoginStateEvent.SaveUserProfile(loginModel))
+    }
 }
 
 

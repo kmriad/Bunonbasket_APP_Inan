@@ -26,4 +26,7 @@
     <dimen name="login_width">174dp</dimen>
     <dimen name="size_240">240dp</dimen>
     <dimen name="size_105">105dp</dimen>
+    <dimen name="size_500">700dp</dimen>
+    <dimen name="size_181">181dp</dimen>
+    <dimen name="size_260">260dp</dimen>
 </resources>

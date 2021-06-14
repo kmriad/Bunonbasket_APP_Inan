@@ -41,4 +41,8 @@ interface RemoteRepositorySource {
         phone: String?,
         password: String?
     ): Flow<Resource<BaseDetailsModel<LoginModel>>>
+
+    suspend fun addToCart(
+
+    )
 }
