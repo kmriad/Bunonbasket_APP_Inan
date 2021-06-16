@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="/private/var/folders/w5/wh4f0mv52cdf5wt6w5k10zdw0000gp/T/outline_language_24.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/w5/wh4f0mv52cdf5wt6w5k10zdw0000gp/T/round_arrow_forward_ios_24.xml" />
                                                 <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialiconsoutlined/language/outline_language_24.xml" />
+                                                <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialiconsround/arrow_forward_ios/round_arrow_forward_ios_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -68,8 +68,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_language" />
-                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="outputName" value="ic_forward_white" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="f29600" />
                                     </map>
                                   </option>

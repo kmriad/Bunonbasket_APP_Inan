@@ -13,7 +13,6 @@ import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.remote.BunonRetrofit
-import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -129,6 +128,28 @@ class RemoteRepository @Inject constructor(
                 bunonRetrofit.loginUser(phone.toString().trim(), password.toString().trim())
             emit(Resource.Success(loginModel))
         } catch (e: HttpException) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun registerUser(
+        name: String,
+        email: String,
+        phone: String,
+        password: String,
+        userType: String
+    ): Flow<Resource<BaseDetailsModel<LoginModel>>> = flow {
+        emit(Resource.Loading)
+        try {
+            val registrationModel = bunonRetrofit.registerUser(
+                name = name,
+                email = email,
+                phone = phone,
+                password = password,
+                userType = userType
+            )
+            emit(Resource.Success(registrationModel))
+        } catch (e: Exception) {
             emit(Resource.Error(e))
         }
     }

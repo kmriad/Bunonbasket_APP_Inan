@@ -15,6 +15,7 @@ import com.example.bunonbasket.data.local.cache.DataStoreManager
 import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.databinding.ActivityLoginBinding
+import com.example.bunonbasket.ui.component.signup.SignUpActivity
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -49,6 +50,11 @@ class LoginActivity : AppCompatActivity() {
         binding.apply {
             binding.data = viewModel
             subscribeObservers()
+
+            binding.signUpButton.setOnClickListener {
+                val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

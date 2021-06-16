@@ -213,6 +213,7 @@
                 android:layout_marginTop="@dimen/standard_margin"
                 android:layout_marginBottom="@dimen/size_24"
                 android:fontFamily="@font/poppins"
+                android:id="@+id/signUpButton"
                 android:text="@string/don_t_have_an_account_please_sign_up"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black181"

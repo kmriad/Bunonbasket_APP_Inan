@@ -16,11 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:name=".ui.component.signup.SignUpActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.component.login.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.component.login.LoginActivity" />
+        </activity>
+        <activity
             android:name=".ui.component.login.LoginActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.component.HomeActivity">
 
-            <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.component.HomeActivity" />
@@ -45,8 +52,6 @@
             android:name=".ui.component.home.products.ProductListActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.component.HomeActivity">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.component.HomeActivity" />
