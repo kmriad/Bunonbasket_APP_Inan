@@ -66,7 +66,6 @@ interface BunonRetrofit {
     @FormUrlEncoded
     suspend fun registerUser(
         @Field("name") name: String,
-        @Field("email") email: String,
         @Field("phone") phone: String,
         @Field("password") password: String,
         @Field("user_type") userType: String

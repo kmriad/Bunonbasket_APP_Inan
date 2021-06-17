@@ -134,7 +134,6 @@ class RemoteRepository @Inject constructor(
 
     override suspend fun registerUser(
         name: String,
-        email: String,
         phone: String,
         password: String,
         userType: String
@@ -143,7 +142,6 @@ class RemoteRepository @Inject constructor(
         try {
             val registrationModel = bunonRetrofit.registerUser(
                 name = name,
-                email = email,
                 phone = phone,
                 password = password,
                 userType = userType

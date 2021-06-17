@@ -44,7 +44,6 @@ interface RemoteRepositorySource {
 
     suspend fun registerUser(
         name: String,
-        email: String,
         phone: String,
         password: String,
         userType: String
