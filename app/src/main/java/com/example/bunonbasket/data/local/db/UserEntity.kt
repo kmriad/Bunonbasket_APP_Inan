@@ -20,7 +20,7 @@ data class UserEntity(
     val avatar_original: String?,
 
     @ColumnInfo(name = "balance")
-    val balance: Int,
+    val balance: Int?,
 
     @ColumnInfo(name = "city")
     val city: String?,
@@ -29,20 +29,20 @@ data class UserEntity(
     val country: String?,
 
     @ColumnInfo(name = "created_at")
-    val created_at: String,
+    val created_at: String?,
 
     @ColumnInfo(name = "email")
-    val email: String,
+    val email: String?,
 
     @ColumnInfo(name = "email_verified_at")
-    val email_verified_at: String,
+    val email_verified_at: String?,
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
     val id: Int,
 
     @ColumnInfo(name = "name")
-    val name: String,
+    val name: String?,
 
     @ColumnInfo(name = "phone")
     val phone: String?,
@@ -57,10 +57,10 @@ data class UserEntity(
     val token: String,
 
     @ColumnInfo(name = "updated_at")
-    val updated_at: String,
+    val updated_at: String?,
 
     @ColumnInfo(name = "user_type")
-    val user_type: String
+    val user_type: String?
 ) {
 
 }

@@ -128,7 +128,7 @@ data class ProductDetails(
     @SerializedName("video_provider")
     @Expose
     val video_provider: String
-){
+) {
     var fullImageUrl: String? = ""
         get() = "${Constants.BASE_URL}/$thumbnail_img"
         set(value) {

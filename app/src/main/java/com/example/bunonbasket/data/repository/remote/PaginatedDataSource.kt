@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.bunonbasket.data.models.category.Product
-import com.example.bunonbasket.data.remote.BunonRetrofit
 
 /**
  * Created by inan on 11/5/21
@@ -27,7 +26,7 @@ class PaginatedDataSource(
                     nextPage.plus(1) else null
             )
         } catch (e: Exception) {
-            Log.d("ProductListActivity",e.toString())
+            Log.d("ProductListActivity", e.toString())
             LoadResult.Error(e)
         }
     }

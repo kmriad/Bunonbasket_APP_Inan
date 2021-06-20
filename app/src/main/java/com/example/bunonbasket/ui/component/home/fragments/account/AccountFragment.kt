@@ -1,6 +1,7 @@
 package com.example.bunonbasket.ui.component.home.fragments.account
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -81,6 +82,7 @@ class AccountFragment : Fragment() {
             when (dataState) {
                 is Resource.Success<List<LoginModel>> -> {
                     dataState.data.let { loginModel ->
+                        Log.d("AccountFragment", loginModel.get(0).token)
                         binding.data = loginModel.get(0)
                         binding.topLayout.visibility = View.GONE
                         binding.optionsOne.visibility = View.GONE

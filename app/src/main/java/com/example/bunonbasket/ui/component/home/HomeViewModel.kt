@@ -2,8 +2,8 @@ package com.example.bunonbasket.ui.component.home
 
 import androidx.lifecycle.*
 import com.example.bunonbasket.data.models.banner.Banner
-import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.base.BaseModel
+import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.repository.cache.CacheRepository
@@ -37,8 +37,10 @@ class HomeViewModel @Inject constructor(
     private val _bannerState: MutableLiveData<Resource<BaseModel<Banner>>> = MutableLiveData()
     private val _categoryState: MutableLiveData<Resource<BaseModel<Category>>> = MutableLiveData()
     private val _brandState: MutableLiveData<Resource<BaseModel<Brand>>> = MutableLiveData()
-    private val _bestSellingProductsState: MutableLiveData<Resource<BaseModel<Product>>> = MutableLiveData()
-    private val _featuredProductsState: MutableLiveData<Resource<BaseModel<Product>>> = MutableLiveData()
+    private val _bestSellingProductsState: MutableLiveData<Resource<BaseModel<Product>>> =
+        MutableLiveData()
+    private val _featuredProductsState: MutableLiveData<Resource<BaseModel<Product>>> =
+        MutableLiveData()
 
     private val taskEventChannel = Channel<HomeStateEvent>()
     val homeEvent = taskEventChannel.receiveAsFlow()

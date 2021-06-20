@@ -148,6 +148,7 @@ class RemoteRepository @Inject constructor(
             )
             emit(Resource.Success(registrationModel))
         } catch (e: Exception) {
+            Log.d("RemoteRepository", e.message.toString())
             emit(Resource.Error(e))
         }
     }

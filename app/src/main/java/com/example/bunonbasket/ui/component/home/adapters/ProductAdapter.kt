@@ -23,7 +23,7 @@ class ProductAdapter(
             binding.apply {
                 root.setOnClickListener {
                     val position = bindingAdapterPosition
-                    if(position!=RecyclerView.NO_POSITION){
+                    if (position != RecyclerView.NO_POSITION) {
                         val product = getItem(position)
                         listener.onItemClick(product = product)
                     }
@@ -31,6 +31,7 @@ class ProductAdapter(
                 }
             }
         }
+
         fun bind(product: Product?) {
             binding.data = product
             if (product!!.discount > 0) {

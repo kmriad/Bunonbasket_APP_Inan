@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -110,6 +111,15 @@ class CategoryFragment : Fragment(R.layout.fragment_category), CategoryAdapter.O
                     dataState.data.let { subCategoryModel ->
                         dialog.closeLoadingDialog()
                         subCategoryAdapter.submitList(subCategoryModel.results)
+                    }
+                }
+                is Resource.Error ->{
+                    dataState.exception.let {message->
+                        Toast.makeText(
+                            activity,
+                            "An error occured category: ${message.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }

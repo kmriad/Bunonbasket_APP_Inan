@@ -1,5 +1,6 @@
 package com.example.bunonbasket.data.repository.cache
 
+import android.util.Log
 import com.example.bunonbasket.data.local.cache.LocalData
 import com.example.bunonbasket.data.local.db.CacheMapper
 import com.example.bunonbasket.data.local.db.UserDao
@@ -47,8 +48,10 @@ class CacheRepository @Inject constructor(
         try {
             val userEntity = cacheMapper.mapToEntity(loginModel)
             val success = userDao.insert(userEntity)
+            Log.d("CacheRepository", success.toString())
             emit(Resource.Success(success))
         } catch (e: Exception) {
+            Log.d("CacheRepository", e.message.toString())
             emit(Resource.Error(e))
         }
     }
@@ -57,9 +60,11 @@ class CacheRepository @Inject constructor(
         emit(Resource.Loading)
         try {
             val success = userDao.get()
+            Log.d("CacheRepository", success.toString())
             val result = cacheMapper.mapFromEntityList(success)
             emit(Resource.Success(result))
         } catch (e: Exception) {
+            Log.d("CacheRepository", e.toString())
             emit(Resource.Error(e))
         }
     }

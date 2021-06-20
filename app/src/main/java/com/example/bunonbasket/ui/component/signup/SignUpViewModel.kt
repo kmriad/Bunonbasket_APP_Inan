@@ -1,10 +1,10 @@
 package com.example.bunonbasket.ui.component.signup
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.*
 import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
+import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,23 +21,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val remoteRepository: RemoteRepository
+    private val remoteRepository: RemoteRepository,
+    private val cacheRepository: CacheRepository,
 ) : ViewModel() {
 
     val userPhoneNumber: MutableLiveData<String> = MutableLiveData()
     val userPhoneNumberValidator = MediatorLiveData<Boolean>()
 
-    val userName: MutableLiveData<String> = MutableLiveData()
-    val userNameValidator = MediatorLiveData<Boolean>()
-
-    val userPassword: MutableLiveData<String> = MutableLiveData()
-    val userPasswordValidator = MediatorLiveData<Boolean>()
-
     private val _loginState: MutableLiveData<Resource<BaseDetailsModel<LoginModel>>> =
         MutableLiveData()
 
+    private val _saveUserState: MutableLiveData<Resource<Long>> = MutableLiveData()
+
     val loginState: LiveData<Resource<BaseDetailsModel<LoginModel>>>
         get() = _loginState
+
+    val saveUserState: LiveData<Resource<Long>>
+        get() = _saveUserState
 
     private val signUpTaskEventChannel = Channel<SignupStateEvent>()
     val signUpEvent = signUpTaskEventChannel.receiveAsFlow()
@@ -57,7 +57,6 @@ class SignUpViewModel @Inject constructor(
         userPhoneNumber.value = text.toString().trim()
     }
 
-
     fun signUpButtonClicked() = viewModelScope.launch {
         signUpTaskEventChannel.send(SignupStateEvent.NavigateToSignUpFragment(userPhoneNumber.value!!))
     }
@@ -75,16 +74,28 @@ class SignUpViewModel @Inject constructor(
                         _loginState.value = dataState
                     }.launchIn(viewModelScope)
                 }
+
+                is SignupStateEvent.SaveUserProfile -> {
+                    cacheRepository.createUser(stateEvent.loginModel)
+                        .onEach { dataState ->
+                            _saveUserState.value = dataState
+                        }.launchIn(viewModelScope)
+
+                }
             }
         }
     }
 
-    fun registerUser() {
+    fun saveUserProfile(loginModel: LoginModel) {
+        setStateEvent(SignupStateEvent.SaveUserProfile(loginModel))
+    }
+
+    fun registerUser(phoneNumber: String, name: String, password: String) {
         setStateEvent(
             SignupStateEvent.CreateUserEvent(
-                name = userName.value!!,
-                phoneNumber = userPhoneNumber.value!!,
-                password = userPassword.value!!
+                name = name,
+                phoneNumber = phoneNumber,
+                password = password,
             )
         )
     }
@@ -95,6 +106,8 @@ sealed class SignupStateEvent {
     object NavigateToInputNumberFragment : SignupStateEvent()
 
     data class NavigateToSignUpFragment(val phoneNumber: String) : SignupStateEvent()
+
+    data class SaveUserProfile(val loginModel: LoginModel) : SignupStateEvent()
 
     data class CreateUserEvent(val name: String, val phoneNumber: String, val password: String) :
         SignupStateEvent()

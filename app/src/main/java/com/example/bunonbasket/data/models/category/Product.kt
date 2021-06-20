@@ -1,11 +1,13 @@
 package com.example.bunonbasket.data.models.category
 
+import com.example.bunonbasket.data.models.product.ChoiceOption
 import com.example.bunonbasket.utils.Constants
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Product(
+
     @SerializedName("added_by")
     @Expose
     val added_by: String,
@@ -20,11 +22,11 @@ data class Product(
 
     @SerializedName("choice_options")
     @Expose
-    val choice_options: String,
+    val choice_options: List<ChoiceOption>,
 
     @SerializedName("colors")
     @Expose
-    val colors: String,
+    val colors: List<String>,
 
     @SerializedName("created_at")
     @Expose
@@ -36,7 +38,7 @@ data class Product(
 
     @SerializedName("description")
     @Expose
-    val description: Any,
+    val description: String,
 
     @SerializedName("discount")
     @Expose
@@ -56,7 +58,7 @@ data class Product(
 
     @SerializedName("flash_deal_img")
     @Expose
-    val flash_deal_img: String,
+    val flash_deal_img: Any,
 
     @SerializedName("id")
     @Expose
@@ -68,11 +70,11 @@ data class Product(
 
     @SerializedName("meta_img")
     @Expose
-    val meta_img: String,
+    val meta_img: Any,
 
     @SerializedName("meta_title")
     @Expose
-    val meta_title: String,
+    val meta_title: Any,
 
     @SerializedName("name")
     @Expose
@@ -169,7 +171,6 @@ data class Product(
     @SerializedName("video_provider")
     @Expose
     val video_provider: String
-
 ) : Serializable {
     var fullImageUrl: String? = ""
         get() = "${Constants.BASE_URL}/$thumbnail_img"

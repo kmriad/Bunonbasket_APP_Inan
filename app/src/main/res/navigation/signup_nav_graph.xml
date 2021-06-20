@@ -46,7 +46,14 @@
             android:name="phoneNumber"
             app:argType="string"
             android:defaultValue='""' />
+        <action
+            android:id="@+id/action_signUpFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
 
     </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.bunonbasket.ui.component.HomeActivity"
+        android:label="HomeActivity" />
 
 </navigation>

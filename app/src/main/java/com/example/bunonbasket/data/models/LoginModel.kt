@@ -22,7 +22,7 @@ data class LoginModel(
 
     @SerializedName("balance")
     @Expose
-    val balance: Int,
+    val balance: Int?,
 
     @SerializedName("city")
     @Expose
@@ -34,15 +34,15 @@ data class LoginModel(
 
     @SerializedName("created_at")
     @Expose
-    val created_at: String,
+    val created_at: String?,
 
     @SerializedName("email")
     @Expose
-    val email: String,
+    val email: String?,
 
     @SerializedName("email_verified_at")
     @Expose
-    val email_verified_at: String,
+    val email_verified_at: String?,
 
     @SerializedName("id")
     @Expose
@@ -50,7 +50,7 @@ data class LoginModel(
 
     @SerializedName("name")
     @Expose
-    val name: String,
+    val name: String?,
 
     @SerializedName("phone")
     @Expose
@@ -70,9 +70,9 @@ data class LoginModel(
 
     @SerializedName("updated_at")
     @Expose
-    val updated_at: String,
+    val updated_at: String?,
 
     @SerializedName("user_type")
     @Expose
-    val user_type: String
+    val user_type: String?
 )

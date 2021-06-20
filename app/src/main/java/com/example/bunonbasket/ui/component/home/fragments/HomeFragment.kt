@@ -147,7 +147,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                     dataState.exception.let { message ->
                         Toast.makeText(
                             activity,
-                            "An error occured: ${message.message}",
+                            "An error occured banner: ${message.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -169,7 +169,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                     dataState.exception.let { message ->
                         Toast.makeText(
                             activity,
-                            "An error occured: ${message.message}",
+                            "An error occured category: ${message.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -190,7 +190,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                     dataState.exception.let { message ->
                         Toast.makeText(
                             activity,
-                            "An error occured: ${message.message}",
+                            "An error occured brand: ${message.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -213,7 +213,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                     dataState.exception.let { message ->
                         Toast.makeText(
                             activity,
-                            "An error occured: ${message.message}",
+                            "An error occured featured: ${message.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -237,7 +237,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                     dataState.exception.let { message ->
                         Toast.makeText(
                             activity,
-                            "An error occured: ${message.message}",
+                            "An error occured best selling: ${message.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
