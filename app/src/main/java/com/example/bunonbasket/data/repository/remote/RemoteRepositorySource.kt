@@ -6,6 +6,8 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
+import com.example.bunonbasket.data.models.cart.CartListModel
+import com.example.bunonbasket.data.models.cart.CartModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -48,4 +50,14 @@ interface RemoteRepositorySource {
         password: String,
         userType: String
     ): Flow<Resource<BaseDetailsModel<LoginModel>>>
+
+    suspend fun addToCart(
+        productId: String,
+        quantity: Int,
+        token: String,
+    ): Flow<Resource<BaseDetailsModel<CartModel>>>
+
+    suspend fun fetchCart(
+        token: String
+    ): Flow<Resource<BaseModel<CartListModel>>>
 }

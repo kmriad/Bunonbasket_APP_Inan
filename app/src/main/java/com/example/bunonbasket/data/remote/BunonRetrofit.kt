@@ -6,6 +6,8 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
+import com.example.bunonbasket.data.models.cart.CartListModel
+import com.example.bunonbasket.data.models.cart.CartModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -70,4 +72,18 @@ interface BunonRetrofit {
         @Field("password") password: String,
         @Field("user_type") userType: String
     ): BaseDetailsModel<LoginModel>
+
+
+    @POST("cart")
+    @FormUrlEncoded
+    suspend fun addToCart(
+        @Field("product_id") productId: String,
+        @Field("quantity") quantity: Int,
+        @Header("Authorization") authHeader: String
+    ): BaseDetailsModel<CartModel>
+
+
+    @GET("cart")
+    @FormUrlEncoded
+    suspend fun fetchCarts(@Header("Authorization") authHeader: String): BaseModel<CartListModel>
 }

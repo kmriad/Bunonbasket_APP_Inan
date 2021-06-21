@@ -17,6 +17,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
+import com.example.bunonbasket.data.models.cart.CartModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.databinding.ActivityProductDetailsBinding
 import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsAdapter
@@ -47,6 +48,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         binding.apply {
 
+            binding.model = viewModel
+            binding.lifecycleOwner = this@ProductDetailsActivity
             viewModel.fetchProductDetails(ProductDetailsEvent.FetchProductDetails(args.product.id.toString()))
             viewPagerAdapter = ProductImageViewPagerAdapter()
             choiceOptionsAdapter = ChoiceOptionsAdapter()
@@ -79,6 +82,19 @@ class ProductDetailsActivity : AppCompatActivity() {
             }
 
             subscribeObservers()
+
+            binding.addToCartBtn.setOnClickListener {
+                if (viewModel._counter.value == 0) {
+                    Toast.makeText(
+                        this@ProductDetailsActivity,
+                        "One product must be added atleast",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                } else {
+                    viewModel.fetchToken()
+                }
+            }
         }
     }
 
@@ -89,8 +105,15 @@ class ProductDetailsActivity : AppCompatActivity() {
                     dataState.data.let { productModel ->
                         binding.data = productModel.results
                         viewPagerAdapter.submitList(productModel.results.photos)
-                        choiceOptionsAdapter.submitList(productModel.results.choice_options)
-                        colorAdapter.submitList(productModel.results.colors)
+                        if (productModel.results.choice_options.size > 0) {
+                            choiceOptionsAdapter.submitList(productModel.results.choice_options)
+                        }
+                        if (productModel.results.colors.size > 0) {
+                            binding.colorSection.visibility = View.VISIBLE
+                            colorAdapter.submitList(productModel.results.colors)
+                        } else {
+                            binding.colorSection.visibility = View.GONE
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -100,6 +123,33 @@ class ProductDetailsActivity : AppCompatActivity() {
                             "An error occured product: ${message.message}",
                             Toast.LENGTH_LONG
                         ).show()
+                    }
+                }
+            }
+        })
+
+        viewModel.cartDataState.observe(this, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseDetailsModel<CartModel>> -> {
+                    Toast.makeText(this, "Product Added Successfully", Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Error -> {
+                    dataState.exception.let { message ->
+                        Toast.makeText(
+                            this,
+                            "An error occured: ${message.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        })
+
+        viewModel.token.observe(this, { dataState ->
+            when (dataState) {
+                is String -> {
+                    if (dataState.isNotEmpty()) {
+                        viewModel.addToCart(args.product.id.toString())
                     }
                 }
             }

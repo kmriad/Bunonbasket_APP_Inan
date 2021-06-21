@@ -9,6 +9,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsItemAdapter
+import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsItemAdapter.OnChoiceOptionSelectListener
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryProductAdapter
 import com.google.android.material.textfield.TextInputEditText
 
@@ -38,11 +39,15 @@ fun RecyclerView.setProducts(products: List<Product>) {
 
 @BindingAdapter("app:setOptions")
 fun RecyclerView.setOptions(options: List<String>) {
-    val optionsItemAdapter = ChoiceOptionsItemAdapter()
+
+    val optionsItemAdapter = ChoiceOptionsItemAdapter(object : OnChoiceOptionSelectListener {
+        override fun onChoiceOptionSelect(option: String) {
+
+        }
+    })
     optionsItemAdapter.submitList(options)
     adapter = optionsItemAdapter
 }
-
 
 @BindingAdapter("app:setProductImageUrl")
 fun setProductImageUrl(imageView: ImageView, url: String?) {

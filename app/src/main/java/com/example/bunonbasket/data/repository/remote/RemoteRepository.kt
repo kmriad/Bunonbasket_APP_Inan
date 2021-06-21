@@ -7,6 +7,8 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
+import com.example.bunonbasket.data.models.cart.CartListModel
+import com.example.bunonbasket.data.models.cart.CartModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -94,6 +96,7 @@ class RemoteRepository @Inject constructor(
             emit(Resource.Loading)
             try {
                 val productDetails = bunonRetrofit.fetchProductDetails(productId = id)
+                Log.d("ProductDetails", productDetails.results.name)
                 emit(Resource.Success(productDetails))
             } catch (e: Exception) {
                 emit(Resource.Error(e))
@@ -149,6 +152,30 @@ class RemoteRepository @Inject constructor(
             emit(Resource.Success(registrationModel))
         } catch (e: Exception) {
             Log.d("RemoteRepository", e.message.toString())
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun addToCart(
+        productId: String,
+        quantity: Int,
+        token: String
+    ): Flow<Resource<BaseDetailsModel<CartModel>>> = flow {
+        emit(Resource.Loading)
+        try {
+            val cartModel = bunonRetrofit.addToCart(productId, quantity, "Bearer $token")
+            emit(Resource.Success(cartModel))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun fetchCart(token: String): Flow<Resource<BaseModel<CartListModel>>> = flow {
+        emit(Resource.Loading)
+        try {
+            val cartListModel = bunonRetrofit.fetchCarts(authHeader = "Bearer $token")
+            emit(Resource.Success(cartListModel))
+        } catch (e: Exception) {
             emit(Resource.Error(e))
         }
     }

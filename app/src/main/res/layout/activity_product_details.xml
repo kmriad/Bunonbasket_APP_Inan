@@ -9,6 +9,9 @@
             name="data"
             type="com.example.bunonbasket.data.models.product.ProductDetails" />
 
+        <variable
+            name="model"
+            type="com.example.bunonbasket.ui.component.details.ProductDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,6 +55,7 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/bottomSection"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintVertical_bias="0.0">
@@ -150,15 +154,34 @@
                     app:layout_constraintTop_toBottomOf="@id/headerSection"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/colorsRecyclerView"
+                <LinearLayout
+                    android:id="@+id/colorSection"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/size_64"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/choiceOptions"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <TextView
+                        android:layout_width="@dimen/category_size"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/color"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/black181" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/colorsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/priceSection"
@@ -174,7 +197,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/colorsRecyclerView"
+                    app:layout_constraintTop_toBottomOf="@id/colorSection"
                     app:layout_constraintVertical_bias="0.0">
 
                     <TextView
@@ -234,10 +257,12 @@
                         android:gravity="end"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <ImageButton
                             android:id="@+id/removeBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:onClick="@{()->model.decrementCounter()}"
                             android:src="@drawable/remove" />
 
                         <TextView
@@ -247,13 +272,15 @@
                             android:layout_marginLeft="@dimen/standard_margin"
                             android:layout_marginEnd="@dimen/standard_margin"
                             android:layout_marginRight="@dimen/standard_margin"
-                            android:text="@string/_1"
+                            android:text="@{model.counter.toString()}"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
-                        <ImageView
+                        <ImageButton
                             android:id="@+id/addBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:onClick="@{()->model.incrementCounter()}"
                             android:src="@drawable/add" />
 
                     </LinearLayout>
