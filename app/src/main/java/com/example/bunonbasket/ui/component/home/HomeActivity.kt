@@ -53,6 +53,9 @@ class HomeActivity : AppCompatActivity() {
                     supportActionBar?.hide()
                     binding.toolbar.visibility = View.GONE
                 }
+                R.id.cartFragment -> {
+
+                }
                 else -> {
                     supportActionBar?.show()
                     binding.toolbar.visibility = View.VISIBLE

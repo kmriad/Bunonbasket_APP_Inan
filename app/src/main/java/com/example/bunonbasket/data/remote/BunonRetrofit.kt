@@ -84,6 +84,5 @@ interface BunonRetrofit {
 
 
     @GET("cart")
-    @FormUrlEncoded
     suspend fun fetchCarts(@Header("Authorization") authHeader: String): BaseModel<CartListModel>
 }
