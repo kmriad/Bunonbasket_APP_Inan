@@ -76,6 +76,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins"
                 android:text="@{data.name}"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:scrollHorizontally="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black181" />
 

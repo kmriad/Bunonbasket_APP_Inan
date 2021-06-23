@@ -9,6 +9,7 @@ import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.data.models.cart.CartModel
+import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -129,6 +130,7 @@ class RemoteRepository @Inject constructor(
 
             val loginModel =
                 bunonRetrofit.loginUser(phone.toString().trim(), password.toString().trim())
+            Log.d("RemoteRepository", loginModel.message)
             emit(Resource.Success(loginModel))
         } catch (e: HttpException) {
             emit(Resource.Error(e))
@@ -175,6 +177,24 @@ class RemoteRepository @Inject constructor(
         try {
             val cartListModel = bunonRetrofit.fetchCarts(authHeader = "Bearer $token")
             emit(Resource.Success(cartListModel))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun updateQuantity(
+        cartId: Int,
+        quantity: Int,
+        token: String
+    ): Flow<Resource<BaseDetailsModel<QuantityUpdateModel>>> = flow {
+        try {
+            val quantityUpdateModel =
+                bunonRetrofit.updateQuantity(
+                    cartId = cartId,
+                    quantity = quantity,
+                    authHeader = "Bearer $token"
+                )
+            emit(Resource.Success(quantityUpdateModel))
         } catch (e: Exception) {
             emit(Resource.Error(e))
         }

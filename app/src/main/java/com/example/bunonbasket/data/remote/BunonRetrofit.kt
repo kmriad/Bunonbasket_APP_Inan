@@ -8,6 +8,7 @@ import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.data.models.cart.CartModel
+import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -85,4 +86,13 @@ interface BunonRetrofit {
 
     @GET("cart")
     suspend fun fetchCarts(@Header("Authorization") authHeader: String): BaseModel<CartListModel>
+
+
+    @POST("cart/quantity-update/{cart_id}")
+    @FormUrlEncoded
+    suspend fun updateQuantity(
+        @Path(value = "cart_id") cartId: Int,
+        @Field("quantity") quantity: Int,
+        @Header("Authorization") authHeader: String
+    ): BaseDetailsModel<QuantityUpdateModel>
 }

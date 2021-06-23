@@ -1,6 +1,7 @@
 package com.example.bunonbasket.ui.component.home.fragments.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,13 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
+import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.cart.CartListModel
+import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
 import com.example.bunonbasket.databinding.FragmentCartBinding
 import com.example.bunonbasket.ui.component.home.adapters.CartAdapter
 import com.example.bunonbasket.utils.Resource
@@ -22,7 +26,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class CartFragment : Fragment() {
+class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
 
     private val cartViewModel: CartViewModel by viewModels()
     lateinit var binding: FragmentCartBinding
@@ -41,10 +45,17 @@ class CartFragment : Fragment() {
         binding.data = cartViewModel
         cartViewModel.loadToken()
 
-        cartAdapter = CartAdapter()
+        cartAdapter = CartAdapter(this)
+        val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.cartItemsRV.apply {
             adapter = cartAdapter
-            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = mLayoutManager
+        }
+        DividerItemDecoration(
+            context, // context
+            mLayoutManager.orientation
+        ).apply {
+            binding.cartItemsRV.addItemDecoration(this)
         }
 
         dialog = activity?.let { LoadingDialog(it) }!!
@@ -93,6 +104,23 @@ class CartFragment : Fragment() {
                 }
             }
         })
+
+        cartViewModel.quantityDataState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseDetailsModel<QuantityUpdateModel>> -> {
+                    dataState.data.let { dataModel ->
+                        dialog.closeLoadingDialog()
+                        cartViewModel.fetchCarts()
+                    }
+                }
+                is Resource.Loading -> {
+                    dialog.showLoadingDialog()
+                }
+                is Resource.Error -> {
+                    dialog.closeLoadingDialog()
+                }
+            }
+        })
         cartViewModel.price.observe(viewLifecycleOwner, { counter ->
             when (counter) {
                 is Int -> {
@@ -100,6 +128,15 @@ class CartFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onAddButtonClick(quantity: Int, id: Int) {
+        Log.d("CartFragment", quantity.toString())
+        cartViewModel.incrementCounter(quantity, id)
+    }
+
+    override fun onRemoveButtonClick(quantity: Int, id: Int) {
+        cartViewModel.decrementCounter(quantity, id)
     }
 
 }

@@ -1,9 +1,12 @@
 package com.example.bunonbasket.ui.component.home.fragments.cart
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.bunonbasket.data.local.cache.DataStoreManager
+import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.cart.CartListModel
+import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
@@ -31,6 +34,8 @@ class CartViewModel @Inject constructor(
     private val _price: MutableLiveData<Int> = MutableLiveData()
     private val _cartDataState: MutableLiveData<Resource<BaseModel<CartListModel>>> =
         MutableLiveData()
+    private val _quantityDataState: MutableLiveData<Resource<BaseDetailsModel<QuantityUpdateModel>>> =
+        MutableLiveData()
 
     val token: LiveData<String>
         get() = _token
@@ -40,6 +45,9 @@ class CartViewModel @Inject constructor(
 
     val cartState: LiveData<Resource<BaseModel<CartListModel>>>
         get() = _cartDataState
+
+    val quantityDataState: LiveData<Resource<BaseDetailsModel<QuantityUpdateModel>>>
+        get() = _quantityDataState
 
     fun fetchRemoteEvents(cartStateEvent: CartStateEvent) {
         viewModelScope.launch {
@@ -51,6 +59,17 @@ class CartViewModel @Inject constructor(
                         }.launchIn(viewModelScope)
                 }
 
+                is CartStateEvent.UpdateQuantity -> {
+                    Log.d("token", _token.value!!)
+                    remoteRepository.updateQuantity(
+                        cartId = cartStateEvent.id,
+                        quantity = cartStateEvent.quantity,
+                        token = _token.value!!
+                    ).onEach { dataState ->
+                        _quantityDataState.value = dataState
+                    }.launchIn(viewModelScope)
+                }
+
                 is CartStateEvent.LoadToken -> {
                     dataStoreManager.authToken().onEach { dataState ->
                         _token.value = dataState
@@ -59,6 +78,7 @@ class CartViewModel @Inject constructor(
             }
         }
     }
+
     fun setcounter(number: Int) {
         viewModelScope.launch {
             _price.value = number
@@ -72,6 +92,14 @@ class CartViewModel @Inject constructor(
     fun fetchCarts() {
         fetchRemoteEvents(CartStateEvent.FetchCarts)
     }
+
+    fun incrementCounter(quantity: Int, id: Int) {
+        fetchRemoteEvents(CartStateEvent.UpdateQuantity(id, quantity))
+    }
+
+    fun decrementCounter(quantity: Int, id: Int) {
+        fetchRemoteEvents(CartStateEvent.UpdateQuantity(id, quantity))
+    }
 }
 
 sealed class CartStateEvent {
@@ -79,4 +107,6 @@ sealed class CartStateEvent {
     object FetchCarts : CartStateEvent()
 
     object LoadToken : CartStateEvent()
+
+    data class UpdateQuantity(val id: Int, val quantity: Int) : CartStateEvent()
 }
