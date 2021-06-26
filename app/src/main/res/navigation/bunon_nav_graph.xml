@@ -36,7 +36,11 @@
         android:id="@+id/cartFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.cart.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_shippingInfoActivity"
+            app:destination="@id/shippingInfoActivity" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.account.AccountFragment"
@@ -94,4 +98,8 @@
         android:name="com.example.bunonbasket.ui.component.login.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <activity
+        android:id="@+id/shippingInfoActivity"
+        android:name="com.example.bunonbasket.ui.component.shipping.ShippingInfoActivity"
+        android:label="ShippingInfoActivity" />
 </navigation>

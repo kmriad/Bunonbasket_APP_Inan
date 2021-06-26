@@ -5,12 +5,19 @@
     <data>
 
         <variable
-            name=""
-            type="" />
+            name="data"
+            type="com.example.bunonbasket.data.models.cart.ShippingInfo" />
+
+        <variable
+            name="user"
+            type="com.example.bunonbasket.data.models.LoginModel" />
+
+        <variable
+            name="model"
+            type="com.example.bunonbasket.ui.component.checkout.CheckoutViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
@@ -34,6 +41,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/check_out"
                 android:textAlignment="center"
+                android:fontFamily="@font/poppins_medium"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black181" />
 
@@ -69,8 +77,9 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/shippingCard"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_133"
+                    android:layout_height="@dimen/size_156"
                     android:layout_marginTop="@dimen/margin_12"
                     android:elevation="@dimen/margin_2"
                     app:cardCornerRadius="@dimen/margin_small"
@@ -99,7 +108,9 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_centerVertical="true"
                                 android:gravity="center_vertical"
-                                android:text="" />
+                                android:padding="@dimen/margin_small"
+                                android:text="@{user.name}" />
+
 
                             <ImageButton
                                 android:layout_width="wrap_content"
@@ -114,10 +125,16 @@
 
                         </RelativeLayout>
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/gray_medium" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="2">
+                            android:layout_weight="2"
+                            android:padding="@dimen/margin_small">
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/addressTextView"
@@ -128,14 +145,20 @@
                                 android:layout_centerVertical="true"
                                 android:gravity="center_vertical"
                                 android:maxLines="2"
-                                android:text="" />
+                                android:text="@{data.address}" />
 
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/gray_medium" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:padding="@dimen/margin_small">
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/phoneNumberTextView"
@@ -146,13 +169,88 @@
                                 android:layout_centerVertical="true"
                                 android:gravity="center_vertical"
                                 android:maxLines="1"
-                                android:text="" />
+                                android:text="@{user.phone}" />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/paymentMethodText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/payment_method"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/shippingCard"
+                    app:layout_constraintVertical_bias="0.1" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/paymentMethodCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/paymentMethodText"
+                    app:layout_constraintVertical_bias="0.08">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/cashOnDeliveryImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/standard_margin"
+                            android:layout_marginLeft="@dimen/standard_margin"
+                            android:src="@drawable/ic_cash_on_delivery" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/standard_margin"
+                            android:layout_marginLeft="@dimen/standard_margin"
+                            android:layout_toEndOf="@id/cashOnDeliveryImg"
+                            android:layout_toRightOf="@id/cashOnDeliveryImg"
+                            android:text="@string/cash_on_delivery"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black181" />
+
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/itemsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Items"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/paymentMethodCard"
+                    app:layout_constraintVertical_bias="0.1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/itemRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/itemsText" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -215,7 +313,7 @@
                     android:layout_marginStart="@dimen/margin_12"
                     android:layout_marginLeft="@dimen/margin_12"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="@{String.valueOf(data.price)}"
+                    android:text="@{String.valueOf(model.price)}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/orange" />
 

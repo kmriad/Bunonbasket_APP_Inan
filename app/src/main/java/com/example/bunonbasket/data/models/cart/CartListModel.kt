@@ -2,8 +2,10 @@ package com.example.bunonbasket.data.models.cart
 
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.product.ChoiceOption
+import com.example.bunonbasket.utils.Constants
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CartListModel(
     @SerializedName("choice")

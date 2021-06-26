@@ -6,9 +6,7 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
-import com.example.bunonbasket.data.models.cart.CartListModel
-import com.example.bunonbasket.data.models.cart.CartModel
-import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
+import com.example.bunonbasket.data.models.cart.*
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -95,4 +93,26 @@ interface BunonRetrofit {
         @Field("quantity") quantity: Int,
         @Header("Authorization") authHeader: String
     ): BaseDetailsModel<QuantityUpdateModel>
+
+    @GET("all-city")
+    suspend fun fetchCities(
+        @Header("Authorization") authHeader: String
+    ): BaseModel<CityModel>
+
+    @GET("all-area-by-city/{area_id}")
+    suspend fun fetchAreas(
+        @Path(value = "area_id") areaId: Int,
+        @Header("Authorization") authHeader: String
+    ): BaseModel<AreaModel>
+
+    @POST("shipping_info")
+    @FormUrlEncoded
+    suspend fun addShippingInfo(
+        @Field("address") address: String,
+        @Field("country") country: String,
+        @Field("city") city: String,
+        @Field("postal_code") postalCode: Int,
+        @Field("area") area: String,
+        @Header("Authorization") authHeader: String
+    ): BaseDetailsModel<ShippingInfo>
 }

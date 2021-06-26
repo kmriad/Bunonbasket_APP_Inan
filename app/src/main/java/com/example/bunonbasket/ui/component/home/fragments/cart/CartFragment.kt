@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
@@ -22,6 +24,7 @@ import com.example.bunonbasket.utils.Resource
 import com.example.bunonbasket.utils.widgets.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 
 
 @ExperimentalCoroutinesApi
@@ -61,6 +64,21 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
         dialog = activity?.let { LoadingDialog(it) }!!
         dialog.showLoadingDialog()
 
+        binding.checkOutBtn.setOnClickListener {
+            cartViewModel.onCheckOutClicked()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            cartViewModel.homeEvent.collect { event ->
+                when (event) {
+                    is CartStateEvent.NavigateToShippingInfo -> {
+                        val action =
+                            CartFragmentDirections.actionCartFragmentToShippingInfoActivity()
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+        }
         return binding.root
     }
 
@@ -84,7 +102,7 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
                             binding.bodySection.visibility = View.VISIBLE
                             binding.emptyCart.visibility = View.GONE
                             cartAdapter.submitList(dataModel.results)
-                            var price: Int = 0
+                            var price = 0
                             for (result in dataModel.results) {
                                 price += result.price
                             }

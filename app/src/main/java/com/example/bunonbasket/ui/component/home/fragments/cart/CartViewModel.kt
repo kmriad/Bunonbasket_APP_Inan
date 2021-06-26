@@ -12,8 +12,10 @@ import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,6 +50,13 @@ class CartViewModel @Inject constructor(
 
     val quantityDataState: LiveData<Resource<BaseDetailsModel<QuantityUpdateModel>>>
         get() = _quantityDataState
+
+    private val taskEventChannel = Channel<CartStateEvent>()
+    val homeEvent = taskEventChannel.receiveAsFlow()
+
+    fun onCheckOutClicked() = viewModelScope.launch {
+        taskEventChannel.send(CartStateEvent.NavigateToShippingInfo)
+    }
 
     fun fetchRemoteEvents(cartStateEvent: CartStateEvent) {
         viewModelScope.launch {
@@ -109,4 +118,6 @@ sealed class CartStateEvent {
     object LoadToken : CartStateEvent()
 
     data class UpdateQuantity(val id: Int, val quantity: Int) : CartStateEvent()
+
+    object NavigateToShippingInfo : CartStateEvent()
 }

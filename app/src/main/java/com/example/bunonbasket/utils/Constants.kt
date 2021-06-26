@@ -16,4 +16,6 @@ object Constants {
     const val TYPE_FOOTER: Int = 1
     const val KEY_AUTH = "key_auth"
 
+    const val SHIPPING_INFO:String = "shipping_info"
+
 }

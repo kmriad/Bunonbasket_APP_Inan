@@ -6,9 +6,7 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
-import com.example.bunonbasket.data.models.cart.CartListModel
-import com.example.bunonbasket.data.models.cart.CartModel
-import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
+import com.example.bunonbasket.data.models.cart.*
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -67,4 +65,17 @@ interface RemoteRepositorySource {
         quantity: Int,
         token: String
     ): Flow<Resource<BaseDetailsModel<QuantityUpdateModel>>>
+
+    suspend fun fetchCities(token: String): Flow<Resource<BaseModel<CityModel>>>
+
+    suspend fun fetchAreas(token: String, areaId: Int): Flow<Resource<BaseModel<AreaModel>>>
+
+    suspend fun addShippingInfo(
+        address: String,
+        country: String,
+        city: String,
+        postalCode: Int,
+        area: String,
+        authHeader: String
+    ): Flow<Resource<BaseDetailsModel<ShippingInfo>>>
 }

@@ -7,9 +7,7 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.base.BasePaginatedModel
 import com.example.bunonbasket.data.models.brands.Brand
-import com.example.bunonbasket.data.models.cart.CartListModel
-import com.example.bunonbasket.data.models.cart.CartModel
-import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
+import com.example.bunonbasket.data.models.cart.*
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
@@ -195,6 +193,58 @@ class RemoteRepository @Inject constructor(
                     authHeader = "Bearer $token"
                 )
             emit(Resource.Success(quantityUpdateModel))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun fetchCities(token: String): Flow<Resource<BaseModel<CityModel>>> = flow {
+        try {
+            val cityModel =
+                bunonRetrofit.fetchCities(
+                    authHeader = "Bearer $token"
+                )
+            emit(Resource.Success(cityModel))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun fetchAreas(
+        token: String,
+        areaId: Int
+    ): Flow<Resource<BaseModel<AreaModel>>> = flow {
+        try {
+            val areaModel =
+                bunonRetrofit.fetchAreas(
+                    authHeader = "Bearer $token",
+                    areaId = areaId
+                )
+            emit(Resource.Success(areaModel))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun addShippingInfo(
+        address: String,
+        country: String,
+        city: String,
+        postalCode: Int,
+        area: String,
+        authHeader: String
+    ): Flow<Resource<BaseDetailsModel<ShippingInfo>>> = flow {
+        try {
+            val areaModel =
+                bunonRetrofit.addShippingInfo(
+                    authHeader = "Bearer $authHeader",
+                    address = address,
+                    country = country,
+                    city = city,
+                    postalCode = postalCode,
+                    area = area
+                )
+            emit(Resource.Success(areaModel))
         } catch (e: Exception) {
             emit(Resource.Error(e))
         }
