@@ -9,17 +9,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.databinding.CartItemLayoutBinding
 
+
 /**
  * Created by inan on 22/6/21
  */
 class CartAdapter(private val listener: OnCartUpdateListener) :
     ListAdapter<CartListModel, CartAdapter.CartViewHolder>(DiffCallback()) {
-
+    private var selectedPosition = -1
     inner class CartViewHolder(private val binding: CartItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
         init {
+
             binding.apply {
+
+               binding.selectBtn.setOnClickListener {
+                   selectedPosition = bindingAdapterPosition
+                   notifyDataSetChanged()
+               }
+                if(selectedPosition == bindingAdapterPosition){
+
+                }
 
                 binding.addBtn.setOnClickListener {
                     val position = bindingAdapterPosition

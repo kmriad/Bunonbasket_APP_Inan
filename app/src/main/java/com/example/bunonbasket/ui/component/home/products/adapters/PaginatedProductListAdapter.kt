@@ -12,7 +12,7 @@ import com.example.bunonbasket.databinding.HomeProductItemLayoutBinding
 /**
  * Created by inan on 18/5/21
  */
-class PaginatedProductListAdapter :
+class PaginatedProductListAdapter(private val listener: OnItemClickListener) :
     PagingDataAdapter<Product, PaginatedProductListAdapter.ProductViewHolder>(DiffCallback()) {
 
     inner class ProductViewHolder(private val binding: HomeProductItemLayoutBinding) :
@@ -25,8 +25,16 @@ class PaginatedProductListAdapter :
             } else {
                 binding.discountText.visibility = View.INVISIBLE
             }
+            binding.root.setOnClickListener {
+                listener.onItemClick(product)
+            }
         }
 
+    }
+
+
+    interface OnItemClickListener {
+        fun onItemClick(product: Product)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Product>() {

@@ -10,13 +10,15 @@ import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
-import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bunonbasket.R
+import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.databinding.ActivityProductListBinding
+import com.example.bunonbasket.ui.component.details.ProductDetailsActivity
 import com.example.bunonbasket.ui.component.home.products.adapters.PaginatedProductListAdapter
 import com.example.bunonbasket.ui.component.home.products.adapters.ProductLoadStateAdapter
+import com.example.bunonbasket.utils.Constants.PRODUCT_DETAILS
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -24,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ProductListActivity : AppCompatActivity() {
+class ProductListActivity : AppCompatActivity(), PaginatedProductListAdapter.OnItemClickListener {
     lateinit var binding: ActivityProductListBinding
     private lateinit var productAdapter: PaginatedProductListAdapter
     private val viewModel: ProductsViewModel by viewModels()
@@ -38,7 +40,7 @@ class ProductListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.apply {
-            productAdapter = PaginatedProductListAdapter()
+            productAdapter = PaginatedProductListAdapter(this@ProductListActivity)
             binding.productListGridView.apply {
                 adapter = productAdapter
                 layoutManager = GridLayoutManager(
@@ -70,22 +72,6 @@ class ProductListActivity : AppCompatActivity() {
                     binding.btnRetry.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
-//                    val errorState = when {
-//                        loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-//                        loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-//                        loadState.refresh is LoadState.Error -> {
-//                            binding.btnRetry.visibility = View.VISIBLE
-//                            loadState.refresh as LoadState.Error
-//                        }
-//                        else -> null
-//                    }
-//                    errorState?.let {
-//                        Toast.makeText(
-//                            this@ProductListActivity,
-//                            it.error.message,
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
                 }
             }
         }
@@ -105,5 +91,11 @@ class ProductListActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onItemClick(product: Product) {
+        val intent = Intent(this, ProductDetailsActivity::class.java)
+        intent.putExtra(PRODUCT_DETAILS, product)
+        startActivity(intent)
     }
 }

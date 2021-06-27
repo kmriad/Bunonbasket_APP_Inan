@@ -18,4 +18,6 @@ object Constants {
 
     const val SHIPPING_INFO:String = "shipping_info"
 
+    const val PRODUCT_DETAILS = "product_details"
+
 }

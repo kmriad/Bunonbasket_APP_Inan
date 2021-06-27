@@ -18,11 +18,13 @@ import androidx.transition.TransitionManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.cart.CartModel
+import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.databinding.ActivityProductDetailsBinding
 import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsAdapter
 import com.example.bunonbasket.ui.component.details.adapters.ColorsAdapter
 import com.example.bunonbasket.ui.component.details.adapters.ProductImageViewPagerAdapter
+import com.example.bunonbasket.utils.Constants.PRODUCT_DETAILS
 import com.example.bunonbasket.utils.Resource
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +40,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var choiceOptionsAdapter: ChoiceOptionsAdapter
     lateinit var colorAdapter: ColorsAdapter
     private var isSidePanelShown: Boolean = false
+    lateinit var product: Product
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +53,14 @@ class ProductDetailsActivity : AppCompatActivity() {
 
             binding.model = viewModel
             binding.lifecycleOwner = this@ProductDetailsActivity
-            viewModel.fetchProductDetails(ProductDetailsEvent.FetchProductDetails(args.product.id.toString()))
+
+            if (intent.getSerializableExtra(PRODUCT_DETAILS) != null) {
+                product = intent.getSerializableExtra(PRODUCT_DETAILS) as Product
+                viewModel.fetchProductDetails(ProductDetailsEvent.FetchProductDetails(product.id.toString()))
+            } else {
+                product = args.product
+                viewModel.fetchProductDetails(ProductDetailsEvent.FetchProductDetails(product.id.toString()))
+            }
             viewPagerAdapter = ProductImageViewPagerAdapter()
             choiceOptionsAdapter = ChoiceOptionsAdapter()
             colorAdapter = ColorsAdapter()
@@ -149,7 +159,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             when (dataState) {
                 is String -> {
                     if (dataState.isNotEmpty()) {
-                        viewModel.addToCart(args.product.id.toString())
+                        viewModel.addToCart(product.id.toString())
                     }
                 }
             }
