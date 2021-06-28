@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bunonbasket.data.local.cache.DataStoreManager
 import com.example.bunonbasket.data.models.LoginModel
+import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.cart.CartListModel
+import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
@@ -32,6 +34,9 @@ class CheckoutViewModel @Inject constructor(
 
     private val _cartState: MutableLiveData<Resource<BaseModel<CartListModel>>> = MutableLiveData()
 
+    private val _checkOutState: MutableLiveData<Resource<BaseDetailsModel<CheckoutModel>>> =
+        MutableLiveData()
+
     private val _token: MutableLiveData<String> = MutableLiveData()
 
     private val _price: MutableLiveData<Int> = MutableLiveData()
@@ -44,6 +49,9 @@ class CheckoutViewModel @Inject constructor(
 
     val cartState: LiveData<Resource<BaseModel<CartListModel>>>
         get() = _cartState
+
+    val chekoutState: LiveData<Resource<BaseDetailsModel<CheckoutModel>>>
+        get() = _checkOutState
 
     val price: LiveData<Int>
         get() = _price
@@ -78,6 +86,12 @@ class CheckoutViewModel @Inject constructor(
                         _cartState.value = dataState
                     }.launchIn(viewModelScope)
                 }
+
+                is CheckoutStateEvent.DoCheckout -> {
+                    remoteRepository.doCheckout(authHeader = _token.value!!).onEach { dataState ->
+                        _checkOutState.value = dataState
+                    }.launchIn(viewModelScope)
+                }
             }
         }
     }
@@ -101,5 +115,7 @@ sealed class CheckoutStateEvent {
     object FetchCarts : CheckoutStateEvent()
 
     object LoadToken : CheckoutStateEvent()
+
+    object DoCheckout : CheckoutStateEvent()
 
 }

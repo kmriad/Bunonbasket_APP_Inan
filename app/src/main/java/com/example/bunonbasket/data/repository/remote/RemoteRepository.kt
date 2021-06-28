@@ -12,6 +12,7 @@ import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
+import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.utils.Resource
@@ -249,6 +250,32 @@ class RemoteRepository @Inject constructor(
             emit(Resource.Error(e))
         }
     }
+
+    override suspend fun deleteItem(
+        cartId: Int,
+        authHeader: String
+    ): Flow<Resource<BaseDetailsModel<Any?>>> = flow {
+        try {
+            val data = bunonRetrofit.deleteItem(cartId, "Bearer $authHeader")
+            Log.d("RemoteRepository", data.message);
+            emit(Resource.Success(data))
+        } catch (e: Exception) {
+            Log.d("RemoteRepository", e.message.toString());
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun doCheckout(authHeader: String): Flow<Resource<BaseDetailsModel<CheckoutModel>>> =
+        flow {
+            try {
+                val data = bunonRetrofit.doCheckout("Bearer $authHeader")
+                Log.d("RemoteRepository", data.message);
+                emit(Resource.Success(data))
+            } catch (e: Exception) {
+                Log.d("RemoteRepository", e.message.toString());
+                emit(Resource.Error(e))
+            }
+        }
 
     override suspend fun fetchAllProducts(
         query: String,

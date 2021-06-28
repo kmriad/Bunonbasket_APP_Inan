@@ -97,16 +97,20 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
             when (dataState) {
                 is Resource.Success<BaseModel<CartListModel>> -> {
                     dataState.data.let { dataModel ->
+                        dialog.closeLoadingDialog()
                         if (dataModel.results.size > 0) {
-                            dialog.closeLoadingDialog()
                             binding.bodySection.visibility = View.VISIBLE
                             binding.emptyCart.visibility = View.GONE
                             cartAdapter.submitList(dataModel.results)
+
                             var price = 0
                             for (result in dataModel.results) {
                                 price += result.price
                             }
                             cartViewModel.setcounter(price)
+                        } else {
+                            binding.bodySection.visibility = View.GONE
+                            binding.emptyCart.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -146,6 +150,21 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
                 }
             }
         })
+        cartViewModel.deleteDataState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseDetailsModel<Any?>> -> {
+                    dataState.data.let { dataModel ->
+                        cartViewModel.fetchCarts()
+                    }
+                }
+                is Resource.Loading -> {
+
+                }
+                is Resource.Error -> {
+
+                }
+            }
+        })
     }
 
     override fun onAddButtonClick(quantity: Int, id: Int) {
@@ -155,6 +174,18 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
 
     override fun onRemoveButtonClick(quantity: Int, id: Int) {
         cartViewModel.decrementCounter(quantity, id)
+    }
+
+    override fun onItemSelected(cart: CartListModel) {
+        binding.deleteButton.isClickable = true
+
+        binding.deleteButton.setOnClickListener { it ->
+            if (it.isClickable) {
+                cartViewModel.deleteCarts(cart.id)
+            } else {
+                Toast.makeText(activity, "You must select an item", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

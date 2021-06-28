@@ -75,4 +75,6 @@
     <string name="postal_code">Postal Code</string>
     <string name="cash_on_delivery">Cash on delivery</string>
     <string name="Items">Items</string>
+    <string name="order_placed">Order Placed</string>
+    <string name="checkout_message">Your order was placed successfully. For more details, Check Delivery Status under profile tab.</string>
 </resources>

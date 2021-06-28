@@ -10,10 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.LoginModel
+import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.data.models.cart.ShippingInfo
+import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.databinding.ActivityCheckoutBinding
+import com.example.bunonbasket.ui.component.CheckoutCompleteActivity
 import com.example.bunonbasket.ui.component.checkout.adapter.CheckoutAdapter
 import com.example.bunonbasket.utils.Constants.SHIPPING_INFO
 import com.example.bunonbasket.utils.Resource
@@ -47,6 +50,9 @@ class CheckoutActivity : AppCompatActivity() {
             layoutManager =
                 LinearLayoutManager(this@CheckoutActivity, LinearLayoutManager.VERTICAL, false)
             adapter = checkoutAdapter
+        }
+        binding.checkOutBtn.setOnClickListener {
+            checkoutViewModel.setStateEvent(CheckoutStateEvent.DoCheckout)
         }
 
         subscribeObservers()
@@ -86,6 +92,18 @@ class CheckoutActivity : AppCompatActivity() {
                     binding.totalPrice.text = counter.toString()
                 }
             }
+        })
+
+        checkoutViewModel.chekoutState.observe(this, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseDetailsModel<CheckoutModel>> -> {
+                    dataState.data.let { data ->
+                        val intent = Intent(this, CheckoutCompleteActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
+
         })
     }
 

@@ -40,6 +40,7 @@
                     android:textColor="@color/black181" />
 
                 <ImageButton
+                    android:id="@+id/deleteButton"
                     android:layout_width="@dimen/margin_large"
                     android:layout_height="@dimen/margin_large"
                     android:layout_alignParentEnd="true"
@@ -48,6 +49,7 @@
                     android:layout_marginEnd="@dimen/standard_margin"
                     android:layout_marginRight="@dimen/standard_margin"
                     android:background="@color/white"
+                    android:clickable="false"
                     android:src="@drawable/ic_delete" />
 
             </RelativeLayout>
@@ -77,11 +79,11 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:fillViewport="true"
                 app:layout_constraintBottom_toTopOf="@id/bottomLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:fillViewport="true">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -91,9 +93,9 @@
                         android:id="@+id/cartItemsRV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:nestedScrollingEnabled="false"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />

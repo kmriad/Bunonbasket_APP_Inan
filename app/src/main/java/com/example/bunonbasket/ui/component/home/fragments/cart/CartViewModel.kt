@@ -27,7 +27,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val remoteRepository: RemoteRepository,
-    private val cacheRepository: CacheRepository,
     private val dataStoreManager: DataStoreManager,
     private val state: SavedStateHandle
 ) : ViewModel(), LifecycleObserver {
@@ -37,6 +36,9 @@ class CartViewModel @Inject constructor(
     private val _cartDataState: MutableLiveData<Resource<BaseModel<CartListModel>>> =
         MutableLiveData()
     private val _quantityDataState: MutableLiveData<Resource<BaseDetailsModel<QuantityUpdateModel>>> =
+        MutableLiveData()
+
+    private val _deleteDataState: MutableLiveData<Resource<BaseDetailsModel<Any?>>> =
         MutableLiveData()
 
     val token: LiveData<String>
@@ -50,6 +52,9 @@ class CartViewModel @Inject constructor(
 
     val quantityDataState: LiveData<Resource<BaseDetailsModel<QuantityUpdateModel>>>
         get() = _quantityDataState
+
+    val deleteDataState: LiveData<Resource<BaseDetailsModel<Any?>>>
+        get() = _deleteDataState
 
     private val taskEventChannel = Channel<CartStateEvent>()
     val homeEvent = taskEventChannel.receiveAsFlow()
@@ -79,6 +84,15 @@ class CartViewModel @Inject constructor(
                     }.launchIn(viewModelScope)
                 }
 
+                is CartStateEvent.DeleteCart -> {
+                    remoteRepository.deleteItem(
+                        cartId = cartStateEvent.id,
+                        authHeader = _token.value!!
+                    ).onEach { dataState ->
+                        _deleteDataState.value = dataState
+                    }.launchIn(viewModelScope)
+                }
+
                 is CartStateEvent.LoadToken -> {
                     dataStoreManager.authToken().onEach { dataState ->
                         _token.value = dataState
@@ -102,6 +116,10 @@ class CartViewModel @Inject constructor(
         fetchRemoteEvents(CartStateEvent.FetchCarts)
     }
 
+    fun deleteCarts(id: Int) {
+        fetchRemoteEvents(CartStateEvent.DeleteCart(id))
+    }
+
     fun incrementCounter(quantity: Int, id: Int) {
         fetchRemoteEvents(CartStateEvent.UpdateQuantity(id, quantity))
     }
@@ -118,6 +136,8 @@ sealed class CartStateEvent {
     object LoadToken : CartStateEvent()
 
     data class UpdateQuantity(val id: Int, val quantity: Int) : CartStateEvent()
+
+    data class DeleteCart(val id: Int) : CartStateEvent()
 
     object NavigateToShippingInfo : CartStateEvent()
 }

@@ -11,6 +11,7 @@ import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
+import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -78,4 +79,8 @@ interface RemoteRepositorySource {
         area: String,
         authHeader: String
     ): Flow<Resource<BaseDetailsModel<ShippingInfo>>>
+
+    suspend fun deleteItem(cartId: Int, authHeader: String): Flow<Resource<BaseDetailsModel<Any?>>>
+
+    suspend fun doCheckout(authHeader: String): Flow<Resource<BaseDetailsModel<CheckoutModel>>>
 }

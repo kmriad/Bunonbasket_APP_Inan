@@ -15,7 +15,8 @@ import com.example.bunonbasket.databinding.CartItemLayoutBinding
  */
 class CartAdapter(private val listener: OnCartUpdateListener) :
     ListAdapter<CartListModel, CartAdapter.CartViewHolder>(DiffCallback()) {
-    private var selectedPosition = -1
+
+
     inner class CartViewHolder(private val binding: CartItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -23,15 +24,7 @@ class CartAdapter(private val listener: OnCartUpdateListener) :
         init {
 
             binding.apply {
-
-               binding.selectBtn.setOnClickListener {
-                   selectedPosition = bindingAdapterPosition
-                   notifyDataSetChanged()
-               }
-                if(selectedPosition == bindingAdapterPosition){
-
-                }
-
+                0
                 binding.addBtn.setOnClickListener {
                     val position = bindingAdapterPosition
                     Log.d("CartAdapter", position.toString())
@@ -60,12 +53,28 @@ class CartAdapter(private val listener: OnCartUpdateListener) :
         fun bind(cart: CartListModel) {
             binding.cart = cart
             binding.data = cart.product
+            binding.productNameTextView.tag = ("" + bindingAdapterPosition)
+            binding.selectBtn.isChecked = getItem(bindingAdapterPosition).isSelected
+
+            binding.selectBtn.setOnClickListener {
+                for (i in currentList) {
+                    i.isSelected = false
+                }
+                val tag: String = binding.productNameTextView.tag.toString()
+                val pos: Int = tag.toInt()
+                currentList.get(pos).isSelected = !currentList.get(pos).isSelected
+                if (currentList.get(pos).isSelected) {
+                    listener.onItemSelected(cart)
+                }
+                notifyDataSetChanged()
+            }
         }
     }
 
     interface OnCartUpdateListener {
         fun onAddButtonClick(quantity: Int, id: Int)
         fun onRemoveButtonClick(quantity: Int, id: Int)
+        fun onItemSelected(cart: CartListModel)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<CartListModel>() {

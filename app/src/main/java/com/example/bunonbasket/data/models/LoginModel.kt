@@ -3,7 +3,6 @@ package com.example.bunonbasket.data.models
 /**
  * Created by inan on 7/6/21
  */
-import androidx.room.Entity
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -74,5 +73,5 @@ data class LoginModel(
 
     @SerializedName("user_type")
     @Expose
-    val user_type: String?
+    val user_type: String?,
 )

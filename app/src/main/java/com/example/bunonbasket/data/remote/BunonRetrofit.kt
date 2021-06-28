@@ -11,6 +11,7 @@ import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
+import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import retrofit2.http.*
 
@@ -115,4 +116,14 @@ interface BunonRetrofit {
         @Field("area") area: String,
         @Header("Authorization") authHeader: String
     ): BaseDetailsModel<ShippingInfo>
+
+    @HTTP(method = "DELETE", path = "cart", hasBody = true)
+    @FormUrlEncoded
+    suspend fun deleteItem(
+        @Field("cart_id") cartId: Int,
+        @Header("Authorization") authHeader: String,
+    ): BaseDetailsModel<Any?>
+
+    @POST("checkout")
+    suspend fun doCheckout(@Header("Authorization") authHeader: String): BaseDetailsModel<CheckoutModel>
 }
