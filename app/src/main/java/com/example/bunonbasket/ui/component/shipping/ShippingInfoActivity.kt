@@ -54,15 +54,17 @@ class ShippingInfoActivity : AppCompatActivity() {
             subscribeObservers()
 
             binding.proceedToCheckoutButton.setOnClickListener {
-                shippingInfoViewModel.fetchRemoteEvents(
-                    ShippingInfoStateEvent.InsertShippingInfo(
-                        country = "Bangladesh",
-                        postalCode = postalCodeEditText.text.toString().toInt(),
-                        address = binding.addressEditText.text.toString(),
-                        area = areaName,
-                        city = cityName
+                if (areaName != "") {
+                    shippingInfoViewModel.fetchRemoteEvents(
+                        ShippingInfoStateEvent.InsertShippingInfo(
+                            country = "Bangladesh",
+                            postalCode = postalCodeEditText.text.toString().toInt(),
+                            address = binding.addressEditText.text.toString(),
+                            area = areaName,
+                            city = cityName
+                        )
                     )
-                )
+                }
             }
         }
     }
