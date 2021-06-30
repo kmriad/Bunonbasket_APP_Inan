@@ -46,12 +46,27 @@ class AccountFragment : Fragment() {
                 accountViewModel.onLoginButtonClicked()
             }
 
+            binding.orderHistory.setOnClickListener {
+                accountViewModel.onOrderHistoryClicked()
+            }
+
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 accountViewModel.accountStateEvent.collect { event ->
                     when (event) {
                         is AccountStateEvent.NavigateToLoginActivity -> {
                             val action =
                                 AccountFragmentDirections.actionAccountFragmentToLoginActivity()
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                accountViewModel.profileStateEvent.collect { event ->
+                    when (event) {
+                        is AccountStateEvent.NavigateToOrderHistory -> {
+                            val action =
+                                AccountFragmentDirections.actionAccountFragmentToOrdersActivity()
                             findNavController().navigate(action)
                         }
                     }

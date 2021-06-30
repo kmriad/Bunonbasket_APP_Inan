@@ -12,6 +12,7 @@ import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
+import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import retrofit2.http.*
 
@@ -126,4 +127,13 @@ interface BunonRetrofit {
 
     @POST("checkout")
     suspend fun doCheckout(@Header("Authorization") authHeader: String): BaseDetailsModel<CheckoutModel>
+
+    @GET("user-orders/all")
+    suspend fun fetchAllOrders(@Header("Authorization") authHeader: String): List<OrderHistoryModel>
+
+    @GET("user-orders/delivered")
+    suspend fun fetchDeliveredOrders(@Header("Authorization") authHeader: String): List<OrderHistoryModel>
+
+    @GET("user-orders/canceled")
+    suspend fun fetchCancelledOrders(@Header("Authorization") authHeader: String): List<OrderHistoryModel>
 }

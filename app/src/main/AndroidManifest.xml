@@ -15,7 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
-        <activity android:name=".ui.component.CheckoutCompleteActivity"></activity>
+        <activity
+            android:name=".ui.component.orderhistory.OrdersActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.component.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.component.HomeActivity" />
+        </activity>
+        <activity android:name=".ui.component.CheckoutCompleteActivity" />
         <activity
             android:name=".ui.component.shipping.ShippingInfoActivity"
             android:launchMode="singleTop"

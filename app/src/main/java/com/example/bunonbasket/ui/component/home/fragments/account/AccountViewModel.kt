@@ -52,6 +52,10 @@ class AccountViewModel @Inject constructor(
         taskEventChannel.send(AccountStateEvent.NavigateToLoginActivity)
     }
 
+    fun onOrderHistoryClicked() = viewModelScope.launch {
+        accountEventChannel.send(AccountStateEvent.NavigateToOrderHistory)
+    }
+
     fun onLoginProfile() {
         setStateEvent(AccountStateEvent.LoadProfile)
     }
@@ -90,4 +94,6 @@ sealed class AccountStateEvent {
     object LoadToken : AccountStateEvent()
 
     object NavigateToLoginActivity : AccountStateEvent()
+
+    object NavigateToOrderHistory : AccountStateEvent()
 }

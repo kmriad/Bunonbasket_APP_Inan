@@ -13,6 +13,7 @@ import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
+import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.utils.Resource
@@ -273,6 +274,36 @@ class RemoteRepository @Inject constructor(
                 emit(Resource.Success(data))
             } catch (e: Exception) {
                 Log.d("RemoteRepository", e.message.toString());
+                emit(Resource.Error(e))
+            }
+        }
+
+    override suspend fun fetchOrderHistory(authHeader: String): Flow<Resource<List<OrderHistoryModel>>> =
+        flow {
+            try {
+                val data = bunonRetrofit.fetchAllOrders("Bearer $authHeader");
+                emit(Resource.Success(data))
+            } catch (e: Exception) {
+                emit(Resource.Error(e))
+            }
+        }
+
+    override suspend fun fetchDeliveredOrders(authHeader: String): Flow<Resource<List<OrderHistoryModel>>> =
+        flow {
+            try {
+                val data = bunonRetrofit.fetchDeliveredOrders("Bearer $authHeader");
+                emit(Resource.Success(data))
+            } catch (e: Exception) {
+                emit(Resource.Error(e))
+            }
+        }
+
+    override suspend fun fetchCancelledOrders(authHeader: String): Flow<Resource<List<OrderHistoryModel>>> =
+        flow {
+            try {
+                val data = bunonRetrofit.fetchCancelledOrders("Bearer $authHeader");
+                emit(Resource.Success(data))
+            } catch (e: Exception) {
                 emit(Resource.Error(e))
             }
         }
