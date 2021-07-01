@@ -88,9 +88,10 @@ class ShippingInfoViewModel @Inject constructor(
 
                 is ShippingInfoStateEvent.InsertShippingInfo -> {
                     remoteRepository.addShippingInfo(
+                        name = shippingInfoStateEvent.name,
+                        phone = shippingInfoStateEvent.phone,
                         city = shippingInfoStateEvent.city,
                         country = shippingInfoStateEvent.country,
-                        postalCode = shippingInfoStateEvent.postalCode,
                         address = shippingInfoStateEvent.address,
                         area = shippingInfoStateEvent.area,
                         authHeader = _token.value!!
@@ -111,10 +112,11 @@ sealed class ShippingInfoStateEvent {
     data class FetchAreaByCity(val cityId: Int) : ShippingInfoStateEvent()
 
     data class InsertShippingInfo(
+        val name: String,
+        val phone: String,
         val address: String,
         val country: String,
         val city: String,
-        val postalCode: Int,
         val area: String
     ) : ShippingInfoStateEvent()
 }

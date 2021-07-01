@@ -229,21 +229,23 @@ class RemoteRepository @Inject constructor(
     }
 
     override suspend fun addShippingInfo(
+        name: String,
+        phone: String,
         address: String,
         country: String,
         city: String,
-        postalCode: Int,
         area: String,
         authHeader: String
     ): Flow<Resource<BaseDetailsModel<ShippingInfo>>> = flow {
         try {
             val areaModel =
                 bunonRetrofit.addShippingInfo(
+                    name = name,
+                    phone = phone,
                     authHeader = "Bearer $authHeader",
                     address = address,
                     country = country,
                     city = city,
-                    postalCode = postalCode,
                     area = area
                 )
             emit(Resource.Success(areaModel))
@@ -251,6 +253,17 @@ class RemoteRepository @Inject constructor(
             emit(Resource.Error(e))
         }
     }
+
+    override suspend fun fetchShippingInfo(authHeader: String): Flow<Resource<BaseDetailsModel<ShippingInfo>>> =
+        flow {
+            try {
+                val areaModel =
+                    bunonRetrofit.fetchShippingInfo(authHeader)
+                emit(Resource.Success(areaModel))
+            } catch (e: Exception) {
+                emit(Resource.Error(e))
+            }
+        }
 
     override suspend fun deleteItem(
         cartId: Int,

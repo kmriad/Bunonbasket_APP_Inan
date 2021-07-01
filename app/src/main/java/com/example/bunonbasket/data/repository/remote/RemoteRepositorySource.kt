@@ -73,13 +73,16 @@ interface RemoteRepositorySource {
     suspend fun fetchAreas(token: String, areaId: Int): Flow<Resource<BaseModel<AreaModel>>>
 
     suspend fun addShippingInfo(
+        name: String,
+        phone: String,
         address: String,
         country: String,
         city: String,
-        postalCode: Int,
         area: String,
         authHeader: String
     ): Flow<Resource<BaseDetailsModel<ShippingInfo>>>
+
+    suspend fun fetchShippingInfo(authHeader: String): Flow<Resource<BaseDetailsModel<ShippingInfo>>>
 
     suspend fun deleteItem(cartId: Int, authHeader: String): Flow<Resource<BaseDetailsModel<Any?>>>
 

@@ -58,8 +58,14 @@ class OrdersFragment : Fragment(), OrderAdapter.OnItemClickListener {
                 is Resource.Success<List<OrderHistoryModel>> -> {
                     dataState.data.let { data ->
                         val itemList: List<OrderHistoryModel> = data
-                        orderAdapter.submitList(itemList)
+                        binding.progressBar.visibility = View.GONE
+                        if (itemList.size > 0) {
+                            orderAdapter.submitList(itemList)
+                        }
                     }
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         })

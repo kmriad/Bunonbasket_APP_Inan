@@ -39,6 +39,9 @@ class ShippingInfoActivity : AppCompatActivity() {
 
     var cityName: String = ""
     var areaName: String = ""
+    var name: String = ""
+    var phone: String = ""
+    var address: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,17 +56,33 @@ class ShippingInfoActivity : AppCompatActivity() {
             shippingInfoViewModel.fetchRemoteEvents(ShippingInfoStateEvent.FetchCityList)
             subscribeObservers()
 
+            name = binding.nameInputField.text.toString()
+            phone = binding.phoneNumberInputField.text.toString()
+            address = binding.addressEditText.text.toString()
+
+
             binding.proceedToCheckoutButton.setOnClickListener {
-                if (areaName != "") {
+                if (areaName != "" && cityName != "" && name != "" && phone != "") {
                     shippingInfoViewModel.fetchRemoteEvents(
                         ShippingInfoStateEvent.InsertShippingInfo(
+                            name = name,
+                            phone = phone,
                             country = "Bangladesh",
-                            postalCode = postalCodeEditText.text.toString().toInt(),
-                            address = binding.addressEditText.text.toString(),
+                            address = address,
                             area = areaName,
                             city = cityName
                         )
                     )
+                } else {
+                    if (address == "") {
+                        binding.addressEditText.setError("You need to enter address")
+                    }
+                    if (name == "") {
+                        binding.nameInputField.setError("You need to enter a name")
+                    }
+                    if (phone == "") {
+                        binding.phoneNumberInputField.setError("You need to enter a phone number")
+                    }
                 }
             }
         }

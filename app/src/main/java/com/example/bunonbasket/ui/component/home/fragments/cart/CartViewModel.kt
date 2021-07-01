@@ -7,7 +7,7 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
-import com.example.bunonbasket.data.repository.cache.CacheRepository
+import com.example.bunonbasket.data.models.cart.ShippingInfo
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +41,9 @@ class CartViewModel @Inject constructor(
     private val _deleteDataState: MutableLiveData<Resource<BaseDetailsModel<Any?>>> =
         MutableLiveData()
 
+    private val _shippingDataState: MutableLiveData<Resource<BaseDetailsModel<ShippingInfo>>> =
+        MutableLiveData()
+
     val token: LiveData<String>
         get() = _token
 
@@ -56,6 +59,9 @@ class CartViewModel @Inject constructor(
     val deleteDataState: LiveData<Resource<BaseDetailsModel<Any?>>>
         get() = _deleteDataState
 
+    val shippingDataState: LiveData<Resource<BaseDetailsModel<ShippingInfo>>>
+        get() = _shippingDataState
+
     private val taskEventChannel = Channel<CartStateEvent>()
     val homeEvent = taskEventChannel.receiveAsFlow()
 
@@ -70,6 +76,13 @@ class CartViewModel @Inject constructor(
                     remoteRepository.fetchCart(_token.value!!)
                         .onEach { dataState ->
                             _cartDataState.value = dataState
+                        }.launchIn(viewModelScope)
+                }
+
+                is CartStateEvent.FetchShippingInfo -> {
+                    remoteRepository.fetchShippingInfo(authHeader = _token.value!!)
+                        .onEach { dataState ->
+                            _shippingDataState.value = dataState
                         }.launchIn(viewModelScope)
                 }
 
@@ -138,6 +151,8 @@ sealed class CartStateEvent {
     data class UpdateQuantity(val id: Int, val quantity: Int) : CartStateEvent()
 
     data class DeleteCart(val id: Int) : CartStateEvent()
+
+    object FetchShippingInfo : CartStateEvent()
 
     object NavigateToShippingInfo : CartStateEvent()
 }

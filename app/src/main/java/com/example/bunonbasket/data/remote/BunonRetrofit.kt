@@ -110,13 +110,18 @@ interface BunonRetrofit {
     @POST("shipping_info")
     @FormUrlEncoded
     suspend fun addShippingInfo(
+        @Field("name") name: String,
+        @Field("phone") phone: String,
         @Field("address") address: String,
         @Field("country") country: String,
         @Field("city") city: String,
-        @Field("postal_code") postalCode: Int,
         @Field("area") area: String,
         @Header("Authorization") authHeader: String
     ): BaseDetailsModel<ShippingInfo>
+
+
+    @GET("get/shipping_info")
+    suspend fun fetchShippingInfo(@Header("Authorization") authHeader: String): BaseDetailsModel<ShippingInfo>
 
     @HTTP(method = "DELETE", path = "cart", hasBody = true)
     @FormUrlEncoded

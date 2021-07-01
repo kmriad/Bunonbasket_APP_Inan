@@ -8,15 +8,15 @@ data class ShippingInfo(
 
     @SerializedName("address")
     @Expose
-    val address: String,
+    val address: String?,
 
     @SerializedName("city")
     @Expose
-    val city: String,
+    val city: String?,
 
     @SerializedName("country")
     @Expose
-    val country: String,
+    val country: String?,
 
     @SerializedName("phone")
     @Expose
@@ -24,9 +24,13 @@ data class ShippingInfo(
 
     @SerializedName("postal_code")
     @Expose
-    val postal_code: String,
+    val postal_code: String?,
 
     @SerializedName("user_id")
     @Expose
-    val user_id: Int
+    val user_id: Int?,
+
+    @SerializedName("name")
+    @Expose
+    val name: String?
 ) : Serializable

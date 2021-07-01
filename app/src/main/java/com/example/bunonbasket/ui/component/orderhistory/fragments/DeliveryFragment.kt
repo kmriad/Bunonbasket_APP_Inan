@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.databinding.FragmentDeliveryBinding
-import com.example.bunonbasket.databinding.FragmentOrdersBinding
 import com.example.bunonbasket.ui.component.orderhistory.OrderStateEvent
 import com.example.bunonbasket.ui.component.orderhistory.OrdersViewModel
 import com.example.bunonbasket.ui.component.orderhistory.adapters.OrderAdapter
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class DeliveryFragment : Fragment(), OrderAdapter.OnItemClickListener {
 
@@ -50,9 +52,15 @@ class DeliveryFragment : Fragment(), OrderAdapter.OnItemClickListener {
             when (dataState) {
                 is Resource.Success<List<OrderHistoryModel>> -> {
                     dataState.data.let { data ->
+                        binding.progressBar.visibility = View.GONE
                         val itemList: List<OrderHistoryModel> = data
-                        orderAdapter.submitList(itemList)
+                        if (itemList.size > 0) {
+                            orderAdapter.submitList(itemList)
+                        }
                     }
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         })

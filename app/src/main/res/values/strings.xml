@@ -77,4 +77,5 @@
     <string name="Items">Items</string>
     <string name="order_placed">Order Placed</string>
     <string name="checkout_message">Your order was placed successfully. For more details, Check Delivery Status under profile tab.</string>
+    <string name="save">Save</string>
 </resources>
