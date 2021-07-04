@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bunonbasket.data.local.cache.DataStoreManager
+import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
@@ -22,21 +23,22 @@ class OrdersViewModel @Inject constructor(
 ) : ViewModel() {
     private val _token: MutableLiveData<String> = MutableLiveData()
 
-    private val _dataState: MutableLiveData<Resource<List<OrderHistoryModel>>> = MutableLiveData()
+    private val _dataState: MutableLiveData<Resource<BaseModel<OrderHistoryModel>>> =
+        MutableLiveData()
 
-    val dataState: LiveData<Resource<List<OrderHistoryModel>>>
+    val dataState: LiveData<Resource<BaseModel<OrderHistoryModel>>>
         get() = _dataState
 
-    private val _deliveryState: MutableLiveData<Resource<List<OrderHistoryModel>>> =
+    private val _deliveryState: MutableLiveData<Resource<BaseModel<OrderHistoryModel>>> =
         MutableLiveData()
 
-    val deliveryState: LiveData<Resource<List<OrderHistoryModel>>>
+    val deliveryState: LiveData<Resource<BaseModel<OrderHistoryModel>>>
         get() = _deliveryState
 
-    private val _cancelledState: MutableLiveData<Resource<List<OrderHistoryModel>>> =
+    private val _cancelledState: MutableLiveData<Resource<BaseModel<OrderHistoryModel>>> =
         MutableLiveData()
 
-    val cancelledState: LiveData<Resource<List<OrderHistoryModel>>>
+    val cancelledState: LiveData<Resource<BaseModel<OrderHistoryModel>>>
         get() = _cancelledState
 
     val token: LiveData<String>

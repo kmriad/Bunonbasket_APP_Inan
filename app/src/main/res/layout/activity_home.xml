@@ -13,6 +13,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
             android:elevation="@dimen/margin_small"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +21,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            android:background="@color/white"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <RelativeLayout
@@ -28,22 +28,12 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:paddingEnd="@dimen/standard_margin"
-                    android:paddingRight="@dimen/standard_margin"
-                    android:src="@drawable/ic_bell" />
-
-                <ImageView
                     android:id="@+id/toolbarTitle"
                     android:layout_width="@dimen/category_list_width"
                     android:layout_height="@dimen/margin_large"
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/bb_logo"
-                   />
+                    android:src="@drawable/bb_logo" />
 
             </RelativeLayout>
 
@@ -73,28 +63,17 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_size"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
             android:clipChildren="false"
             app:itemHorizontalTranslationEnabled="false"
+            app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_navigation_menu">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnCamera"
-                android:layout_width="@dimen/button_size"
-                android:layout_height="@dimen/button_size"
-                android:layout_gravity="center"
-                android:contentDescription="@string/camera"
-                android:scaleType="center"
-                android:src="@drawable/camera"
-                app:elevation="6dp"
-                app:tint="@color/white" />
-
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:menu="@menu/bottom_navigation_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -18,8 +18,9 @@ import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.databinding.ActivityCheckoutBinding
 import com.example.bunonbasket.ui.component.CheckoutCompleteActivity
 import com.example.bunonbasket.ui.component.checkout.adapter.CheckoutAdapter
-import com.example.bunonbasket.utils.Constants.SHIPPING_INFO
+import com.example.bunonbasket.ui.component.shipping.ShippingInfoActivity
 import com.example.bunonbasket.utils.Resource
+import com.example.bunonbasket.utils.widgets.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -34,6 +35,7 @@ class CheckoutActivity : AppCompatActivity() {
     lateinit var userModel: LoginModel
     lateinit var totalPrice: String
     lateinit var checkoutAdapter: CheckoutAdapter
+    lateinit var dialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +44,8 @@ class CheckoutActivity : AppCompatActivity() {
         setSupportActionBar(binding.checkOutToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        shippingInfo = intent.extras?.get(SHIPPING_INFO) as ShippingInfo
-        binding.data = shippingInfo
+        dialog = LoadingDialog(this)
+        dialog.showLoadingDialog()
 
         checkoutAdapter = CheckoutAdapter()
         binding.itemRv.apply {
@@ -55,6 +57,10 @@ class CheckoutActivity : AppCompatActivity() {
             checkoutViewModel.setStateEvent(CheckoutStateEvent.DoCheckout)
         }
 
+        binding.shippingAddressButton.setOnClickListener {
+            val intent = Intent(this, ShippingInfoActivity::class.java)
+            startActivity(intent)
+        }
         subscribeObservers()
     }
 
@@ -104,6 +110,18 @@ class CheckoutActivity : AppCompatActivity() {
                 }
             }
 
+        })
+
+        checkoutViewModel.shippingDataState.observe(this, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseDetailsModel<ShippingInfo>> -> {
+                    dataState.data.let { data ->
+                        dialog.closeLoadingDialog()
+                        shippingInfo = data.results
+                        binding.data = shippingInfo
+                    }
+                }
+            }
         })
     }
 

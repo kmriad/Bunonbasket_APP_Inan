@@ -2,6 +2,7 @@ package com.example.bunonbasket.ui.component
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import androidx.activity.viewModels
@@ -11,14 +12,19 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bunonbasket.R
 import com.example.bunonbasket.databinding.ActivityHomeBinding
+import com.example.bunonbasket.databinding.ButtonCustomBinding
 import com.example.bunonbasket.ui.component.bazar.UploadBazarActivity
 import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.ui.component.home.HomeViewModel
 import com.example.bunonbasket.utils.Constants.SHOWCASE_ID
 import com.example.bunonbasket.utils.Resource
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
@@ -30,12 +36,13 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
+    private lateinit var customBinding: ButtonCustomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        //setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         var childFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)
@@ -61,10 +68,31 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.wishListFragment,
+                R.id.navigation_dashboard,
+                R.id.cartFragment,
+                R.id.accountFragment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
         binding.bottomNavigationView.setupWithNavController(navController)
+        val bottomMenuView = binding.bottomNavigationView.getChildAt(0) as BottomNavigationMenuView
+        val view = bottomMenuView.getChildAt(2)
+        val itemView = view as BottomNavigationItemView
+
+        customBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(this),
+            R.layout.button_custom,
+            bottomMenuView,
+            false
+        )
+        itemView.addView(customBinding.root)
         subscribeObservers()
 
-        binding.btnCamera.setOnClickListener {
+        customBinding.btnCamera.setOnClickListener {
             val intent = Intent(this, UploadBazarActivity::class.java)
             startActivity(intent)
         }
@@ -87,7 +115,7 @@ class HomeActivity : AppCompatActivity() {
                 is Resource.Success<Boolean> -> {
                     if (dataState.data == false) {
                         MaterialShowcaseView.Builder(this)
-                            .setTarget(binding.btnCamera)
+                            .setTarget(customBinding.btnCamera)
                             .setDismissText(getString(R.string.got_it))
                             .setContentText(getString(R.string.upload_image_using_button))
                             .singleUse(SHOWCASE_ID)

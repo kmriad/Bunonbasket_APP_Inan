@@ -35,6 +35,7 @@ class CartViewModel @Inject constructor(
     private val _price: MutableLiveData<Int> = MutableLiveData()
     private val _cartDataState: MutableLiveData<Resource<BaseModel<CartListModel>>> =
         MutableLiveData()
+
     private val _quantityDataState: MutableLiveData<Resource<BaseDetailsModel<QuantityUpdateModel>>> =
         MutableLiveData()
 
@@ -68,6 +69,14 @@ class CartViewModel @Inject constructor(
     fun onCheckOutClicked() = viewModelScope.launch {
         taskEventChannel.send(CartStateEvent.NavigateToShippingInfo)
     }
+
+    private val shippingEventChannel = Channel<CartStateEvent>()
+    val shippingEvent = shippingEventChannel.receiveAsFlow()
+
+    fun onShippingInfoReceived() = viewModelScope.launch {
+        shippingEventChannel.send(CartStateEvent.NavigateToCheckout)
+    }
+
 
     fun fetchRemoteEvents(cartStateEvent: CartStateEvent) {
         viewModelScope.launch {
@@ -155,4 +164,6 @@ sealed class CartStateEvent {
     object FetchShippingInfo : CartStateEvent()
 
     object NavigateToShippingInfo : CartStateEvent()
+
+    object NavigateToCheckout : CartStateEvent()
 }

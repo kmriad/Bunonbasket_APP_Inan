@@ -121,6 +121,7 @@
                                 android:layout_marginEnd="@dimen/margin_small"
                                 android:layout_marginRight="@dimen/margin_small"
                                 android:background="@color/white"
+                                android:id="@+id/shippingAddressButton"
                                 android:src="@drawable/ic_pen_green" />
 
                         </RelativeLayout>

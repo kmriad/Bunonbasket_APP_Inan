@@ -18,6 +18,7 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
+import com.example.bunonbasket.data.models.cart.ShippingInfo
 import com.example.bunonbasket.databinding.FragmentCartBinding
 import com.example.bunonbasket.ui.component.home.adapters.CartAdapter
 import com.example.bunonbasket.utils.Resource
@@ -35,7 +36,6 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
     lateinit var binding: FragmentCartBinding
     lateinit var dialog: LoadingDialog
     lateinit var cartAdapter: CartAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +65,8 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
         dialog.showLoadingDialog()
 
         binding.checkOutBtn.setOnClickListener {
-            cartViewModel.onCheckOutClicked()
+            dialog.showLoadingDialog()
+            cartViewModel.fetchRemoteEvents(CartStateEvent.FetchShippingInfo)
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
@@ -74,6 +75,18 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
                     is CartStateEvent.NavigateToShippingInfo -> {
                         val action =
                             CartFragmentDirections.actionCartFragmentToShippingInfoActivity()
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            cartViewModel.shippingEvent.collect { event ->
+                when (event) {
+                    is CartStateEvent.NavigateToCheckout -> {
+                        val action =
+                            CartFragmentDirections.actionCartFragmentToCheckoutActivity()
                         findNavController().navigate(action)
                     }
                 }
@@ -162,6 +175,20 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
                 }
                 is Resource.Error -> {
 
+                }
+            }
+        })
+        cartViewModel.shippingDataState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseDetailsModel<ShippingInfo>> -> {
+                    dataState.data.let { dataModel ->
+                        if (dataModel.results.user_id != null) {
+                            dialog.closeLoadingDialog()
+                            cartViewModel.onShippingInfoReceived()
+                        } else {
+                            cartViewModel.onCheckOutClicked()
+                        }
+                    }
                 }
             }
         })

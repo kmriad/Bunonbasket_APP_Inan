@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
+import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.databinding.FragmentOrdersBinding
 import com.example.bunonbasket.ui.component.orderhistory.OrderStateEvent
@@ -55,9 +56,9 @@ class OrdersFragment : Fragment(), OrderAdapter.OnItemClickListener {
 
         orderViewModel.dataState.observe(viewLifecycleOwner, { dataState ->
             when (dataState) {
-                is Resource.Success<List<OrderHistoryModel>> -> {
+                is Resource.Success<BaseModel<OrderHistoryModel>> -> {
                     dataState.data.let { data ->
-                        val itemList: List<OrderHistoryModel> = data
+                        val itemList: List<OrderHistoryModel> = data.results
                         binding.progressBar.visibility = View.GONE
                         if (itemList.size > 0) {
                             orderAdapter.submitList(itemList)

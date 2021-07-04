@@ -88,9 +88,9 @@ interface RemoteRepositorySource {
 
     suspend fun doCheckout(authHeader: String): Flow<Resource<BaseDetailsModel<CheckoutModel>>>
 
-    suspend fun fetchOrderHistory(authHeader: String): Flow<Resource<List<OrderHistoryModel>>>
+    suspend fun fetchOrderHistory(authHeader: String): Flow<Resource<BaseModel<OrderHistoryModel>>>
 
-    suspend fun fetchDeliveredOrders(authHeader: String): Flow<Resource<List<OrderHistoryModel>>>
+    suspend fun fetchDeliveredOrders(authHeader: String): Flow<Resource<BaseModel<OrderHistoryModel>>>
 
-    suspend fun fetchCancelledOrders(authHeader: String): Flow<Resource<List<OrderHistoryModel>>>
+    suspend fun fetchCancelledOrders(authHeader: String): Flow<Resource<BaseModel<OrderHistoryModel>>>
 }

@@ -9,6 +9,7 @@ import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.cart.CartListModel
+import com.example.bunonbasket.data.models.cart.ShippingInfo
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
@@ -41,6 +42,12 @@ class CheckoutViewModel @Inject constructor(
 
     private val _price: MutableLiveData<Int> = MutableLiveData()
 
+    private val _shippingDataState: MutableLiveData<Resource<BaseDetailsModel<ShippingInfo>>> =
+        MutableLiveData()
+
+    val shippingDataState: LiveData<Resource<BaseDetailsModel<ShippingInfo>>>
+        get() = _shippingDataState
+
     val token: LiveData<String>
         get() = _token
 
@@ -60,6 +67,7 @@ class CheckoutViewModel @Inject constructor(
     init {
         setStateEvent(CheckoutStateEvent.LoadToken)
         setStateEvent(CheckoutStateEvent.LoadProfile)
+        setStateEvent(CheckoutStateEvent.FetchShippingInfo)
     }
 
     fun setStateEvent(accountStateEvent: CheckoutStateEvent) {
@@ -92,6 +100,13 @@ class CheckoutViewModel @Inject constructor(
                         _checkOutState.value = dataState
                     }.launchIn(viewModelScope)
                 }
+
+                is CheckoutStateEvent.FetchShippingInfo -> {
+                    remoteRepository.fetchShippingInfo(authHeader = _token.value!!)
+                        .onEach { dataState ->
+                            _shippingDataState.value = dataState
+                        }.launchIn(viewModelScope)
+                }
             }
         }
     }
@@ -117,5 +132,7 @@ sealed class CheckoutStateEvent {
     object LoadToken : CheckoutStateEvent()
 
     object DoCheckout : CheckoutStateEvent()
+
+    object FetchShippingInfo : CheckoutStateEvent()
 
 }

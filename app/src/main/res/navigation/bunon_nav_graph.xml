@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_cartFragment_to_shippingInfoActivity"
             app:destination="@id/shippingInfoActivity" />
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutActivity"
+            app:destination="@id/checkoutActivity" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -109,4 +112,8 @@
         android:id="@+id/ordersActivity"
         android:name="com.example.bunonbasket.ui.component.orderhistory.OrdersActivity"
         android:label="OrdersActivity" />
+    <activity
+        android:id="@+id/checkoutActivity"
+        android:name="com.example.bunonbasket.ui.component.checkout.CheckoutActivity"
+        android:label="CheckoutActivity" />
 </navigation>

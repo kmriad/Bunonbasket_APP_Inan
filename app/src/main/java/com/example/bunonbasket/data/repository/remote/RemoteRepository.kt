@@ -258,9 +258,11 @@ class RemoteRepository @Inject constructor(
         flow {
             try {
                 val areaModel =
-                    bunonRetrofit.fetchShippingInfo(authHeader)
+                    bunonRetrofit.fetchShippingInfo("Bearer $authHeader")
+                Log.d("RemoteRepository", areaModel.results.name.toString())
                 emit(Resource.Success(areaModel))
             } catch (e: Exception) {
+                Log.d("RemoteRepository", e.message.toString())
                 emit(Resource.Error(e))
             }
         }
@@ -291,7 +293,7 @@ class RemoteRepository @Inject constructor(
             }
         }
 
-    override suspend fun fetchOrderHistory(authHeader: String): Flow<Resource<List<OrderHistoryModel>>> =
+    override suspend fun fetchOrderHistory(authHeader: String): Flow<Resource<BaseModel<OrderHistoryModel>>> =
         flow {
             try {
                 val data = bunonRetrofit.fetchAllOrders("Bearer $authHeader");
@@ -301,7 +303,7 @@ class RemoteRepository @Inject constructor(
             }
         }
 
-    override suspend fun fetchDeliveredOrders(authHeader: String): Flow<Resource<List<OrderHistoryModel>>> =
+    override suspend fun fetchDeliveredOrders(authHeader: String): Flow<Resource<BaseModel<OrderHistoryModel>>> =
         flow {
             try {
                 val data = bunonRetrofit.fetchDeliveredOrders("Bearer $authHeader");
@@ -311,7 +313,7 @@ class RemoteRepository @Inject constructor(
             }
         }
 
-    override suspend fun fetchCancelledOrders(authHeader: String): Flow<Resource<List<OrderHistoryModel>>> =
+    override suspend fun fetchCancelledOrders(authHeader: String): Flow<Resource<BaseModel<OrderHistoryModel>>> =
         flow {
             try {
                 val data = bunonRetrofit.fetchCancelledOrders("Bearer $authHeader");

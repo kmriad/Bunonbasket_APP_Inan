@@ -134,11 +134,11 @@ interface BunonRetrofit {
     suspend fun doCheckout(@Header("Authorization") authHeader: String): BaseDetailsModel<CheckoutModel>
 
     @GET("user-orders/all")
-    suspend fun fetchAllOrders(@Header("Authorization") authHeader: String): List<OrderHistoryModel>
+    suspend fun fetchAllOrders(@Header("Authorization") authHeader: String): BaseModel<OrderHistoryModel>
 
     @GET("user-orders/delivered")
-    suspend fun fetchDeliveredOrders(@Header("Authorization") authHeader: String): List<OrderHistoryModel>
+    suspend fun fetchDeliveredOrders(@Header("Authorization") authHeader: String): BaseModel<OrderHistoryModel>
 
     @GET("user-orders/canceled")
-    suspend fun fetchCancelledOrders(@Header("Authorization") authHeader: String): List<OrderHistoryModel>
+    suspend fun fetchCancelledOrders(@Header("Authorization") authHeader: String): BaseModel<OrderHistoryModel>
 }
