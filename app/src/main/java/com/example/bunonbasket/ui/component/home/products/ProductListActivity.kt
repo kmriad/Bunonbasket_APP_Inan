@@ -38,6 +38,7 @@ class ProductListActivity : AppCompatActivity(), PaginatedProductListAdapter.OnI
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_list)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         binding.apply {
             productAdapter = PaginatedProductListAdapter(this@ProductListActivity)

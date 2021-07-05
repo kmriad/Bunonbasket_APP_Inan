@@ -28,6 +28,7 @@ class OrdersActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order_history)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         val fm: FragmentManager = supportFragmentManager
         fragmentAdapter = FragmentAdapter(fm, lifecycle)
@@ -36,8 +37,8 @@ class OrdersActivity : AppCompatActivity() {
         }
 
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Orders"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Delivery"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Cancel"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Delivered"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Canceled"))
 
         binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.view.Window
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -41,9 +42,11 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
         var childFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)
         val navHostController =
@@ -63,6 +66,7 @@ class HomeActivity : AppCompatActivity() {
                 }
                 else -> {
                     supportActionBar?.show()
+                    supportActionBar?.title = ""
                     binding.toolbar.visibility = View.VISIBLE
                 }
             }

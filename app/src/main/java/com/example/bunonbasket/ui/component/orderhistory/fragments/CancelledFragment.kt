@@ -1,6 +1,7 @@
 package com.example.bunonbasket.ui.component.orderhistory.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,15 +53,24 @@ class CancelledFragment : Fragment(), OrderAdapter.OnItemClickListener {
             when (dataState) {
                 is Resource.Success<BaseModel<OrderHistoryModel>> -> {
                     dataState.data.let { data ->
-                        binding.progressBar.visibility = View.GONE
                         val itemList: List<OrderHistoryModel> = data.results
+                        binding.progressBar.visibility = View.GONE
                         if (itemList.size > 0) {
                             orderAdapter.submitList(itemList)
+                            binding.orderRv.visibility = View.VISIBLE
+                            binding.animationView.visibility = View.GONE
+                        } else {
+                            binding.animationView.visibility = View.VISIBLE
                         }
                     }
                 }
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.animationView.visibility = View.GONE
+                }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
+                    binding.animationView.visibility = View.VISIBLE
                 }
             }
         })
@@ -68,7 +78,7 @@ class CancelledFragment : Fragment(), OrderAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(order: OrderHistoryModel?) {
-        TODO("Not yet implemented")
+        Log.d("OrdersFragment", order!!.code)
     }
 
 }

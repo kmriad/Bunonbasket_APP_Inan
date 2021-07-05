@@ -17,24 +17,33 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 android:background="@color/white"
+                app:layout_collapseMode="pin"
                 app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/order_status"
+                    android:layout_gravity="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black181" />
+
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
+                style="@style/Base.Widget.Design.TabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="6dp"
                 android:minHeight="?android:attr/actionBarSize"
+                app:tabIndicatorColor="@color/green"
                 app:tabMode="fixed"
-                style="@style/Base.Widget.Design.TabLayout"/>
+                app:tabSelectedTextColor="@color/green"
+                app:tabTextColor="@color/gray" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

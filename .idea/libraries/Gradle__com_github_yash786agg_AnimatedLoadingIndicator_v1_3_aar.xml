@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.yash786agg:AnimatedLoadingIndicator:v1.3@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6054cca2a1dd78276ad0a420424abb37/jetified-AnimatedLoadingIndicator-v1.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6054cca2a1dd78276ad0a420424abb37/jetified-AnimatedLoadingIndicator-v1.3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6054cca2a1dd78276ad0a420424abb37/jetified-AnimatedLoadingIndicator-v1.3/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.yash786agg/AnimatedLoadingIndicator/v1.3/e402c345f82c234b204c048833dde8ed678db096/AnimatedLoadingIndicator-v1.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

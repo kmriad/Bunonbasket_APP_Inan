@@ -78,4 +78,9 @@
     <string name="order_placed">Order Placed</string>
     <string name="checkout_message">Your order was placed successfully. For more details, Check Delivery Status under profile tab.</string>
     <string name="save">Save</string>
+    <string name="order_status">Order Status</string>
+    <string name="no_order_found">No Order Found</string>
+    <string name="taka">\u09F3</string>
+    <string name="order_no">Order No:</string>
+    <string name="created_at">Created at:</string>
 </resources>

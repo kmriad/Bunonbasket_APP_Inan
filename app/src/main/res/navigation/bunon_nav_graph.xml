@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.HomeFragment"
-        android:label="fragment_home"
+        android:label=""
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
@@ -30,12 +30,12 @@
     <fragment
         android:id="@+id/wishListFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.WishListFragment"
-        android:label="fragment_wish_list"
+        android:label=""
         tools:layout="@layout/fragment_wish_list" />
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.cart.CartFragment"
-        android:label="fragment_cart"
+        android:label=""
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_cartFragment_to_shippingInfoActivity"
@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.account.AccountFragment"
-        android:label="fragment_account"
+        android:label=""
         tools:layout="@layout/fragment_account" >
         <action
             android:id="@+id/action_accountFragment_to_loginActivity"
@@ -59,7 +59,7 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.category.CategoryFragment"
-        android:label="fragment_category"
+        android:label=""
         tools:layout="@layout/fragment_category" >
         <argument
             android:name="category"
@@ -85,7 +85,7 @@
     <activity
         android:id="@+id/productListActivity"
         android:name="com.example.bunonbasket.ui.component.home.products.ProductListActivity"
-        android:label="activity_product_list"
+        android:label=""
         tools:layout="@layout/activity_product_list" >
         <argument
             android:name="subCategory"
@@ -102,7 +102,7 @@
     <activity
         android:id="@+id/loginActivity"
         android:name="com.example.bunonbasket.ui.component.login.LoginActivity"
-        android:label="activity_login"
+        android:label=""
         tools:layout="@layout/activity_login" />
     <activity
         android:id="@+id/shippingInfoActivity"

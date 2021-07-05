@@ -1,10 +1,16 @@
 package com.example.bunonbasket.ui.component.home.fragments
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -48,7 +54,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
     lateinit var featuredProductAdapter: ProductAdapter
     lateinit var brandAdapter: BrandAdapter
     lateinit var binding: FragmentHomeBinding
-    lateinit var dialog: LoadingDialog
+    lateinit var progressDialog: Dialog
 
     val TAG = "HomeFragment"
 
@@ -65,6 +71,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+
+            progressDialog = Dialog(requireContext())
+            progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            progressDialog.setContentView(R.layout.custom_dialog_progress)
+            val progressTv = progressDialog.findViewById(R.id.progress_tv) as TextView
+            progressTv.text = resources.getString(R.string.loading)
+            progressTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            progressTv.textSize = 16F
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            progressDialog.setCancelable(false)
+            progressDialog.show()
+
             bannerAdapter = BannerAdapter()
             brandAdapter = BrandAdapter()
             binding.bannerViewPager.apply {
@@ -97,8 +115,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
                 adapter = bestSellingProductAdapter
                 layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
             }
-            dialog = activity?.let { LoadingDialog(it) }!!
-            dialog.showLoadingDialog()
         }
 
 
@@ -161,7 +177,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
             when (dataState) {
                 is Resource.Success<BaseModel<Category>> -> {
                     dataState.data.let { categoryModel ->
-                        dialog.closeLoadingDialog()
+                        progressDialog.dismiss()
                         categoryAdapter.submitList(categoryModel.results)
                     }
                 }

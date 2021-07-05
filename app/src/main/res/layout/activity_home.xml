@@ -23,19 +23,16 @@
             app:layout_constraintVertical_bias="0.0"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/toolbarTitle"
-                    android:layout_width="@dimen/category_list_width"
-                    android:layout_height="@dimen/margin_large"
-                    android:layout_centerInParent="true"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/bb_logo" />
+            <ImageView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="@dimen/category_list_width"
+                android:layout_height="@dimen/margin_large"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:src="@drawable/bb_logo" />
 
-            </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
