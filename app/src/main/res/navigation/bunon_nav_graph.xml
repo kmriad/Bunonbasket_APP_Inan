@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_accountFragment_to_ordersActivity"
             app:destination="@id/ordersActivity" />
+        <action
+            android:id="@+id/action_accountFragment_to_shippingAddressFragment"
+            app:destination="@id/shippingAddressFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -116,4 +119,12 @@
         android:id="@+id/checkoutActivity"
         android:name="com.example.bunonbasket.ui.component.checkout.CheckoutActivity"
         android:label="CheckoutActivity" />
+    <fragment
+        android:id="@+id/shippingAddressFragment"
+        android:name="com.example.bunonbasket.ui.component.home.fragments.account.ShippingAddressFragment"
+        android:label="" >
+        <action
+            android:id="@+id/action_shippingAddressFragment_to_shippingInfoActivity"
+            app:destination="@id/shippingInfoActivity" />
+    </fragment>
 </navigation>

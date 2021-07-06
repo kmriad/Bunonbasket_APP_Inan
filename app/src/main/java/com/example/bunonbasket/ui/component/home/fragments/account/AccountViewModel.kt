@@ -34,6 +34,9 @@ class AccountViewModel @Inject constructor(
     private val accountEventChannel = Channel<AccountStateEvent>()
     val profileStateEvent = accountEventChannel.receiveAsFlow()
 
+    private val shippingEventChannel = Channel<AccountStateEvent>()
+    val shippingStateEvent = shippingEventChannel.receiveAsFlow()
+
     private val _dataState: MutableLiveData<Resource<List<LoginModel>>> = MutableLiveData()
     private val _errorState: MutableLiveData<Resource<Exception>> = MutableLiveData()
 
@@ -54,6 +57,10 @@ class AccountViewModel @Inject constructor(
 
     fun onOrderHistoryClicked() = viewModelScope.launch {
         accountEventChannel.send(AccountStateEvent.NavigateToOrderHistory)
+    }
+
+    fun onShippingAddressClicked() = viewModelScope.launch {
+        shippingEventChannel.send(AccountStateEvent.NavigateToShippingAddress)
     }
 
     fun onLoginProfile() {
@@ -96,4 +103,6 @@ sealed class AccountStateEvent {
     object NavigateToLoginActivity : AccountStateEvent()
 
     object NavigateToOrderHistory : AccountStateEvent()
+
+    object NavigateToShippingAddress : AccountStateEvent()
 }

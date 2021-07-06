@@ -56,13 +56,15 @@ class ShippingInfoActivity : AppCompatActivity() {
             shippingInfoViewModel.fetchRemoteEvents(ShippingInfoStateEvent.FetchCityList)
             subscribeObservers()
 
-            name = binding.nameInputField.text.toString()
-            phone = binding.phoneNumberInputField.text.toString()
-            address = binding.addressEditText.text.toString()
 
+            Log.d("ShippingInfoActivity", address)
 
             binding.proceedToCheckoutButton.setOnClickListener {
-                if (areaName != "" && cityName != "" && name != "" && phone != "") {
+                name = binding.nameInputField.text.toString()
+                phone = binding.phoneNumberInputField.text.toString()
+                address = binding.addressEditText.text.toString()
+                Log.d("ShippingInfoActivity", address)
+                if (address != "" && cityName != "" && name != "" && phone != "") {
                     shippingInfoViewModel.fetchRemoteEvents(
                         ShippingInfoStateEvent.InsertShippingInfo(
                             name = name,
