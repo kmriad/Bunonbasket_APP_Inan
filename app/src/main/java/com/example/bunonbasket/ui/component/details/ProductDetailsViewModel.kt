@@ -5,6 +5,7 @@ import com.example.bunonbasket.data.local.cache.DataStoreManager
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.cart.CartModel
 import com.example.bunonbasket.data.models.product.ProductDetails
+import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,11 +29,17 @@ class ProductDetailsViewModel @Inject constructor(
     private val _productDataState: MutableLiveData<Resource<BaseDetailsModel<ProductDetails>>> =
         MutableLiveData()
 
+    private val _wishListDataState: MutableLiveData<Resource<BaseDetailsModel<PostWishlistModel>>> =
+        MutableLiveData()
+
     private val _cartDataState: MutableLiveData<Resource<BaseDetailsModel<CartModel>>> =
         MutableLiveData()
 
     val productDataState: LiveData<Resource<BaseDetailsModel<ProductDetails>>>
         get() = _productDataState
+
+    val wishListDataState: LiveData<Resource<BaseDetailsModel<PostWishlistModel>>>
+        get() = _wishListDataState
 
     val cartDataState: LiveData<Resource<BaseDetailsModel<CartModel>>>
         get() = _cartDataState
@@ -71,6 +78,7 @@ class ProductDetailsViewModel @Inject constructor(
 
     init {
         setcounter(0)
+        fetchProductDetails(ProductDetailsEvent.LoadToken)
     }
 
     override fun onCleared() {
@@ -99,6 +107,15 @@ class ProductDetailsViewModel @Inject constructor(
                         }.launchIn(viewModelScope)
                 }
 
+                is ProductDetailsEvent.AddToWishList -> {
+                    remoteRepository.addToWishList(
+                        productId = productDetailsEvent.productId,
+                        authHeader = _token.value!!,
+                    ).onEach { dataState ->
+                        _wishListDataState.value = dataState
+                    }.launchIn(viewModelScope)
+                }
+
                 is ProductDetailsEvent.LoadToken -> {
                     dataStoreManager.authToken().onEach { dataState ->
                         _token.value = dataState
@@ -112,6 +129,10 @@ class ProductDetailsViewModel @Inject constructor(
         fetchProductDetails(ProductDetailsEvent.AddToCart(productId, _counter.value!!))
     }
 
+    fun addToWishList(productId: Int) {
+        fetchProductDetails(ProductDetailsEvent.AddToWishList(productId))
+    }
+
     fun fetchToken() {
         fetchProductDetails(ProductDetailsEvent.LoadToken)
     }
@@ -121,6 +142,8 @@ sealed class ProductDetailsEvent {
     data class FetchProductDetails(val id: String) : ProductDetailsEvent()
 
     data class AddToCart(val productId: String, val quantity: Int) : ProductDetailsEvent()
+
+    data class AddToWishList(val productId: Int) : ProductDetailsEvent()
 
     object LoadToken : ProductDetailsEvent()
 }

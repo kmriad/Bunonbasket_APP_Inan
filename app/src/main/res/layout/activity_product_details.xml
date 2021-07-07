@@ -68,7 +68,7 @@
                     android:id="@+id/imagePagerSection"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pager_height"
-                    android:background="@color/light_gray"
+                    android:background="@color/background"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -103,6 +103,19 @@
                         app:tabIndicatorHeight="0dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_gray"
+                    android:background="@color/background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.02"
+                    app:layout_constraintHorizontal_bias="0.96"
+                    android:id="@+id/favoriteBtn"/>
 
                 <LinearLayout
                     android:id="@+id/headerSection"
@@ -343,6 +356,7 @@
                             android:ellipsize="end"
                             android:maxLines="3"
                             android:scrollHorizontally="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:text="@{data.description}" />
                     </RelativeLayout>
 

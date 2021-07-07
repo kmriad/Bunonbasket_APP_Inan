@@ -1,60 +1,77 @@
 package com.example.bunonbasket.ui.component.home.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bunonbasket.R
+import com.example.bunonbasket.data.models.base.BaseModel
+import com.example.bunonbasket.data.models.wishlist.WishListModel
+import com.example.bunonbasket.databinding.FragmentWishListBinding
+import com.example.bunonbasket.ui.component.home.WishListAdapter
+import com.example.bunonbasket.ui.component.home.WishListStateEvent
+import com.example.bunonbasket.ui.component.home.WishListViewModel
+import com.example.bunonbasket.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
+class WishListFragment : Fragment(), WishListAdapter.OnItemClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WishListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class WishListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var binding: FragmentWishListBinding
+    private val viewModel: WishListViewModel by viewModels()
+    lateinit var wishListAdapter: WishListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wish_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wish_list, container, false)
+
+        wishListAdapter = WishListAdapter(this)
+        binding.wishListRv.apply {
+            adapter = wishListAdapter
+            layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
+        }
+
+        subscribeObservers()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WishListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WishListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun subscribeObservers() {
+        viewModel.token.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is String -> {
+                    viewModel.fetchWishList(WishListStateEvent.FetchWishList)
                 }
             }
+
+        })
+        viewModel.wishlistDataState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseModel<WishListModel>> -> {
+                    dataState.data.let { data ->
+                        if (data.results.size > 0) {
+                            binding.progressBar.visibility = View.GONE
+                            wishListAdapter.submitList(data.results)
+                        }
+                    }
+                }
+            }
+        })
     }
+
+    override fun onItemClick(product: WishListModel?) {
+        TODO("Not yet implemented")
+    }
+
 }

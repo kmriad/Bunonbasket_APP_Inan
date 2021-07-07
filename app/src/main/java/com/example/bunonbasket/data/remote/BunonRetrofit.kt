@@ -14,6 +14,8 @@ import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.models.product.ProductDetails
+import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
+import com.example.bunonbasket.data.models.wishlist.WishListModel
 import retrofit2.http.*
 
 /**
@@ -141,4 +143,16 @@ interface BunonRetrofit {
 
     @GET("user-orders/canceled")
     suspend fun fetchCancelledOrders(@Header("Authorization") authHeader: String): BaseModel<OrderHistoryModel>
+
+    @POST("wishlist")
+    @FormUrlEncoded
+    suspend fun addToWishlist(
+        @Header("Authorization") authHeader: String,
+        @Field("product_id") productId: Int
+    ): BaseDetailsModel<PostWishlistModel>
+
+    @GET("wishlist")
+    suspend fun fetchWishList(
+        @Header("Authorization") authHeader: String,
+    ): BaseModel<WishListModel>
 }

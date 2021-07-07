@@ -64,6 +64,10 @@ class HomeActivity : AppCompatActivity() {
                     supportActionBar?.hide()
                     binding.toolbar.visibility = View.GONE
                 }
+                R.id.wishListFragment -> {
+                    supportActionBar?.hide()
+                    binding.toolbar.visibility = View.GONE
+                }
                 else -> {
                     supportActionBar?.show()
                     supportActionBar?.title = ""

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.models.cart.CartModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.product.ProductDetails
+import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
 import com.example.bunonbasket.databinding.ActivityProductDetailsBinding
 import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsAdapter
 import com.example.bunonbasket.ui.component.details.adapters.ColorsAdapter
@@ -41,6 +43,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var colorAdapter: ColorsAdapter
     private var isSidePanelShown: Boolean = false
     lateinit var product: Product
+    lateinit var details: ProductDetails
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,8 +106,28 @@ class ProductDetailsActivity : AppCompatActivity() {
                     )
                         .show()
                 } else {
-                    viewModel.fetchToken()
+                    chooseOp(0)
                 }
+            }
+            binding.favoriteBtn.setOnClickListener {
+                chooseOp(1)
+            }
+        }
+    }
+
+    private fun chooseOp(op: Int) {
+        when (op) {
+            0 -> {
+                viewModel.addToCart(product.id.toString())
+            }
+            1 -> {
+                viewModel.addToWishList(product.id)
+                binding.favoriteBtn.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.ic_favorite_filled
+                    )
+                )
             }
         }
     }
@@ -113,14 +137,16 @@ class ProductDetailsActivity : AppCompatActivity() {
             when (dataState) {
                 is Resource.Success<BaseDetailsModel<ProductDetails>> -> {
                     dataState.data.let { productModel ->
-                        binding.data = productModel.results
-                        viewPagerAdapter.submitList(productModel.results.photos)
-                        if (productModel.results.choice_options.size > 0) {
-                            choiceOptionsAdapter.submitList(productModel.results.choice_options)
+                        details = productModel.results
+                        binding.data = details
+
+                        viewPagerAdapter.submitList(details.photos)
+                        if (details.choice_options.size > 0) {
+                            choiceOptionsAdapter.submitList(details.choice_options)
                         }
-                        if (productModel.results.colors.size > 0) {
+                        if (details.colors.size > 0) {
                             binding.colorSection.visibility = View.VISIBLE
-                            colorAdapter.submitList(productModel.results.colors)
+                            colorAdapter.submitList(details.colors)
                         } else {
                             binding.colorSection.visibility = View.GONE
                         }
@@ -159,7 +185,30 @@ class ProductDetailsActivity : AppCompatActivity() {
             when (dataState) {
                 is String -> {
                     if (dataState.isNotEmpty()) {
-                        viewModel.addToCart(product.id.toString())
+
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Please Log in",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        })
+
+        viewModel.wishListDataState.observe(this,{dataState->
+            when(dataState){
+                is Resource.Success<BaseDetailsModel<PostWishlistModel>> -> {
+                    Toast.makeText(this, "Product Added to your Wishlist", Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Error -> {
+                    dataState.exception.let { message ->
+                        Toast.makeText(
+                            this,
+                            "An error occured: ${message.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }

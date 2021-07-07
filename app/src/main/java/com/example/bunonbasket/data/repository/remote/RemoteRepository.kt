@@ -15,6 +15,8 @@ import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.models.product.ProductDetails
+import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
+import com.example.bunonbasket.data.models.wishlist.WishListModel
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.utils.Resource
 import kotlinx.coroutines.delay
@@ -319,6 +321,35 @@ class RemoteRepository @Inject constructor(
                 val data = bunonRetrofit.fetchCancelledOrders("Bearer $authHeader");
                 emit(Resource.Success(data))
             } catch (e: Exception) {
+                emit(Resource.Error(e))
+            }
+        }
+
+    override suspend fun addToWishList(
+        authHeader: String,
+        productId: Int
+    ): Flow<Resource<BaseDetailsModel<PostWishlistModel>>> = flow {
+        try {
+            val data = bunonRetrofit.addToWishlist(
+                authHeader = "Bearer $authHeader",
+                productId = productId
+            )
+            emit(Resource.Success(data))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override suspend fun fetchWishList(authHeader: String): Flow<Resource<BaseModel<WishListModel>>> =
+        flow {
+            try {
+                val data = bunonRetrofit.fetchWishList(
+                    authHeader = "Bearer $authHeader"
+                )
+                Log.d("RemoteRepository",data.message)
+                emit(Resource.Success(data))
+            } catch (e: Exception) {
+                Log.d("RemoteRepository",e.message!!)
                 emit(Resource.Error(e))
             }
         }
