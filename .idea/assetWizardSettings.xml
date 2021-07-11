@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Inan\AppData\Local\Temp\baseline_favorite_24.xml" />
+                                                <entry key="imagePath" value="C:\Users\Inan\AppData\Local\Temp\outline_cancel_24.xml" />
                                                 <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/favorite/baseline_favorite_24.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialiconsoutlined/cancel/outline_cancel_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -68,8 +68,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_favorite_filled" />
-                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="outputName" value="ic_cancel_white" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="ec6448" />
                                     </map>
                                   </option>

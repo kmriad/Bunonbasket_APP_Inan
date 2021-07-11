@@ -31,7 +31,11 @@
         android:id="@+id/wishListFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.WishListFragment"
         android:label=""
-        tools:layout="@layout/fragment_wish_list" />
+        tools:layout="@layout/fragment_wish_list" >
+        <action
+            android:id="@+id/action_wishListFragment_to_productDetailsActivity"
+            app:destination="@id/productDetailsActivity" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.bunonbasket.ui.component.home.fragments.cart.CartFragment"

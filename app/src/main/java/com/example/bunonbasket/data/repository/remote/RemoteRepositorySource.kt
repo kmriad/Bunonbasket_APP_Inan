@@ -12,6 +12,7 @@ import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
+import com.example.bunonbasket.data.models.deliverystatus.DeliveryStatusModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
@@ -104,4 +105,9 @@ interface RemoteRepositorySource {
     suspend fun fetchWishList(
         authHeader: String,
     ): Flow<Resource<BaseModel<WishListModel>>>
+
+    suspend fun fetchDeliveryStatus(
+        cartId: Int,
+        authHeader: String
+    ): Flow<Resource<BaseDetailsModel<DeliveryStatusModel>>>
 }

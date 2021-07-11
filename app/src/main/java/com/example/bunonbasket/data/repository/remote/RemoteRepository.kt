@@ -13,6 +13,7 @@ import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
+import com.example.bunonbasket.data.models.deliverystatus.DeliveryStatusModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
@@ -346,10 +347,28 @@ class RemoteRepository @Inject constructor(
                 val data = bunonRetrofit.fetchWishList(
                     authHeader = "Bearer $authHeader"
                 )
-                Log.d("RemoteRepository",data.message)
+                Log.d("RemoteRepository", data.message)
                 emit(Resource.Success(data))
             } catch (e: Exception) {
-                Log.d("RemoteRepository",e.message!!)
+                Log.d("RemoteRepository", e.message!!)
+                emit(Resource.Error(e))
+            }
+        }
+
+    override suspend fun fetchDeliveryStatus(
+        cartId: Int,
+        authHeader: String
+    ): Flow<Resource<BaseDetailsModel<DeliveryStatusModel>>> =
+        flow {
+            try {
+                val data = bunonRetrofit.fetchDeliveryStatus(
+                    cartId = cartId,
+                    authHeader = "Bearer $authHeader"
+                )
+                Log.d("RemoteRepository", data.message)
+                emit(Resource.Success(data))
+            } catch (e: Exception) {
+                Log.d("RemoteRepository", e.message!!)
                 emit(Resource.Error(e))
             }
         }

@@ -44,6 +44,8 @@ class CancelledFragment : Fragment(), OrderAdapter.OnItemClickListener {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
             orderViewModel.setStateEvent(OrderStateEvent.FetchCancels)
+
+
             subscribeObservers()
         }
     }

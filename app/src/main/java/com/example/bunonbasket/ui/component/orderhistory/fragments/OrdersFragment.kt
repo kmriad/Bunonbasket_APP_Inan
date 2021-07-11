@@ -1,23 +1,26 @@
 package com.example.bunonbasket.ui.component.orderhistory.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.databinding.FragmentOrdersBinding
+import com.example.bunonbasket.ui.component.deliverystatus.DeliveryStatusActivity
 import com.example.bunonbasket.ui.component.orderhistory.OrderStateEvent
 import com.example.bunonbasket.ui.component.orderhistory.OrdersViewModel
 import com.example.bunonbasket.ui.component.orderhistory.adapters.OrderAdapter
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
@@ -41,6 +44,18 @@ class OrdersFragment : Fragment(), OrderAdapter.OnItemClickListener {
             binding.orderRv.apply {
                 adapter = orderAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            }
+
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                orderViewModel.homeEvent.collect { event ->
+                    when (event) {
+                        is OrderStateEvent.NavigateToDeliveryStatus -> {
+                            val intent = Intent(activity, DeliveryStatusActivity::class.java)
+                            intent.putExtra("cartId", event.cartId)
+                            startActivity(intent)
+                        }
+                    }
+                }
             }
             subscribeObservers()
         }
@@ -83,7 +98,7 @@ class OrdersFragment : Fragment(), OrderAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(order: OrderHistoryModel?) {
-        Log.d("OrdersFragment", order!!.code)
+        orderViewModel.onCheckOutClicked(order!!.id)
     }
 
 }

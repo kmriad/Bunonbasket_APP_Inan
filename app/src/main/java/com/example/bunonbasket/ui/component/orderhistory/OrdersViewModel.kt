@@ -10,8 +10,10 @@ import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,6 +45,14 @@ class OrdersViewModel @Inject constructor(
 
     val token: LiveData<String>
         get() = _token
+
+    private val taskEventChannel = Channel<OrderStateEvent>()
+    val homeEvent = taskEventChannel.receiveAsFlow()
+
+    fun onCheckOutClicked(cartId: Int) = viewModelScope.launch {
+        taskEventChannel.send(OrderStateEvent.NavigateToDeliveryStatus(cartId = cartId))
+    }
+
 
     init {
         setStateEvent(OrderStateEvent.LoadToken)
@@ -88,5 +98,7 @@ sealed class OrderStateEvent {
     object FetchCancels : OrderStateEvent()
 
     object LoadToken : OrderStateEvent()
+
+    data class NavigateToDeliveryStatus(val cartId: Int) : OrderStateEvent()
 
 }

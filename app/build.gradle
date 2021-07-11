@@ -121,6 +121,8 @@ dependencies {
     implementation ("com.airbnb.android:lottie:$lottieVersion")
 
     implementation 'com.github.yash786agg:AnimatedLoadingIndicator:v1.3'
+
+    implementation 'com.params.stepview:stepview:1.0.2'
 }
 kapt {
     correctErrorTypes true

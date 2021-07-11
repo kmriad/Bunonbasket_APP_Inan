@@ -16,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:name=".ui.component.deliverystatus.DeliveryStatusActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.component.orderhistory.OrdersActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.component.orderhistory.OrdersActivity" />
+
+        </activity>
+        <activity
             android:name=".ui.component.orderhistory.OrdersActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.component.HomeActivity">

@@ -127,7 +127,8 @@ data class WishListProduct(
     val video_link: Any,
     @SerializedName("video_provider")
     @Expose
-    val video_provider: String
+    val video_provider: String,
+
 ) {
     var fullImageUrl: String? = ""
         get() = "${Constants.BASE_URL}/$thumbnail_img"

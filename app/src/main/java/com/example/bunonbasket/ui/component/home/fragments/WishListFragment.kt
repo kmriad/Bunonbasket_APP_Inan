@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.wishlist.WishListModel
@@ -39,7 +40,7 @@ class WishListFragment : Fragment(), WishListAdapter.OnItemClickListener {
         wishListAdapter = WishListAdapter(this)
         binding.wishListRv.apply {
             adapter = wishListAdapter
-            layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(activity,  LinearLayoutManager.VERTICAL, false)
         }
 
         subscribeObservers()

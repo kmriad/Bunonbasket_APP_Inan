@@ -12,6 +12,7 @@ import com.example.bunonbasket.data.models.category.PaginatedModel
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
+import com.example.bunonbasket.data.models.deliverystatus.DeliveryStatusModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
@@ -155,4 +156,10 @@ interface BunonRetrofit {
     suspend fun fetchWishList(
         @Header("Authorization") authHeader: String,
     ): BaseModel<WishListModel>
+
+    @GET("current-order/{cart_id}")
+    suspend fun fetchDeliveryStatus(
+        @Path(value = "cart_id") cartId: Int,
+        @Header("Authorization") authHeader: String
+    ): BaseDetailsModel<DeliveryStatusModel>
 }

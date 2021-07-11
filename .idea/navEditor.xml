@@ -70,8 +70,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="606" />
-                            <option name="y" value="101" />
+                            <option name="x" value="726" />
+                            <option name="y" value="-13" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -151,8 +151,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="288" />
-                            <option name="y" value="1036" />
+                            <option name="x" value="303" />
+                            <option name="y" value="885" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -223,6 +223,15 @@
                             <option name="x" value="367" />
                             <option name="y" value="-175" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_wishListFragment_to_productDetailsActivity">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

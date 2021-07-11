@@ -84,4 +84,6 @@
     <string name="order_no">Order No:</string>
     <string name="created_at">Created at:</string>
     <string name="add_new_shipping_address">Add New Shipping Address</string>
+
+
 </resources>
