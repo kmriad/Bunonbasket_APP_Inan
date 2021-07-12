@@ -14,13 +14,15 @@ class LoadingDialog internal constructor(myActivity: Activity) {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater
         builder.setView(inflater.inflate(R.layout.custom_dialog, null))
+
         builder.setCancelable(false)
         dialog = builder.create()
+        dialog.getWindow()!!.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
     }
 
     fun closeLoadingDialog() {
-        dialog!!.dismiss()
+        dialog.dismiss()
     }
 
     init {

@@ -3,8 +3,9 @@
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d1632ff68b04370749fc015feec82d50/jetified-rxandroid-3.0.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a0b52f8edc218bc32dcef2e7dfa38a76/jetified-rxandroid-3.0.0/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d1632ff68b04370749fc015feec82d50/jetified-rxandroid-3.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d1632ff68b04370749fc015feec82d50/jetified-rxandroid-3.0.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f888e3c71697a293a66c8c69e9d7857c/jetified-rxandroid-3.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f888e3c71697a293a66c8c69e9d7857c/jetified-rxandroid-3.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f888e3c71697a293a66c8c69e9d7857c/jetified-rxandroid-3.0.0/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.reactivex.rxjava3/rxandroid/3.0.0/7338d266d787a814852412b3650e9829e0a8dfbe/rxandroid-3.0.0-javadoc.jar!/" />

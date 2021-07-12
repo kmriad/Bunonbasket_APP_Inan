@@ -8,6 +8,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -123,6 +124,10 @@ dependencies {
     implementation 'com.github.yash786agg:AnimatedLoadingIndicator:v1.3'
 
     implementation 'com.params.stepview:stepview:1.0.2'
+
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 }
 kapt {
     correctErrorTypes true

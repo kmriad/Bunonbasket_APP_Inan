@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "808927788768",
+    "project_id": "bunonbasket-db59a",
+    "storage_bucket": "bunonbasket-db59a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808927788768:android:5841235889483c8072da85",
+        "android_client_info": {
+          "package_name": "com.example.bunonbasket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808927788768-4lv7e5pm6320c8coj9ulihnedgba3g9u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGoteJST3V7lXSQJKsdWGajBLUIMeGeM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808927788768-4lv7e5pm6320c8coj9ulihnedgba3g9u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -50,6 +50,10 @@ class AccountFragment : Fragment() {
                 accountViewModel.onOrderHistoryClicked()
             }
 
+            binding.orderHistory.setOnClickListener {
+                accountViewModel.onOrderStatusClicked()
+            }
+
             binding.shippingAddressSection.setOnClickListener {
                 accountViewModel.onShippingAddressClicked()
             }
@@ -71,6 +75,17 @@ class AccountFragment : Fragment() {
                         is AccountStateEvent.NavigateToOrderHistory -> {
                             val action =
                                 AccountFragmentDirections.actionAccountFragmentToOrdersActivity()
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
+            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                accountViewModel.orderStatusStateEvent.collect { event ->
+                    when (event) {
+                        is AccountStateEvent.NavigateToOrderStatus -> {
+                            val action =
+                                AccountFragmentDirections.actionAccountFragmentToOrderStatusActivity()
                             findNavController().navigate(action)
                         }
                     }

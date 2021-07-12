@@ -146,6 +146,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="orderStatusActivity">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="357" />
+                            <option name="y" value="260" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="ordersActivity">
                     <value>
                       <LayoutPositions>

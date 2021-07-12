@@ -19,5 +19,9 @@ object Constants {
     const val SHIPPING_INFO:String = "shipping_info"
 
     const val PRODUCT_DETAILS = "product_details"
+    const val CHANNEL_ID = "bunonbasket_id"
+    const val CHANNEL_NAME = "bunonbasket_name"
+    const val CHANNEL_DESCRIPTION = "bunonbasket_description"
+    const val NOTIFICATION_ID = 0
 
 }

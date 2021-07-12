@@ -47,8 +47,10 @@
                 android:layout_marginTop="@dimen/standard_margin"
                 android:text="@string/featured_products"
                 android:visibility="gone"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintTop_toBottomOf="@id/categoryGridView" />
+                android:textColor="@color/black181"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintTop_toBottomOf="@id/categoryGridView"
+                android:fontFamily="@font/poppins_medium"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/featuredRecyclerView"
@@ -71,13 +73,14 @@
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginTop="@dimen/standard_margin"
                 android:text="@string/brands"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/gray"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black181"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/featuredRecyclerView"
+                android:fontFamily="@font/poppins_medium"
                 app:layout_constraintVertical_bias="0.0" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -101,8 +104,10 @@
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginTop="@dimen/standard_margin"
                 android:text="@string/best_selling"
+                android:textColor="@color/black181"
                 android:visibility="gone"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:fontFamily="@font/poppins_medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintTop_toBottomOf="@id/brandListView" />
 
             <androidx.recyclerview.widget.RecyclerView

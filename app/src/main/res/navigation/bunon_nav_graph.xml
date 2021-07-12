@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_accountFragment_to_shippingAddressFragment"
             app:destination="@id/shippingAddressFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_orderStatusActivity"
+            app:destination="@id/orderStatusActivity" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -131,4 +134,8 @@
             android:id="@+id/action_shippingAddressFragment_to_shippingInfoActivity"
             app:destination="@id/shippingInfoActivity" />
     </fragment>
+    <activity
+        android:id="@+id/orderStatusActivity"
+        android:name="com.example.bunonbasket.ui.component.orderstatus.OrderStatusActivity"
+        android:label="OrderStatusActivity" />
 </navigation>

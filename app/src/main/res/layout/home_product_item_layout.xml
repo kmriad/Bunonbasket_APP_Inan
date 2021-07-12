@@ -77,6 +77,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/productName"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -96,7 +97,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/productQuantity"
             app:layout_constraintVertical_bias="0.0"
-            android:textColor="@color/orange"
+            android:textColor="@color/green"
             android:layout_marginBottom="@dimen/margin_small"
             android:layout_marginLeft="@dimen/standard_margin" />
 

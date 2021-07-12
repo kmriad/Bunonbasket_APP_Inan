@@ -16,13 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:name=".ui.component.orderstatus.OrderStatusActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.component.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.component.HomeActivity" />
+        </activity>
+        <activity
             android:name=".ui.component.deliverystatus.DeliveryStatusActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.component.orderhistory.OrdersActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.component.orderhistory.OrdersActivity" />
-
         </activity>
         <activity
             android:name=".ui.component.orderhistory.OrdersActivity"
@@ -102,6 +109,13 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <service
+            android:name=".utils.service.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

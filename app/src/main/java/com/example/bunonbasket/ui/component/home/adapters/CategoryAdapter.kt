@@ -1,5 +1,7 @@
 package com.example.bunonbasket.ui.component.home.adapters
 
+import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.databinding.CategoryItemLayoutBinding
+
 
 /**
  * Created by inan on 26/4/21
@@ -37,6 +40,18 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
 
         fun bind(category: Category?) {
             binding.data = category
+            if (category!!.name.contains("&")) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    binding.categoryName.textSize = 10.0f
+                }
+                var firstPart = category.name.substring(0, category.name.indexOf("&"))
+                var lastPart =
+                    category.name.substring(
+                        category.name.indexOf("&"),
+                        category.name.length
+                    )
+                Log.d("Category", firstPart + lastPart)
+            }
         }
 
     }

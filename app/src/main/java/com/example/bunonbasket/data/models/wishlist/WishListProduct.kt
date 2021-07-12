@@ -16,10 +16,10 @@ data class WishListProduct(
     val category_id: Int,
     @SerializedName("choice_options")
     @Expose
-    val choice_options: String,
+    val choice_options: List<String>,
     @SerializedName("colors")
     @Expose
-    val colors: String,
+    val colors: List<String>,
     @SerializedName("created_at")
     @Expose
     val created_at: String,
@@ -67,7 +67,7 @@ data class WishListProduct(
     val pdf: Any,
     @SerializedName("photos")
     @Expose
-    val photos: String,
+    val photos: List<String>,
     @SerializedName("published")
     @Expose
     val published: Int,
@@ -129,7 +129,7 @@ data class WishListProduct(
     @Expose
     val video_provider: String,
 
-) {
+    ) {
     var fullImageUrl: String? = ""
         get() = "${Constants.BASE_URL}/$thumbnail_img"
         set(value) {
