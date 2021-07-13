@@ -26,6 +26,7 @@ import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.Product
+import com.example.bunonbasket.data.models.partners.PartnerModel
 import com.example.bunonbasket.databinding.FragmentHomeBinding
 import com.example.bunonbasket.ui.component.home.HomeStateEvent
 import com.example.bunonbasket.ui.component.home.HomeViewModel
@@ -197,7 +198,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
         })
         homeViewModel.brandState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
-                is Resource.Success<BaseModel<Brand>> -> {
+                is Resource.Success<BaseModel<PartnerModel>> -> {
                     dataState.data.let { brandModel ->
                         brandAdapter.submitList(brandModel.results)
                     }

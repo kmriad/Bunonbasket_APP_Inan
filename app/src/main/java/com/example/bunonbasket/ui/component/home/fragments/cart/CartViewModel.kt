@@ -78,6 +78,10 @@ class CartViewModel @Inject constructor(
     }
 
 
+    init {
+        Log.d("CartFragment", "called")
+        loadToken()
+    }
     fun fetchRemoteEvents(cartStateEvent: CartStateEvent) {
         viewModelScope.launch {
             when (cartStateEvent) {

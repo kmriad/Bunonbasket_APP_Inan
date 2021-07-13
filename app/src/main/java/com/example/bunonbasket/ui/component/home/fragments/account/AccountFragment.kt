@@ -58,6 +58,14 @@ class AccountFragment : Fragment() {
                 accountViewModel.onShippingAddressClicked()
             }
 
+            binding.logoutBtn.setOnClickListener {
+                accountViewModel.setStateEvent(AccountStateEvent.Logout)
+                binding.topLayout.visibility = View.VISIBLE
+                binding.optionsOne.visibility = View.VISIBLE
+                binding.profileSection.visibility = View.GONE
+                findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToHomeFragment())
+            }
+
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 accountViewModel.accountStateEvent.collect { event ->
                     when (event) {
@@ -108,13 +116,15 @@ class AccountFragment : Fragment() {
     private fun subscribeObservers() {
         try {
             accountViewModel.token.observe(viewLifecycleOwner, { dataState ->
-                when (dataState) {
-                    is String -> {
-                        if (dataState.isNotEmpty()) {
-                            accountViewModel.setStateEvent(AccountStateEvent.LoadProfile)
-                            subscribeProfile()
-                        }
-                    }
+
+                if (dataState == "") {
+                    binding.topLayout.visibility = View.VISIBLE
+                    binding.optionsOne.visibility = View.VISIBLE
+                    binding.profileSection.visibility = View.GONE
+                }
+                if (dataState.isNotEmpty()) {
+                    accountViewModel.setStateEvent(AccountStateEvent.LoadProfile)
+                    subscribeProfile()
                 }
             })
         } catch (exception: Exception) {

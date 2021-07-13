@@ -15,12 +15,12 @@ import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.models.deliverystatus.DeliveryStatusModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
+import com.example.bunonbasket.data.models.partners.PartnerModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
 import com.example.bunonbasket.data.models.wishlist.WishListModel
 import com.example.bunonbasket.data.remote.BunonRetrofit
 import com.example.bunonbasket.utils.Resource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -55,7 +55,6 @@ class RemoteRepository @Inject constructor(
 
     override suspend fun fetchBrands(): Flow<Resource<BaseModel<Brand>>> = flow {
         emit(Resource.Loading)
-        delay(1000)
         try {
             val brands = bunonRetrofit.fetchBrands()
             emit(Resource.Success(brands))
@@ -372,6 +371,15 @@ class RemoteRepository @Inject constructor(
                 emit(Resource.Error(e))
             }
         }
+
+    override suspend fun fetchPartners(): Flow<Resource<BaseModel<PartnerModel>>> = flow {
+        try {
+            val data = bunonRetrofit.fetchPartners()
+            emit(Resource.Success(data))
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+        }
+    }
 
     override suspend fun fetchAllProducts(
         query: String,

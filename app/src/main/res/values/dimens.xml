@@ -30,6 +30,7 @@
     <dimen name="size_500">700dp</dimen>
     <dimen name="size_181">181dp</dimen>
     <dimen name="size_260">260dp</dimen>
+    <dimen name="size_320">320dp</dimen>
     <dimen name="size_95">95dp</dimen>
     <dimen name="size_156">156dp</dimen>
     <dimen name="size_128">128dp</dimen>

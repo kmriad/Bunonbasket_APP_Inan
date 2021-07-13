@@ -3,22 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="data"
-            type="com.example.bunonbasket.data.models.brands.Brand"/>
+            type="com.example.bunonbasket.data.models.partners.PartnerModel" />
     </data>
 
 
-        <ImageView
-            android:layout_width="@dimen/category_size"
-            android:layout_height="@dimen/category_size"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingBottom="@dimen/margin_small"
-            android:paddingStart="@dimen/standard_margin"
-            android:paddingEnd="@dimen/margin_ex_small"
-            app:patchImageFullUrl="@{data.fullImageUrl}"
-            android:paddingLeft="@dimen/standard_margin"
-            android:paddingRight="@dimen/margin_ex_small" />
-
+    <ImageView
+        android:layout_width="@dimen/category_size"
+        android:layout_height="@dimen/category_size"
+        android:layout_marginEnd="@dimen/standard_margin"
+        android:paddingStart="@dimen/standard_margin"
+        android:paddingLeft="@dimen/standard_margin"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_ex_small"
+        android:paddingRight="@dimen/margin_ex_small"
+        android:paddingBottom="@dimen/margin_small"
+        android:scaleType="centerCrop"
+        app:patchImageFullUrl="@{data.fullImageUrl}"
+        android:layout_marginRight="@dimen/standard_margin" />
 
 </layout>

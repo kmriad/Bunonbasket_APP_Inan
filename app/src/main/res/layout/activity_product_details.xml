@@ -136,12 +136,12 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="4"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:scrollHorizontally="true"
                         android:text="@{data.name}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/black45"
                         android:textStyle="bold" />
 
@@ -184,7 +184,7 @@
                         android:gravity="center"
                         android:text="@string/color"
                         android:textAlignment="center"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/black181" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -219,7 +219,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="@string/price_title"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/black45"
                         android:textStyle="bold" />
 
@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/quantity_title"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/black45"
                         android:textStyle="bold" />
 

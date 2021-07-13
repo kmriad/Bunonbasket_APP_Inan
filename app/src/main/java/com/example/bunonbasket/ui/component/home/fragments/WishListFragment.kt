@@ -49,25 +49,28 @@ class WishListFragment : Fragment(), WishListAdapter.OnItemClickListener {
 
     private fun subscribeObservers() {
         viewModel.token.observe(viewLifecycleOwner, { dataState ->
-            when (dataState) {
-                is String -> {
-                    viewModel.fetchWishList(WishListStateEvent.FetchWishList)
-                }
+            if (dataState == "") {
+                binding.progressBar.visibility = View.GONE
+            }
+            if (dataState.isNotEmpty()) {
+                viewModel.fetchWishList(WishListStateEvent.FetchWishList)
             }
 
+
         })
-        viewModel.wishlistDataState.observe(viewLifecycleOwner, { dataState ->
-            when (dataState) {
-                is Resource.Success<BaseModel<WishListModel>> -> {
-                    dataState.data.let { data ->
-                        if (data.results.size > 0) {
-                            binding.progressBar.visibility = View.GONE
-                            wishListAdapter.submitList(data.results)
+        viewModel.wishlistDataState.observe(viewLifecycleOwner,
+            { dataState ->
+                when (dataState) {
+                    is Resource.Success<BaseModel<WishListModel>> -> {
+                        dataState.data.let { data ->
+                            if (data.results.size > 0) {
+                                binding.progressBar.visibility = View.GONE
+                                wishListAdapter.submitList(data.results)
+                            }
                         }
                     }
                 }
-            }
-        })
+            })
     }
 
     override fun onItemClick(product: WishListModel?) {

@@ -14,6 +14,7 @@ import com.example.bunonbasket.data.models.category.SubCategory
 import com.example.bunonbasket.data.models.checkout.CheckoutModel
 import com.example.bunonbasket.data.models.deliverystatus.DeliveryStatusModel
 import com.example.bunonbasket.data.models.orders.OrderHistoryModel
+import com.example.bunonbasket.data.models.partners.PartnerModel
 import com.example.bunonbasket.data.models.product.ProductDetails
 import com.example.bunonbasket.data.models.wishlist.PostWishlistModel
 import com.example.bunonbasket.data.models.wishlist.WishListModel
@@ -110,4 +111,6 @@ interface RemoteRepositorySource {
         cartId: Int,
         authHeader: String
     ): Flow<Resource<BaseDetailsModel<DeliveryStatusModel>>>
+
+    suspend fun fetchPartners(): Flow<Resource<BaseModel<PartnerModel>>>
 }

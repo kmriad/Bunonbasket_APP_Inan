@@ -42,72 +42,29 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false)
-
-        subscribeObservers()
-
-        binding.data = cartViewModel
-        cartViewModel.loadToken()
-
-        cartAdapter = CartAdapter(this)
-        val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding.cartItemsRV.apply {
-            adapter = cartAdapter
-            layoutManager = mLayoutManager
-        }
-        DividerItemDecoration(
-            context, // context
-            mLayoutManager.orientation
-        ).apply {
-            binding.cartItemsRV.addItemDecoration(this)
-        }
-
-        dialog = activity?.let { LoadingDialog(it) }!!
-        dialog.showLoadingDialog()
-
-        binding.checkOutBtn.setOnClickListener {
-            dialog.showLoadingDialog()
-            cartViewModel.fetchRemoteEvents(CartStateEvent.FetchShippingInfo)
-        }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            cartViewModel.homeEvent.collect { event ->
-                when (event) {
-                    is CartStateEvent.NavigateToShippingInfo -> {
-                        val action =
-                            CartFragmentDirections.actionCartFragmentToShippingInfoActivity()
-                        findNavController().navigate(action)
-                    }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            cartViewModel.shippingEvent.collect { event ->
-                when (event) {
-                    is CartStateEvent.NavigateToCheckout -> {
-                        val action =
-                            CartFragmentDirections.actionCartFragmentToCheckoutActivity()
-                        findNavController().navigate(action)
-                    }
-                }
-            }
-        }
         return binding.root
     }
 
     private fun subscribeObservers() {
-        cartViewModel.token.observe(viewLifecycleOwner, { token ->
-            when (token) {
-                is String -> {
-                    if (token.isNotEmpty()) {
-                        cartViewModel.fetchCarts()
-                    }
+        Log.d("CartFragment", "Observer Called")
+        try {
+            cartViewModel.token.observe(viewLifecycleOwner, { token ->
+                Log.d("CartFragment", token)
+                if (token == "") {
+                    dialog.closeLoadingDialog()
                 }
-            }
-        })
+                if (token.isNotEmpty()) {
+                    Log.d("CartFragment", token)
+                    cartViewModel.fetchCarts()
+                }
+            })
+        } catch (e: Exception) {
+            Log.d("CartFragment", e.message!!)
+        }
 
         cartViewModel.cartState.observe(viewLifecycleOwner, { dataState ->
             when (dataState) {
+
                 is Resource.Success<BaseModel<CartListModel>> -> {
                     dataState.data.let { dataModel ->
                         dialog.closeLoadingDialog()
@@ -192,6 +149,59 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
                 }
             }
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.data = cartViewModel
+
+
+        cartAdapter = CartAdapter(this)
+        val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.cartItemsRV.apply {
+            adapter = cartAdapter
+            layoutManager = mLayoutManager
+        }
+        DividerItemDecoration(
+            context, // context
+            mLayoutManager.orientation
+        ).apply {
+            binding.cartItemsRV.addItemDecoration(this)
+        }
+
+        dialog = activity?.let { LoadingDialog(it) }!!
+        dialog.showLoadingDialog()
+
+        binding.checkOutBtn.setOnClickListener {
+            dialog.showLoadingDialog()
+            cartViewModel.fetchRemoteEvents(CartStateEvent.FetchShippingInfo)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            cartViewModel.homeEvent.collect { event ->
+                when (event) {
+                    is CartStateEvent.NavigateToShippingInfo -> {
+                        val action =
+                            CartFragmentDirections.actionCartFragmentToShippingInfoActivity()
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            cartViewModel.shippingEvent.collect { event ->
+                when (event) {
+                    is CartStateEvent.NavigateToCheckout -> {
+                        val action =
+                            CartFragmentDirections.actionCartFragmentToCheckoutActivity()
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+        }
+
+        subscribeObservers()
     }
 
     override fun onAddButtonClick(quantity: Int, id: Int) {

@@ -95,6 +95,9 @@ class AccountViewModel @Inject constructor(
                         _token.value = dataState
                     }.launchIn(viewModelScope)
                 }
+                is AccountStateEvent.Logout -> {
+                    dataStoreManager.clear()
+                }
             }
         }
     }
@@ -114,4 +117,6 @@ sealed class AccountStateEvent {
     object NavigateToShippingAddress : AccountStateEvent()
 
     object NavigateToOrderStatus : AccountStateEvent()
+
+    object Logout : AccountStateEvent()
 }

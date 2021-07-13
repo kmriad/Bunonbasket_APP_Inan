@@ -1,6 +1,7 @@
 package com.example.bunonbasket.data.local.cache
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -25,6 +26,7 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
 
     private val profileDataStore = appContext.dataStore
     override fun authToken(): Flow<String> = profileDataStore.data.map {
+        Log.d("CartFragment", it[PREF_KEY].toString())
         it[PREF_KEY] ?: ""
     }.catch {
         throw it
@@ -33,6 +35,12 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
     override suspend fun saveAuthToken(authToken: String) {
         profileDataStore.edit { preferences ->
             preferences[PREF_KEY] = authToken
+        }
+    }
+
+    override suspend fun clear() {
+        profileDataStore.edit { preferences ->
+            preferences.remove(PREF_KEY)
         }
     }
 

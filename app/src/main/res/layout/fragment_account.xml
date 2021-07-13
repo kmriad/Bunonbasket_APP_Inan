@@ -150,7 +150,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/profileSection"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_height="@dimen/size_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +198,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/paymentWidgets"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_260"
+                android:layout_height="@dimen/size_320"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:elevation="@dimen/margin_2"
@@ -326,6 +326,30 @@
                             android:layout_weight="5"
                             android:gravity="center_vertical"
                             android:text="@string/language_address" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/logoutBtn"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@drawable/ic_log_out" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="5"
+                            android:gravity="center_vertical"
+                            android:text="@string/logout" />
 
                     </LinearLayout>
 

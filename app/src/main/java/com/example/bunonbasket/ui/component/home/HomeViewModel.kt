@@ -6,6 +6,7 @@ import com.example.bunonbasket.data.models.base.BaseModel
 import com.example.bunonbasket.data.models.brands.Brand
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.Product
+import com.example.bunonbasket.data.models.partners.PartnerModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
 import com.example.bunonbasket.utils.Resource
@@ -36,7 +37,7 @@ class HomeViewModel @Inject constructor(
 
     private val _bannerState: MutableLiveData<Resource<BaseModel<Banner>>> = MutableLiveData()
     private val _categoryState: MutableLiveData<Resource<BaseModel<Category>>> = MutableLiveData()
-    private val _brandState: MutableLiveData<Resource<BaseModel<Brand>>> = MutableLiveData()
+    private val _brandState: MutableLiveData<Resource<BaseModel<PartnerModel>>> = MutableLiveData()
     private val _bestSellingProductsState: MutableLiveData<Resource<BaseModel<Product>>> =
         MutableLiveData()
     private val _featuredProductsState: MutableLiveData<Resource<BaseModel<Product>>> =
@@ -52,7 +53,7 @@ class HomeViewModel @Inject constructor(
     val bannerState: LiveData<Resource<BaseModel<Banner>>>
         get() = _bannerState
 
-    val brandState: LiveData<Resource<BaseModel<Brand>>>
+    val brandState: LiveData<Resource<BaseModel<PartnerModel>>>
         get() = _brandState
 
     val loadDataState: LiveData<Resource<Boolean>>
@@ -107,7 +108,7 @@ class HomeViewModel @Inject constructor(
                 }
 
                 is HomeStateEvent.FetchBrands -> {
-                    remoteRepository.fetchBrands()
+                    remoteRepository.fetchPartners()
                         .onEach { dataState ->
                             _brandState.value = dataState
                         }.launchIn(viewModelScope)
