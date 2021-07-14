@@ -3,6 +3,7 @@ package com.example.bunonbasket.data.local.cache
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.bunonbasket.utils.Constants.APP_INTRO
+import com.example.bunonbasket.utils.Constants.DEVICE_AUTH
 import com.example.bunonbasket.utils.Constants.SHARED_PREF
 import com.example.bunonbasket.utils.Constants.SHOWCASE_ID
 import com.example.bunonbasket.utils.Resource
@@ -21,6 +22,12 @@ class LocalData @Inject constructor(
         editor.apply()
         val isSuccess = editor.commit()
         return Resource.Success(isSuccess)
+    }
+
+    fun loadDeviceToken(): Resource<String> {
+        val sharedPref = context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
+        val cache = sharedPref.getString(DEVICE_AUTH, "")
+        return Resource.Success(cache!!)
     }
 
     fun isAppIntro(): Resource<Boolean> {

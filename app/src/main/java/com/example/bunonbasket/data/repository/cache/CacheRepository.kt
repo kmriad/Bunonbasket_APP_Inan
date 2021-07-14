@@ -68,4 +68,10 @@ class CacheRepository @Inject constructor(
             emit(Resource.Error(e))
         }
     }
+
+    override suspend fun loadDeviceToken(): Flow<Resource<String>> = flow {
+        emit(Resource.Loading)
+        val token = localData.loadDeviceToken()
+        emit(token)
+    }
 }

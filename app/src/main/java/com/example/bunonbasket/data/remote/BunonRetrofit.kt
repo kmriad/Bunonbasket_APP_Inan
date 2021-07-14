@@ -66,7 +66,8 @@ interface BunonRetrofit {
     @FormUrlEncoded
     suspend fun loginUser(
         @Field("phone") phone: String,
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("device_token") token: String
     ): BaseDetailsModel<LoginModel>
 
     @POST("register")
@@ -75,7 +76,8 @@ interface BunonRetrofit {
         @Field("name") name: String,
         @Field("phone") phone: String,
         @Field("password") password: String,
-        @Field("user_type") userType: String
+        @Field("user_type") userType: String,
+        @Field("device_token") token: String
     ): BaseDetailsModel<LoginModel>
 
 

@@ -6,6 +6,7 @@ import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.data.repository.cache.CacheRepository
 import com.example.bunonbasket.data.repository.remote.RemoteRepository
+import com.example.bunonbasket.ui.component.login.LoginStateEvent
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -39,6 +40,24 @@ class SignUpViewModel @Inject constructor(
     val saveUserState: LiveData<Resource<Long>>
         get() = _saveUserState
 
+
+    private val _tokenState: MutableLiveData<Resource<String>> =
+        MutableLiveData()
+
+    val tokenState: LiveData<Resource<String>>
+        get() = _tokenState
+
+    lateinit var token: String
+
+
+    init {
+        loadToken()
+    }
+
+    fun saveToken(value: String) {
+        token = value
+    }
+
     private val signUpTaskEventChannel = Channel<SignupStateEvent>()
     val signUpEvent = signUpTaskEventChannel.receiveAsFlow()
 
@@ -69,7 +88,8 @@ class SignUpViewModel @Inject constructor(
                         name = stateEvent.name,
                         password = stateEvent.password,
                         phone = stateEvent.phoneNumber,
-                        userType = "customer"
+                        userType = "customer",
+                        deviceToken = token
                     ).onEach { dataState ->
                         _loginState.value = dataState
                     }.launchIn(viewModelScope)
@@ -81,6 +101,12 @@ class SignUpViewModel @Inject constructor(
                             _saveUserState.value = dataState
                         }.launchIn(viewModelScope)
 
+                }
+
+                is SignupStateEvent.LoadToken -> {
+                    cacheRepository.loadDeviceToken().onEach { dataState ->
+                        _tokenState.value = dataState
+                    }.launchIn(viewModelScope)
                 }
             }
         }
@@ -99,9 +125,15 @@ class SignUpViewModel @Inject constructor(
             )
         )
     }
+
+    fun loadToken() {
+        setStateEvent(SignupStateEvent.LoadToken)
+    }
 }
 
 sealed class SignupStateEvent {
+
+    object LoadToken : SignupStateEvent()
 
     object NavigateToInputNumberFragment : SignupStateEvent()
 

@@ -8,5 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface PreferenceStorage {
     fun authToken(): Flow<String>
     suspend fun saveAuthToken(authToken: String)
+    suspend fun saveDeviceToken(deviceToken: String)
     suspend fun clear()
 }

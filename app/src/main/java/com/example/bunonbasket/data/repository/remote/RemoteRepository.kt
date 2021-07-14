@@ -125,16 +125,22 @@ class RemoteRepository @Inject constructor(
 
     override suspend fun loginUser(
         phone: String?,
-        password: String?
+        password: String?,
+        deviceToken: String?
     ): Flow<Resource<BaseDetailsModel<LoginModel>>> = flow {
         emit(Resource.Loading)
         try {
-
+            Log.d("RemoteRepository", deviceToken!!)
             val loginModel =
-                bunonRetrofit.loginUser(phone.toString().trim(), password.toString().trim())
+                bunonRetrofit.loginUser(
+                    phone.toString().trim(),
+                    password.toString().trim(),
+                    deviceToken.toString()
+                )
             Log.d("RemoteRepository", loginModel.message)
             emit(Resource.Success(loginModel))
         } catch (e: HttpException) {
+            Log.d("RemoteRepository", e.message!!)
             emit(Resource.Error(e))
         }
     }
@@ -143,7 +149,8 @@ class RemoteRepository @Inject constructor(
         name: String,
         phone: String,
         password: String,
-        userType: String
+        userType: String,
+        deviceToken: String?
     ): Flow<Resource<BaseDetailsModel<LoginModel>>> = flow {
         emit(Resource.Loading)
         try {
@@ -151,7 +158,8 @@ class RemoteRepository @Inject constructor(
                 name = name,
                 phone = phone,
                 password = password,
-                userType = userType
+                userType = userType,
+                token = deviceToken.toString()
             )
             emit(Resource.Success(registrationModel))
         } catch (e: Exception) {

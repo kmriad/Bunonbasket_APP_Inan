@@ -30,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel: LoginViewModel by viewModels()
     lateinit var dataStore: DataStoreManager
 
+    lateinit var token: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_BunonBasket)
@@ -67,6 +69,22 @@ class LoginActivity : AppCompatActivity() {
                         lifecycleScope.launch {
                             dataStore.saveAuthToken(loginModel.results.token)
                         }
+                    }
+                }
+                is Resource.Error -> {
+                    dataState.exception.let { e ->
+                        Log.d("LoginActivity", e.message.toString())
+                    }
+                }
+            }
+        })
+
+        viewModel.tokenState.observe(this@LoginActivity, { dataState ->
+            when (dataState) {
+                is Resource.Success<String> -> {
+                    dataState.data.let { data ->
+                        Log.d("LoginActivity",data)
+                        viewModel.saveToken(data)
                     }
                 }
                 is Resource.Error -> {

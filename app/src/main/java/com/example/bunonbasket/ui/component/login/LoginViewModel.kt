@@ -32,6 +32,15 @@ class LoginViewModel @Inject constructor(
     val PhoneNumber: MutableLiveData<String> = MutableLiveData()
     val Password: MutableLiveData<String> = MutableLiveData()
 
+
+    private val _tokenState: MutableLiveData<Resource<String>> =
+        MutableLiveData()
+
+    val tokenState: LiveData<Resource<String>>
+        get() = _tokenState
+
+    lateinit var token: String
+
     val mPhonePasswordValidator = MediatorLiveData<Boolean>()
 
     val saveUserState: LiveData<Resource<Long>>
@@ -64,6 +73,13 @@ class LoginViewModel @Inject constructor(
     val loginState: LiveData<Resource<BaseDetailsModel<LoginModel>>>
         get() = _loginState
 
+    init {
+        loadToken()
+    }
+
+    fun saveToken(value: String) {
+        token = value
+    }
 
     fun setStateEvent(loginStateEvent: LoginStateEvent) {
         viewModelScope.launch {
@@ -71,7 +87,8 @@ class LoginViewModel @Inject constructor(
                 is LoginStateEvent.LoginUser -> {
                     remoteRepository.loginUser(
                         loginStateEvent.phone,
-                        loginStateEvent.password
+                        loginStateEvent.password,
+                        token
                     )
                         .onEach { dataState ->
                             _loginState.value = dataState
@@ -83,6 +100,11 @@ class LoginViewModel @Inject constructor(
                             _saveUserState.value = dataState
                         }.launchIn(viewModelScope)
 
+                }
+                is LoginStateEvent.LoadToken -> {
+                    cacheRepository.loadDeviceToken().onEach { dataState ->
+                        _tokenState.value = dataState
+                    }.launchIn(viewModelScope)
                 }
                 is LoginStateEvent.None -> {
 
@@ -99,13 +121,20 @@ class LoginViewModel @Inject constructor(
     fun saveUserProfile(loginModel: LoginModel) {
         setStateEvent(LoginStateEvent.SaveUserProfile(loginModel))
     }
+
+    fun loadToken() {
+        setStateEvent(LoginStateEvent.LoadToken)
+    }
 }
 
 
 sealed class LoginStateEvent {
-    data class LoginUser(val phone: String?, val password: String?) : LoginStateEvent()
+    data class LoginUser(val phone: String?, val password: String?) :
+        LoginStateEvent()
 
     data class SaveUserProfile(val loginModel: LoginModel) : LoginStateEvent()
+
+    object LoadToken : LoginStateEvent()
 
     object None : LoginStateEvent()
 }

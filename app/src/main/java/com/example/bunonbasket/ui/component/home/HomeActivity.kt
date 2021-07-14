@@ -2,6 +2,7 @@ package com.example.bunonbasket.ui.component
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -17,6 +18,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bunonbasket.R
+import com.example.bunonbasket.data.models.base.BaseModel
+import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.databinding.ActivityHomeBinding
 import com.example.bunonbasket.databinding.ButtonCustomBinding
 import com.example.bunonbasket.ui.component.bazar.UploadBazarActivity
@@ -106,6 +109,12 @@ class HomeActivity : AppCompatActivity() {
         }
 
         viewModel.setStateEvent(HomeStateEvent.LoadShowCase)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setStateEvent(HomeStateEvent.LoadToken)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -118,6 +127,42 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun subscribeObservers() {
+
+        viewModel.token.observe(this, { token ->
+            if (token == "") {
+                Log.d("HomeActivityResult", "Token")
+            } else {
+                Log.d("HomeActivityResult", token)
+                viewModel.fetchCarts()
+            }
+        })
+
+        viewModel.cartState.observe(this, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseModel<CartListModel>> -> {
+                    dataState.data.let { data ->
+                        val number = data.results.size
+                        Log.d("HomeActivity", number.toString())
+                        if (number > 0) {
+                            viewModel.saveCounter(number)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModel.counterState.observe(this, { dataState ->
+            when (dataState) {
+                is Int -> {
+                    var badgeDrawable =
+                        binding.bottomNavigationView.getOrCreateBadge(R.id.cartFragment)
+                    if (badgeDrawable != null) {
+                        badgeDrawable.number = dataState
+                    }
+                }
+            }
+        })
+
         viewModel.loadDataState.observe(this, Observer { dataState ->
             when (dataState) {
                 is Resource.Success<Boolean> -> {
@@ -142,6 +187,8 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         })
+
+
     }
 
 }

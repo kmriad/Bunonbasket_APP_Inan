@@ -29,12 +29,19 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
         Log.d("CartFragment", it[PREF_KEY].toString())
         it[PREF_KEY] ?: ""
     }.catch {
+        Log.d("CartFragment", it.message!!)
         throw it
     }
 
     override suspend fun saveAuthToken(authToken: String) {
         profileDataStore.edit { preferences ->
             preferences[PREF_KEY] = authToken
+        }
+    }
+
+    override suspend fun saveDeviceToken(deviceToken: String) {
+        profileDataStore.edit { preferences ->
+            preferences[DEVICE_KEY] = deviceToken
         }
     }
 
@@ -46,5 +53,6 @@ class DataStoreManager @Inject constructor(@ApplicationContext appContext: Conte
 
     companion object {
         private val PREF_KEY = stringPreferencesKey(Constants.KEY_AUTH)
+        private val DEVICE_KEY = stringPreferencesKey(Constants.DEVICE_AUTH)
     }
 }

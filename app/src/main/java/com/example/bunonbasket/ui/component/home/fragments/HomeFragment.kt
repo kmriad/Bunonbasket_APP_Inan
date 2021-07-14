@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.banner.Banner
 import com.example.bunonbasket.data.models.base.BaseModel
-import com.example.bunonbasket.data.models.brands.Brand
+import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.data.models.category.Category
 import com.example.bunonbasket.data.models.category.Product
 import com.example.bunonbasket.data.models.partners.PartnerModel
@@ -35,7 +36,6 @@ import com.example.bunonbasket.ui.component.home.adapters.BrandAdapter
 import com.example.bunonbasket.ui.component.home.adapters.CategoryAdapter
 import com.example.bunonbasket.ui.component.home.adapters.ProductAdapter
 import com.example.bunonbasket.utils.Resource
-import com.example.bunonbasket.utils.widgets.LoadingDialog
 import com.example.bunonbasket.utils.widgets.PageIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -145,6 +145,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
     }
 
     private fun fetchRemoteEvents() {
+        homeViewModel.setStateEvent(HomeStateEvent.LoadToken)
         homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchBanners)
         homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchCategories)
         homeViewModel.fetchRemoteEvents(HomeStateEvent.FetchBrands)
@@ -153,6 +154,30 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
     }
 
     private fun subscribeObservers() {
+
+        homeViewModel.token.observe(viewLifecycleOwner, { token ->
+            if (token == "") {
+                Log.d("HomeActivityResult", "Token")
+            } else {
+                Log.d("HomeActivityResult", token)
+                homeViewModel.fetchCarts()
+            }
+        })
+
+        homeViewModel.cartState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<BaseModel<CartListModel>> -> {
+                    dataState.data.let { data ->
+                        val number = data.results.size
+                        Log.d("HomeActivity", number.toString())
+                        if (number > 0) {
+                            homeViewModel.saveCounter(number)
+                        }
+                    }
+                }
+            }
+        })
+
         homeViewModel.bannerState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
                 is Resource.Success<BaseModel<Banner>> -> {

@@ -2,6 +2,7 @@ package com.example.bunonbasket.ui.component.signup.fragments
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,6 +93,20 @@ class SignUpFragment : Fragment() {
             }
         })
 
+        viewModel.tokenState.observe(viewLifecycleOwner, { dataState ->
+            when (dataState) {
+                is Resource.Success<String> -> {
+                    dataState.data.let { data ->
+                        viewModel.saveToken(data)
+                    }
+                }
+                is Resource.Error -> {
+                    dataState.exception.let { e ->
+                        Log.d("SignUpFragment", e.message.toString())
+                    }
+                }
+            }
+        })
         viewModel.saveUserState.observe(viewLifecycleOwner, { dataState ->
             when (dataState) {
                 is Resource.Success<Long> -> {

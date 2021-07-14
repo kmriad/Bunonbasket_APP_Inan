@@ -46,14 +46,16 @@ interface RemoteRepositorySource {
 
     suspend fun loginUser(
         phone: String?,
-        password: String?
+        password: String?,
+        deviceToken: String?
     ): Flow<Resource<BaseDetailsModel<LoginModel>>>
 
     suspend fun registerUser(
         name: String,
         phone: String,
         password: String,
-        userType: String
+        userType: String,
+        deviceToken: String?
     ): Flow<Resource<BaseDetailsModel<LoginModel>>>
 
     suspend fun addToCart(

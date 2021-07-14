@@ -20,6 +20,7 @@ import com.example.bunonbasket.data.models.cart.CartListModel
 import com.example.bunonbasket.data.models.cart.QuantityUpdateModel
 import com.example.bunonbasket.data.models.cart.ShippingInfo
 import com.example.bunonbasket.databinding.FragmentCartBinding
+import com.example.bunonbasket.ui.component.home.HomeViewModel
 import com.example.bunonbasket.ui.component.home.adapters.CartAdapter
 import com.example.bunonbasket.utils.Resource
 import com.example.bunonbasket.utils.widgets.LoadingDialog
@@ -33,6 +34,7 @@ import kotlinx.coroutines.flow.collect
 class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
 
     private val cartViewModel: CartViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     lateinit var binding: FragmentCartBinding
     lateinit var dialog: LoadingDialog
     lateinit var cartAdapter: CartAdapter
@@ -69,6 +71,7 @@ class CartFragment : Fragment(), CartAdapter.OnCartUpdateListener {
                     dataState.data.let { dataModel ->
                         dialog.closeLoadingDialog()
                         if (dataModel.results.size > 0) {
+                            homeViewModel.saveCounter(dataModel.results.size)
                             binding.bodySection.visibility = View.VISIBLE
                             binding.emptyCart.visibility = View.GONE
                             cartAdapter.submitList(dataModel.results)

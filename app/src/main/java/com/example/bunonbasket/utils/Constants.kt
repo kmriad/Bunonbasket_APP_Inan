@@ -15,6 +15,7 @@ object Constants {
     const val TYPE_ITEM: Int = 0
     const val TYPE_FOOTER: Int = 1
     const val KEY_AUTH = "key_auth"
+    const val DEVICE_AUTH = "device_token"
 
     const val SHIPPING_INFO:String = "shipping_info"
 
