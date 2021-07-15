@@ -1,5 +1,6 @@
 package com.example.bunonbasket.utils
 
+import android.content.Intent
 import android.text.TextWatcher
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.bunonbasket.R
 import com.example.bunonbasket.data.models.category.Product
+import com.example.bunonbasket.ui.component.details.ProductDetailsActivity
 import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsItemAdapter
 import com.example.bunonbasket.ui.component.details.adapters.ChoiceOptionsItemAdapter.OnChoiceOptionSelectListener
 import com.example.bunonbasket.ui.component.home.adapters.SubCategoryProductAdapter
@@ -32,7 +34,15 @@ fun setPatchImageFromUrl(imageView: ImageView, url: String?) {
 
 @BindingAdapter("app:setProducts")
 fun RecyclerView.setProducts(products: List<Product>) {
-    val subCategoryProductAdapter = SubCategoryProductAdapter()
+    val subCategoryProductAdapter =
+        SubCategoryProductAdapter(object : SubCategoryProductAdapter.OnItemClickListener {
+            override fun onItemClick(product: Product?) {
+                val intent = Intent(context, ProductDetailsActivity::class.java)
+                intent.putExtra(Constants.PRODUCT_DETAILS, product)
+                context.startActivity(intent)
+            }
+
+        })
     subCategoryProductAdapter.submitList(products)
     adapter = subCategoryProductAdapter
 }

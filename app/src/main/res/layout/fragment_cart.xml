@@ -115,22 +115,19 @@
                         app:layout_constraintTop_toBottomOf="@id/cartItemsRV"
                         app:layout_constraintVertical_bias="0.0">
 
-                        <com.google.android.material.textfield.TextInputLayout
+
+                        <EditText
+                            android:id="@+id/promoCodeEditText"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/size_48"
                             android:layout_marginEnd="@dimen/margin_small"
                             android:layout_marginRight="@dimen/margin_small"
                             android:layout_weight="2"
-                            android:background="@drawable/grey_box">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/promoCodeEditText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                android:hint="@string/apply_code" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
+                            android:paddingLeft="@dimen/margin_small"
+                            android:paddingStart="@dimen/margin_small"
+                            android:background="@drawable/edit_text_bg"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:hint="@string/apply_code" />
 
                         <com.google.android.material.button.MaterialButton
                             android:layout_width="0dp"

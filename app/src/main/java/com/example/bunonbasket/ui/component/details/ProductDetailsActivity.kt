@@ -168,6 +168,13 @@ class ProductDetailsActivity : AppCompatActivity() {
             when (dataState) {
                 is Resource.Success<BaseDetailsModel<CartModel>> -> {
                     Toast.makeText(this, "Product Added Successfully", Toast.LENGTH_SHORT).show()
+                    val parentIntent = NavUtils.getParentActivityIntent(this)
+                    parentIntent!!.flags =
+                        Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT or
+                                Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                    startActivity(parentIntent)
+                    finish()
                 }
                 is Resource.Error -> {
                     dataState.exception.let { message ->
@@ -197,10 +204,11 @@ class ProductDetailsActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.wishListDataState.observe(this,{dataState->
-            when(dataState){
+        viewModel.wishListDataState.observe(this, { dataState ->
+            when (dataState) {
                 is Resource.Success<BaseDetailsModel<PostWishlistModel>> -> {
-                    Toast.makeText(this, "Product Added to your Wishlist", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Product Added to your Wishlist", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 is Resource.Error -> {
                     dataState.exception.let { message ->

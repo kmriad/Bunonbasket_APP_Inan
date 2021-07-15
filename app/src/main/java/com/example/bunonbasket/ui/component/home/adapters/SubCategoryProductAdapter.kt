@@ -15,11 +15,25 @@ import com.example.bunonbasket.utils.Constants.TYPE_ITEM
 /**
  * Created by inan on 9/5/21
  */
-class SubCategoryProductAdapter :
+class SubCategoryProductAdapter(
+    private val listener: OnItemClickListener,
+) :
     ListAdapter<Product, RecyclerView.ViewHolder>(DiffCallback()) {
 
     inner class SubCategoryProductViewHolder(private val binding: SubCategoryProductItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val product = getItem(position)
+                        listener.onItemClick(product = product)
+                    }
+                }
+            }
+        }
 
         fun bind(product: Product?) {
             binding.data = product
@@ -41,6 +55,10 @@ class SubCategoryProductAdapter :
 
         }
 
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(product: Product?)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Product>() {
