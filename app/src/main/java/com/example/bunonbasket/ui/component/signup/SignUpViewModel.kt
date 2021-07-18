@@ -49,7 +49,6 @@ class SignUpViewModel @Inject constructor(
 
     lateinit var token: String
 
-
     init {
         loadToken()
     }

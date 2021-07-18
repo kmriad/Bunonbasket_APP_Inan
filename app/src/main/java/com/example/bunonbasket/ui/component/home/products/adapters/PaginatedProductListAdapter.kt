@@ -1,5 +1,7 @@
 package com.example.bunonbasket.ui.component.home.products.adapters
 
+import android.graphics.Color
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +22,16 @@ class PaginatedProductListAdapter(private val listener: OnItemClickListener) :
 
         fun bind(product: Product?) {
             binding.data = product
-            if (product!!.discount > 0) {
+            if (product?.purchase_price!! > 0) {
+                binding.productPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                binding.productPrice.setTextColor(Color.parseColor("#C4C4C4"))
+                binding.purchasePrice.visibility = View.VISIBLE
+            } else {
+                binding.purchasePrice.visibility = View.GONE
+            }
+            if (product.discount > 0) {
                 binding.discountText.visibility = View.VISIBLE
+                binding.discountText.text = product.discount.toString()
             } else {
                 binding.discountText.visibility = View.INVISIBLE
             }

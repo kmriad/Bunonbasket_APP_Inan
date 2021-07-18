@@ -17,11 +17,15 @@
         android:background="@drawable/white_background">
 
         <TextView
+            android:id="@+id/discountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:id="@+id/discountText"
             android:background="@drawable/price_background"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -37,8 +41,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.153"
+            app:layout_constraintTop_toBottomOf="@id/discountText"
+            app:layout_constraintVertical_bias="0"
             app:patchImageFullUrl="@{data.fullImageUrl}" />
 
         <TextView
@@ -48,11 +52,11 @@
             android:layout_marginStart="@dimen/standard_margin"
             android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginTop="@dimen/margin_ex_small"
+            android:ellipsize="end"
             android:gravity="start"
-            android:text="@{data.name}"
             android:maxLines="1"
             android:scrollHorizontally="true"
-            android:ellipsize="end"
+            android:text="@{data.name}"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
@@ -64,6 +68,28 @@
             app:layout_constraintVertical_bias="0.183" />
 
         <TextView
+            android:id="@+id/productUnit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/margin_ex_small"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="@{data.unit}"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productName"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
             android:id="@+id/productQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -73,33 +99,52 @@
             android:text="@{@string/quantity.concat(String.valueOf(data.current_stock))}"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/productName"
+            app:layout_constraintTop_toBottomOf="@id/productUnit"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/productPrice"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="start"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginTop="@dimen/margin_ex_small"
-            android:text="@{String.valueOf(data.unit_price).concat(@string/price)}"
-            android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginStart="@dimen/standard_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/productQuantity"
-            app:layout_constraintVertical_bias="0.0"
-            android:textColor="@color/green"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/standard_margin" />
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/productPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@{String.valueOf(data.unit_price).concat(@string/price)}"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/green"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"/>
+
+            <TextView
+                android:id="@+id/purchasePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@{String.valueOf(data.purchase_price).concat(@string/price)}"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/green" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

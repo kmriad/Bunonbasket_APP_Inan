@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.Window
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
@@ -15,6 +16,7 @@ import com.example.bunonbasket.data.local.cache.DataStoreManager
 import com.example.bunonbasket.data.models.LoginModel
 import com.example.bunonbasket.data.models.base.BaseDetailsModel
 import com.example.bunonbasket.databinding.ActivityLoginBinding
+import com.example.bunonbasket.ui.component.HomeActivity
 import com.example.bunonbasket.ui.component.signup.SignUpActivity
 import com.example.bunonbasket.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +71,10 @@ class LoginActivity : AppCompatActivity() {
                         lifecycleScope.launch {
                             dataStore.saveAuthToken(loginModel.results.token)
                         }
+                        Toast.makeText(this, "Logged In Successfully", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
                     }
                 }
                 is Resource.Error -> {
@@ -83,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
             when (dataState) {
                 is Resource.Success<String> -> {
                     dataState.data.let { data ->
-                        Log.d("LoginActivity",data)
+                        Log.d("LoginActivity", data)
                         viewModel.saveToken(data)
                     }
                 }
