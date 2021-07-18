@@ -64,10 +64,22 @@ class WishListFragment : Fragment(), WishListAdapter.OnItemClickListener {
                     is Resource.Success<BaseModel<WishListModel>> -> {
                         dataState.data.let { data ->
                             if (data.results.size > 0) {
-                                binding.progressBar.visibility = View.GONE
                                 wishListAdapter.submitList(data.results)
+                                binding.animationView.visibility = View.GONE
+                                binding.progressBar.visibility = View.GONE
+                            } else {
+                                binding.animationView.visibility = View.VISIBLE
+                                binding.progressBar.visibility = View.GONE
                             }
                         }
+                    }
+                    is Resource.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.animationView.visibility = View.GONE
+                    }
+                    is Resource.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.animationView.visibility = View.VISIBLE
                     }
                 }
             })

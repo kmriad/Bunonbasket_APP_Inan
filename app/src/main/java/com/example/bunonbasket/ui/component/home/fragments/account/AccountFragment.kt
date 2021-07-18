@@ -137,7 +137,7 @@ class AccountFragment : Fragment() {
             when (dataState) {
                 is Resource.Success<List<LoginModel>> -> {
                     dataState.data.let { loginModel ->
-                        Log.d("AccountFragment", loginModel.get(0).token)
+                        Log.d("AccountFragment", loginModel.get(0).phone.toString())
                         binding.data = loginModel.get(0)
                         binding.topLayout.visibility = View.GONE
                         binding.optionsOne.visibility = View.GONE

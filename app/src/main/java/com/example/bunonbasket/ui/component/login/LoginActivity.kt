@@ -67,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
             when (dataState) {
                 is Resource.Success<BaseDetailsModel<LoginModel>> -> {
                     dataState.data.let { loginModel ->
+                        Log.d("User", loginModel.results.phone.toString())
                         viewModel.saveUserProfile(loginModel.results)
                         lifecycleScope.launch {
                             dataStore.saveAuthToken(loginModel.results.token)

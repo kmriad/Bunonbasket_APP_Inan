@@ -69,6 +69,10 @@ class CacheRepository @Inject constructor(
         }
     }
 
+    override suspend fun delete() {
+        userDao.delete()
+    }
+
     override suspend fun loadDeviceToken(): Flow<Resource<String>> = flow {
         emit(Resource.Loading)
         val token = localData.loadDeviceToken()

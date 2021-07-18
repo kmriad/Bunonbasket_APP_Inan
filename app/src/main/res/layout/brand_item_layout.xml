@@ -10,18 +10,18 @@
     </data>
 
 
-    <ImageView
-        android:layout_width="@dimen/category_size"
-        android:layout_height="@dimen/category_size"
-        android:layout_marginEnd="@dimen/standard_margin"
-        android:paddingStart="@dimen/standard_margin"
-        android:paddingLeft="@dimen/standard_margin"
-        android:paddingTop="@dimen/margin_small"
-        android:paddingEnd="@dimen/margin_ex_small"
-        android:paddingRight="@dimen/margin_ex_small"
-        android:paddingBottom="@dimen/margin_small"
-        android:scaleType="centerCrop"
-        app:patchImageFullUrl="@{data.fullImageUrl}"
-        android:layout_marginRight="@dimen/standard_margin" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/margin_2"
+        app:cardUseCompatPadding="true">
+
+        <ImageView
+            android:layout_width="@dimen/size_133"
+            android:layout_height="@dimen/size_85"
+            android:scaleType="fitXY"
+            app:patchImageFullUrl="@{data.fullImageUrl}" />
+
+    </androidx.cardview.widget.CardView>
 
 </layout>

@@ -45,7 +45,7 @@ class ProductAdapter(
             }
             if (product.discount > 0) {
                 binding.discountText.visibility = View.VISIBLE
-                binding.discountText.text = product.discount.toString()
+                binding.discountText.text = "${product.discount} Off"
             } else {
                 binding.discountText.visibility = View.INVISIBLE
             }

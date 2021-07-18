@@ -19,6 +19,7 @@ interface CacheRepositorySource {
     //user
     suspend fun createUser(loginModel: LoginModel): Flow<Resource<Long>>
     suspend fun getUserDetails(): Flow<Resource<List<LoginModel>>>
+    suspend fun delete()
     suspend fun loadDeviceToken(): Flow<Resource<String>>
     //suspend fun deleteUser(loginModel: LoginModel)
 }

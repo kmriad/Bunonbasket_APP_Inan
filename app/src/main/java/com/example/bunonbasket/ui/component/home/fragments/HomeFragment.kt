@@ -103,7 +103,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CategoryAdapter.OnItemCli
 
             binding.brandListView.apply {
                 adapter = brandAdapter
-                layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
+                layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             }
 
             featuredProductAdapter = ProductAdapter(this@HomeFragment)

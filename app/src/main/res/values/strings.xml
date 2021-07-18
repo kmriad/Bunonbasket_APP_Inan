@@ -86,6 +86,7 @@
     <string name="add_new_shipping_address">Add New Shipping Address</string>
     <string name="logout">Log out</string>
     <string name="our_partners">Our Partners</string>
+    <string name="no_wishList_found">Add to wishlist</string>
 
 
 </resources>

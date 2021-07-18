@@ -97,6 +97,9 @@ class AccountViewModel @Inject constructor(
                 }
                 is AccountStateEvent.Logout -> {
                     dataStoreManager.clear()
+                    viewModelScope.launch {
+                        cacheRepository.delete()
+                    }
                 }
             }
         }
