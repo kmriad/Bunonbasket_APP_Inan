@@ -1,6 +1,7 @@
 package com.example.bunonbasket.ui.component
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -170,6 +171,7 @@ class HomeActivity : AppCompatActivity() {
                         MaterialShowcaseView.Builder(this)
                             .setTarget(customBinding.btnCamera)
                             .setDismissText(getString(R.string.got_it))
+                            .setDismissStyle(Typeface.DEFAULT_BOLD)
                             .setContentText(getString(R.string.upload_image_using_button))
                             .singleUse(SHOWCASE_ID)
                             .setDelay(500)

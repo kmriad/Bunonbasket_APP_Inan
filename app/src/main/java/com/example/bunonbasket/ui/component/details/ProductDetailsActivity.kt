@@ -98,15 +98,24 @@ class ProductDetailsActivity : AppCompatActivity() {
             subscribeObservers()
 
             binding.addToCartBtn.setOnClickListener {
-                if (viewModel._counter.value == 0) {
+                if (details.current_stock > 0) {
+                    if (viewModel._counter.value == 0) {
+                        Toast.makeText(
+                            this@ProductDetailsActivity,
+                            "One product must be added atleast",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    } else {
+                        chooseOp(0)
+                    }
+                } else {
                     Toast.makeText(
                         this@ProductDetailsActivity,
-                        "One product must be added atleast",
+                        "This item is out of stock",
                         Toast.LENGTH_SHORT
                     )
                         .show()
-                } else {
-                    chooseOp(0)
                 }
             }
             binding.favoriteBtn.setOnClickListener {

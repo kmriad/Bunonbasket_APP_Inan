@@ -11,15 +11,17 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/size_133"
+        android:layout_height="@dimen/size_85"
         app:cardElevation="@dimen/margin_2"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/margin_small">
 
         <ImageView
-            android:layout_width="@dimen/size_133"
-            android:layout_height="@dimen/size_85"
+            android:layout_width="@dimen/size_64"
+            android:layout_height="@dimen/margin_large"
             android:scaleType="fitXY"
+            android:layout_gravity="center"
             app:patchImageFullUrl="@{data.fullImageUrl}" />
 
     </androidx.cardview.widget.CardView>

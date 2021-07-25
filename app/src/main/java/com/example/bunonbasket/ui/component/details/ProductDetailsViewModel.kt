@@ -77,13 +77,13 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
     init {
-        setcounter(0)
+        setcounter(1)
         fetchProductDetails(ProductDetailsEvent.LoadToken)
     }
 
     override fun onCleared() {
         super.onCleared()
-        setcounter(0)
+        setcounter(1)
     }
 
     fun fetchProductDetails(productDetailsEvent: ProductDetailsEvent) {
