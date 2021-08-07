@@ -42,7 +42,7 @@ data class Product(
 
     @SerializedName("discount")
     @Expose
-    val discount: Int,
+    val discount: Double,
 
     @SerializedName("discount_type")
     @Expose
@@ -150,7 +150,7 @@ data class Product(
 
     @SerializedName("unit_price")
     @Expose
-    val unit_price: Int,
+    val unit_price: Double,
 
     @SerializedName("updated_at")
     @Expose
